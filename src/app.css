@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  @apply h-screen bg-black text-white;
+}
+
+@layer components {
+  .ghost {
+    @apply bg-surface/50 ring-surface ring-1 rounded-sm text-on-surface;
+  }
+}
