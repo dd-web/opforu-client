@@ -14,6 +14,16 @@ declare global {
 	 * what a registered client would see. We'll extend from these when we need to.
 	 */
 
+	type Paginator<T> = {
+		current_page: number;
+		page_size: number;
+		total_pages: number;
+		total_records: number;
+		last_page: number;
+		last_page_size: number;
+		records: T[];
+	}
+
 	type TimeStampGroup = {
 		_id: string;
 		created_at: string;

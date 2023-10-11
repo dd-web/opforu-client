@@ -15,7 +15,7 @@
 	<hr class="mx-12 mt-4 opacity-25" />
 
 	<section class="py-8">
-		{#each data.board.threads as thread (thread._id)}
+		{#each data.threads.records as thread (thread._id)}
 			<ThreadListItem {thread} />
 		{:else}
 			<p>No Threads Found</p>
