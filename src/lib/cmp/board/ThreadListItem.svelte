@@ -8,7 +8,7 @@
 	export let thread;
 </script>
 
-<article id="thread-{$page.params.short}-{thread.slug}" class="mb-8 mx-2 relative">
+<article id="thread-{$page.params.short}-{thread.slug}" class="mx-2 relative">
 	<!-- thread header -->
 	<header class="bg-neutral-900 pt-2 pb-4 px-4 rounded-t-lg">
 		<h3
@@ -28,7 +28,7 @@
 	</header>
 
 	<!-- content -->
-	<div class="py-2 px-4 bg-neutral-800">
+	<div class="py-2 px-4 bg-zinc-700 text-zinc-200">
 		<!-- media -->
 		<div>
 			<p>some media</p>
