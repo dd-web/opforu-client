@@ -9,7 +9,7 @@
 	/** @type {number} */
 	let selectedSize;
 
-	// $: goto(`${path}?page=1&count=${selectedSize}`);
+	$: goto(`${path}?page=1&count=${selectedSize}`);
 </script>
 
 <nav class="flex justify-end items-center mx-2">
@@ -29,7 +29,7 @@
 		class="bg-zinc-900 h-8 text-zinc-200 border border-zinc-600 rounded-md"
 		bind:value={selectedSize}
 	>
-		<option value="10">10</option>
+		<option selected value="10">10</option>
 		<option value="15">15</option>
 		<option value="20">20</option>
 		<option value="25">25</option>
