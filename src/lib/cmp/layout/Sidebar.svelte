@@ -3,6 +3,12 @@
 
 	/** @type {Board[]} */
 	export let boards = [];
+
+	/** @type {string|null}*/
+	let pageCount;
+
+	$: pageCount = $page.url.searchParams.get('count');
+	$: query = `?page=1&count=${pageCount ?? 10}`;
 </script>
 
 <aside class="sticky top-0 h-fit">
@@ -12,8 +18,10 @@
 		<ul class="flex flex-col gap-2">
 			{#each boards as board, ix (board._id)}
 				<li class="tracking-wider w-fit capitalize">
-					<a href="/boards/{board.short}" class="" class:current-board={$page.params.short === board.short}
-						>{board.title}</a
+					<a
+						href="/boards/{board.short}{pageCount && pageCount !== '10' ? query : ''}"
+						class=""
+						class:current-board={$page.params.short === board.short}>{board.title}</a
 					>
 				</li>
 			{/each}

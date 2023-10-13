@@ -10,7 +10,7 @@
 </script>
 
 <div id="app" class="h-full w-full">
-	<Header />
+	<Header account={data?.account} />
 
 	<div id="app-body">
 		<Sidebar boards={data.boards} />
@@ -24,6 +24,7 @@
 <style lang="postcss">
 	#app-body {
 		@apply max-w-screen-1440 mx-auto bg-surface/30 grid grid-cols-[minmax(0,1fr),minmax(0,3fr),minmax(0,1fr)] gap-8;
+		min-height: calc(100vh - 4rem - 10rem);
 	}
 
 	#app {
