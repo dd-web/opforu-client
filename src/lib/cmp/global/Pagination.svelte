@@ -3,9 +3,14 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	export let current = 1;
-	export let pages = 1;
+	/** @type {string|undefined|null} */
 	export let path = `/boards/${$page.params.short}/`;
+
+	/** @type {Partial<Paginator>}*/
+	export let paginator = {
+		current_page: 1,
+		total_pages: 1
+	};
 
 	/** @type {number} */
 	let selectedSize;
@@ -23,10 +28,10 @@
 
 <nav class="flex justify-end items-center mx-2">
 	<ul class="flex items-center justify-end mx-2 gap-2 py-2">
-		{#each Array(pages) as _, ix}
+		{#each Array(paginator.total_pages) as _, ix}
 			<li
 				class="bg-zinc-900 flex h-8 w-8 items-center text-zinc-200 justify-center rounded-md border border-zinc-600"
-				class:current={ix + 1 === current}
+				class:current={ix + 1 === paginator.current_page}
 			>
 				<a href="{path}?page={ix + 1}&count={selectedSize}">{ix + 1}</a>
 			</li>

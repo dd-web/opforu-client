@@ -11,11 +11,14 @@ export async function load({ fetch, params, url }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-  /** @type {{ board: Board } & { data: Paginator<Thread> }} */
+  /** @type {{ board: Board } & { threads: Thread[] } & { paginator: Paginator}} */
   const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`).then(resp => resp.json())
+
+  console.log('data', data)
 
   return {
     board: data.board,
-    threads: data.data
+    threads: data.threads,
+    pagination: data.paginator
   }
 }

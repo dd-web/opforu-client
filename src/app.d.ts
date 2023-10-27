@@ -13,17 +13,16 @@ declare global {
 	/**
 	 * These are Public API types for the most part. They are what a default public client would see, and
 	 * a couple other ephemeral fields added for convenience. They do not represent the full data model or
-	 * what a registered client would see. We'll extend from these when we need to.
+	 * what a registered client would see. Extend from these bases when necessary.
 	 */
 
-	type Paginator<T> = {
+	type Paginator = {
 		current_page: number;
 		page_size: number;
 		total_pages: number;
 		total_records: number;
 		last_page: number;
 		last_page_size: number;
-		records: T[];
 	}
 
 	type TimeStampGroup = {
@@ -127,5 +126,8 @@ declare global {
 		Creator = 'creator',
 	}
 }
+
+/** End base type declarations */
+
 
 export { };
