@@ -8,7 +8,7 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	$: if (browser) console.log('data (short)', data);
+	// $: if (browser) console.log('data (short)', data);
 </script>
 
 <div>

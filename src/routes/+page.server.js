@@ -1,4 +1,3 @@
-
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ fetch, params, url }) {
   let page = url.searchParams.get("page")
@@ -11,22 +10,12 @@ export async function load({ fetch, params, url }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-  /** @type {{ board: Board } & { records: Thread[] } & { paginator: Paginator }} */
-  const data = await fetch(`http://api.localhost:3001/boards/${params.short}?${qs.toString()}`, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-    },
-
-  })
-    .then(resp => resp.json())
-
-  // console.log("data", data)
-  // console.log("\n\n BOARD:\n", data[0])
+  /** @type {{ records: Article[] } & { paginator: Paginator }} */
+  const data = await fetch(`http://api.localhost:3001/articles?${qs.toString()}`)
+    .then(res => res.json())
 
   return {
-    board: data.board,
-    threads: data.records,
+    articles: data.records,
     pagination: data.paginator
   }
 }

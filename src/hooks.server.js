@@ -7,6 +7,5 @@ export async function handleFetch({ event, request, fetch }) {
       event.request,
     )
   }
-
   return fetch(request)
 }

@@ -5,6 +5,7 @@
 	import Sidebar from '$lib/cmp/layout/Sidebar.svelte';
 
 	export let data;
+	$: console.log('data articles', data.articles);
 
 	// $: console.log('layout data', data.boards);
 </script>

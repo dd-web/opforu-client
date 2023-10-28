@@ -1,19 +1,25 @@
 <script>
 	import { browser } from '$app/environment';
-	import { setTheme } from '$lib/utils/theme';
-	import { onMount } from 'svelte';
 
-	onMount(() => {
-		if (browser) {
-			setTheme();
-		}
-	});
+	import ArticleListItem from '$lib/cmp/article/ArticleListItem.svelte';
+	import Pagination from '$lib/cmp/global/Pagination.svelte';
+
+	/** @type {import('./$types').PageData} */
+	export let data;
+
+	// $: if (browser) console.log('articles', data);
 </script>
 
-<h1 class="text-3xl">Hello!</h1>
 <div>
-	<p>and now some stuff to make the page longer so i can fix layout</p>
-	{#each Array(500) as item, ix}
-		<p>Hello {ix}</p>
-	{/each}
+	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">OPforU News</h1>
+	<h2 class="text-base italic text-center text-neutral-300">Latest news and information from the team</h2>
+
+	<section class="pt-8 flex flex-col gap-8">
+		{#each data.articles as article (article._id)}
+			<ArticleListItem {article} />
+		{:else}
+			<p>No Articles Found</p>
+		{/each}
+	</section>
+	<Pagination paginator={data.pagination} path="/" />
 </div>
