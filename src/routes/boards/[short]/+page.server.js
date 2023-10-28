@@ -12,9 +12,16 @@ export async function load({ fetch, params, url }) {
   if (search) qs.append("search", search)
 
   /** @type {{ board: Board } & { threads: Thread[] } & { paginator: Paginator}} */
-  const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`).then(resp => resp.json())
+  const data = await fetch(`http://api.localhost:3001/boards/${params.short}?${qs.toString()}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+    },
 
-  console.log('data', data)
+  })
+    .then(resp => resp.json())
+
+  // console.log('data', data)
 
   return {
     board: data.board,
