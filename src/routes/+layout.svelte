@@ -5,9 +5,6 @@
 	import Sidebar from '$lib/cmp/layout/Sidebar.svelte';
 
 	export let data;
-	$: console.log('data articles', data.articles);
-
-	// $: console.log('layout data', data.boards);
 </script>
 
 <div id="app" class="h-full w-full">
@@ -33,7 +30,6 @@
 	}
 
 	main {
-		/* lowest supported screen size */
 		@apply w-full flex flex-col;
 	}
 </style>
