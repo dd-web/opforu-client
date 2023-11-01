@@ -3,6 +3,7 @@
 
 	import Identity from '../global/Identity.svelte';
 	import TagInfo from '../global/TagInfo.svelte';
+	import ThreadAssets from '../assets/ThreadAssets.svelte';
 
 	/** @type {Thread} */
 	export let thread;
@@ -28,16 +29,14 @@
 	</header>
 
 	<!-- content -->
-	<div class="py-2 px-4 bg-zinc-700 text-zinc-200">
+	<div class="py-2 px-4 bg-zinc-700 text-zinc-200 flow-root">
 		<!-- media -->
-		<div>
-			<p>some media</p>
-		</div>
-
-		<!-- body -->
-		<div>
-			{@html thread.body}
-		</div>
+		{#if thread?.assets?.length > 0}
+			<div class="float-left max-w-[32%] bg-zinc-900 p-2 rounded-md mr-4">
+				<ThreadAssets assets={thread.assets} />
+			</div>
+		{/if}
+		{@html thread.body}
 	</div>
 
 	<!-- thread footer -->

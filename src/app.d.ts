@@ -26,7 +26,7 @@ declare global {
 	}
 
 	type TimeStampGroup = {
-		_id: string;
+		_id?: string;
 		created_at: string;
 		updated_at: string;
 		deleted_at?: string;
@@ -65,6 +65,7 @@ declare global {
 		creator: IIdentity;
 		mods: IIdentity[];
 		posts: Post[];
+		assets: Asset[];
 		tags: string[];
 		post_count: number;
 	}
@@ -88,6 +89,26 @@ declare global {
 		expires: string;
 	}
 
+	type Asset = TimeStampGroup & {
+		asset_type: AssetType;
+		avatar: AssetDetail;
+		source: AssetDetail;
+		file_name: string;
+		tags: string[];
+	}
+
+	type AssetDetail = {
+		extension: string;
+		height: number;
+		width: number;
+		size: number;
+		size_str: string;
+		url: string;
+	}
+
+	/**
+	 * Enums / Constants
+	 */
 	enum AccountStatus {
 		Unknown = 'unknown',
 		Active = 'active',
@@ -132,9 +153,13 @@ declare global {
 		Creator = 'creator',
 	}
 
+	enum AssetType {
+		Image = 'image',
+		Video = 'video',
+	}
+
 
 	/** Front end types */
-
 	enum AlertType {
 		Success = 'success',
 		Info = 'info',
