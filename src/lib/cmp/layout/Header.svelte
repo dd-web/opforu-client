@@ -5,7 +5,7 @@
 	export let account;
 </script>
 
-<header class="h-full w-full flex justify-between items-center px-4">
+<header class="h-full w-full flex justify-between items-center px-4 border-b border-zinc-800 shadow-lg shadow-black/20">
 	<div>
 		<a href="/">
 			<span>Logo</span>

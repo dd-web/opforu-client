@@ -11,8 +11,10 @@
 	<Header account={data?.account} />
 
 	<div id="app-body">
-		<Sidebar boards={data.boards} />
-		<main class="bg-zinc-800">
+		<aside class="w-full h-full bg-black/20 border-r border-zinc-800 drop-shadow-lg">
+			<Sidebar boards={data.boards} />
+		</aside>
+		<main class="">
 			<slot />
 		</main>
 	</div>

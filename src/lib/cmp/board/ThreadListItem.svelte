@@ -9,9 +9,12 @@
 	export let thread;
 </script>
 
-<article id="thread-{$page.params.short}-{thread.slug}" class="mx-2 relative">
+<article
+	id="thread-{$page.params.short}-{thread.slug}"
+	class="mx-2 relative border rounded-lg border-zinc-800 shadow-lg shadow-black/20"
+>
 	<!-- thread header -->
-	<header class="bg-neutral-900 pt-2 pb-4 px-4 rounded-t-lg">
+	<header class="bg-black/20 pt-2 pb-4 px-4 rounded-t-lg">
 		<h3
 			title={thread.title}
 			class="text-blue-200 text-lg capitalize whitespace-nowrap overflow-hidden text-ellipsis w-full"
@@ -29,10 +32,10 @@
 	</header>
 
 	<!-- content -->
-	<div class="py-2 px-4 bg-zinc-700 text-zinc-200 flow-root">
+	<div class="py-2 px-4 text-zinc-200 bg-zinc-800/20 flow-root">
 		<!-- media -->
 		{#if thread?.assets?.length > 0}
-			<div class="float-left max-w-[32%] bg-zinc-900 p-2 rounded-md mr-4">
+			<div class="float-left max-w-[32%] bg-black/20 p-2 rounded-md mr-4">
 				<ThreadAssets assets={thread.assets} />
 			</div>
 		{/if}
@@ -40,7 +43,7 @@
 	</div>
 
 	<!-- thread footer -->
-	<footer class="py-2 px-4 bg-neutral-900 rounded-b-lg">
+	<footer class="py-2 px-4 bg-black/20 rounded-b-lg">
 		<p>{thread.created_at}</p>
 	</footer>
 </article>

@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 html, body {
-  @apply h-screen bg-black text-white;
+  @apply h-screen text-white;
+}
+
+html {
+  background: radial-gradient(#161a25, #060607) fixed center no-repeat;
 }
 
 @layer components {

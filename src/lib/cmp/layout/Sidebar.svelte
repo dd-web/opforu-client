@@ -11,8 +11,8 @@
 	$: query = `?page=1&count=${pageCount ?? 10}`;
 </script>
 
-<aside class="sticky top-0 h-fit">
-	<nav class="mx-4 mt-4">
+<div class="sticky top-4 h-fit">
+	<nav class="px-4 mt-4">
 		<p class="text-xl tracking-widest font-bold">Board List</p>
 		<hr class="mb-2 mt-1 opacity-20" />
 		<ul class="flex flex-col gap-2">
@@ -27,7 +27,7 @@
 			{/each}
 		</ul>
 	</nav>
-</aside>
+</div>
 
 <style lang="postcss">
 	.current-board {
