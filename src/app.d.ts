@@ -82,6 +82,12 @@ declare global {
 		post_number: number;
 	}
 
+	type Session = TimeStampGroup & {
+		session_id: string;
+		account_id: string;
+		expires: string;
+	}
+
 	enum AccountStatus {
 		Unknown = 'unknown',
 		Active = 'active',

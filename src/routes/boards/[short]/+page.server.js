@@ -1,6 +1,6 @@
 
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ fetch, params, url }) {
+export async function load({ fetch, params, url, cookies, locals }) {
   let page = url.searchParams.get("page")
   let count = url.searchParams.get("count")
   let search = url.searchParams.get("search")
@@ -11,18 +11,29 @@ export async function load({ fetch, params, url }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-  /** @type {{ board: Board } & { records: Thread[] } & { paginator: Paginator }} */
-  const data = await fetch(`http://api.localhost:3001/boards/${params.short}?${qs.toString()}`, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-    },
+  let s = cookies.get("session")
 
+
+  /** @type {{ "Content-Type": string, "Cookie"?: string }} */
+  const headers = {
+    "Content-Type": "application/json",
+  }
+
+  if (s && s != "") {
+    headers["Cookie"] = `session=${s}`
+  }
+
+  /** @type {{ board: Board } & { records: Thread[] } & { paginator: Paginator } & { account?: Account }} */
+  const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`, {
+    method: 'GET',
+    headers,
   })
     .then(resp => resp.json())
 
-  // console.log("data", data)
-  // console.log("\n\n BOARD:\n", data[0])
+  if (s && s.length > 0 && data?.account) {
+    locals.account = data.account;
+  }
+
 
   return {
     board: data.board,

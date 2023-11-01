@@ -15,29 +15,27 @@ export const actions = {
     const data = await request.formData();
 
     const username = data.get('username')
-    const password = data.get('password')
+    const password = data.get('password');
+    const body = await JSON.stringify({ username, password })
 
-    const response = await fetch('http://localhost:3001/api/account/login', {
+    const accountRequest = await fetch('http://localhost:3001/api/account/login', {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username, password })
-    })
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
 
-    const result = await response.json()
+    const accountResult = await accountRequest.json();
+    console.log('account result', accountResult)
 
-    if (response.ok) {
-      cookies.set('session', result.session.session_id, { httpOnly: true })
+    if (accountRequest.ok) {
+      cookies.set('session', accountResult.session.session_id, { httpOnly: true, path: '/' })
+      locals.account = accountResult.account
+      return {
+        success: true,
+        account: accountResult.account
+      }
     } else {
       return fail(400, { username, incorrect: true })
     }
-
-    locals.account = result.account
-
-    return {
-      success: true
-    }
-
   }
 }

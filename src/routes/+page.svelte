@@ -7,6 +7,8 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
+	console.log('root +page.svelte', data);
+
 	// $: if (browser) console.log('articles', data);
 </script>
 
