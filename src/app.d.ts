@@ -131,6 +131,23 @@ declare global {
 		Mod = 'mod',
 		Creator = 'creator',
 	}
+
+
+	/** Front end types */
+
+	enum AlertType {
+		Success = 'success',
+		Info = 'info',
+		Warning = 'warning',
+		Error = 'error',
+	}
+
+	type Alert = {
+		id: number;
+		type: AlertType;
+		message: string;
+	}
+
 }
 
 /** End base type declarations */

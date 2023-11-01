@@ -6,7 +6,11 @@
 </script>
 
 <header class="h-full w-full flex justify-between items-center px-4">
-	<span>Logo</span>
+	<div>
+		<a href="/">
+			<span>Logo</span>
+		</a>
+	</div>
 
 	{#if account && account?.username}
 		<div class="flex items-center gap-1 text-blue-200">
