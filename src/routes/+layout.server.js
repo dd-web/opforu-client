@@ -1,5 +1,5 @@
 
-import { lookupSession, fetcher } from '$lib/server/db'
+import { fetcher } from '$lib/server/db'
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ fetch, locals, cookies }) {
@@ -9,7 +9,7 @@ export async function load({ fetch, locals, cookies }) {
   let s = cookies.get("session")
 
   const { session } = s ? await fetcher(`session/${s}`).then(r => JSON.parse(r)) : null
-  // console.log('SESSION', session)
+
   if (session) {
     locals.account = session.account;
   }
