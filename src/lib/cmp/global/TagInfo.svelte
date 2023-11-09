@@ -7,7 +7,9 @@
 	export let plurize = true;
 </script>
 
-<span class="px-2 py-0.5 text-sm ghost font-bold rounded-sm">
+<span
+	class="h-6 font-mono text-center text-sm px-1.5 ghost font-bold rounded border border-zinc-700 inline-flex items-center gap-1"
+>
 	{value}
 	<span class="italic text-white/80 font-normal capitalize">{key}{plurize ? (value > 1 ? 's' : '') : ''}</span>
 </span>

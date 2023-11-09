@@ -81,6 +81,7 @@ declare global {
 		body: string;
 		creator: Identity;
 		post_number: number;
+		assets: Asset[];
 	}
 
 	type Session = TimeStampGroup & {

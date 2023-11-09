@@ -3,26 +3,33 @@
 	export let identity;
 </script>
 
-<span class="mx-2 not-italic inline-flex justify-center items-center gap-2">
-	{#if ['creator', 'mod'].includes(identity.role)}
-		<span
-			title={identity.role}
-			class="{identity.role} font-mono uppercase rounded-sm text-xs self-start px-1 font-bold absolute -left-2 -top-2"
-		>
-			{identity.role === 'creator' ? 'OP' : 'MOD'}
-		</span>
-	{/if}
-	<span class="{identity.style} px-2 py-0.5 rounded-sm font-bold text-sm">{identity.name}</span>
-</span>
+{#if ['creator', 'mod'].includes(identity.role)}
+	<span
+		title="thread {identity.role}"
+		class="{identity.role} h-6 font-mono text-center text-sm font-bold uppercase rounded px-1.5 border border-zinc-700 inline-flex items-center"
+	>
+		{identity.role === 'creator' ? 'OP' : 'MOD'}
+	</span>
+{/if}
+
+<span
+	class="{identity.style} h-6 font-mono px-1.5 rounded font-bold text-sm uppercase tracking-widest inline-flex items-center"
+	>{identity.name}</span
+>
 
 <style lang="postcss">
 	/* creator & mod roles */
+	.creator,
+	.mod {
+		@apply bg-zinc-800/50 text-white;
+	}
+
 	.creator {
-		@apply bg-amber-300 text-on-primary;
+		@apply border-primary;
 	}
 
 	.mod {
-		@apply bg-secondary text-on-secondary;
+		@apply border-tertiary;
 	}
 
 	/* filled */

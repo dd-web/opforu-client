@@ -4,7 +4,7 @@
 </script>
 
 <span
-	title={account.role}
+	title="site {account.role}"
 	class="relative mx-2 not-italic text-blue-50 bg-surface pr-2 rounded-md inline-flex items-center gap-2"
 >
 	<span class="{account.role} uppercase rounded-md text-xs py-0.5 px-1 font-bold">

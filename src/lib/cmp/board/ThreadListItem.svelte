@@ -17,7 +17,7 @@
 	<header class="bg-black/20 pt-2 pb-4 px-4 rounded-t-lg">
 		<h3
 			title={thread.title}
-			class="text-blue-200 text-lg capitalize whitespace-nowrap overflow-hidden text-ellipsis w-full"
+			class="text-blue-100 hover:text-blue-300 text-lg capitalize whitespace-nowrap overflow-hidden text-ellipsis w-full"
 		>
 			<a href="/boards/{$page.params.short}/{thread.slug}">{thread.title}</a>
 		</h3>
@@ -35,7 +35,7 @@
 	<div class="py-2 px-4 text-zinc-200 bg-zinc-800/20 flow-root">
 		<!-- media -->
 		{#if thread?.assets?.length > 0}
-			<div class="float-left max-w-[32%] bg-black/20 p-2 rounded-md mr-4">
+			<div class="float-left max-w-[32%] w-full bg-black/20 p-2 rounded-md mr-4">
 				<ThreadAssets assets={thread.assets} />
 			</div>
 		{/if}
