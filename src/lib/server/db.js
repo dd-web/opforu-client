@@ -1,7 +1,3 @@
-
-/**
- * Internal API constants
- */
 /** @type {string} Internal API route - only accepts same origin requests */
 const internalURL = "http://localhost:3001/api/internal";
 /** @type {Partial<RequestInit>} default request options */

@@ -3,9 +3,28 @@
 	export let identity;
 </script>
 
-<span class="{identity.style} px-2 py-0.5 rounded-sm font-bold text-sm">{identity.name}</span>
+<span class="mx-2 not-italic inline-flex justify-center items-center gap-2">
+	{#if ['creator', 'mod'].includes(identity.role)}
+		<span
+			title={identity.role}
+			class="{identity.role} font-mono uppercase rounded-sm text-xs self-start px-1 font-bold absolute -left-2 -top-2"
+		>
+			{identity.role === 'creator' ? 'OP' : 'MOD'}
+		</span>
+	{/if}
+	<span class="{identity.style} px-2 py-0.5 rounded-sm font-bold text-sm">{identity.name}</span>
+</span>
 
 <style lang="postcss">
+	/* creator & mod roles */
+	.creator {
+		@apply bg-amber-300 text-on-primary;
+	}
+
+	.mod {
+		@apply bg-secondary text-on-secondary;
+	}
+
 	/* filled */
 	.variant-filled-primary {
 		@apply bg-primary text-on-primary;

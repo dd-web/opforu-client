@@ -7,10 +7,13 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	console.log('root +page.svelte', data);
-
-	// $: if (browser) console.log('articles', data);
+	$: if (browser) console.log('root +page.svelte', data);
 </script>
+
+<svelte:head>
+	<title>OPforU News</title>
+	<meta name="description" content="OPforU - Latest news and information" />
+</svelte:head>
 
 <div>
 	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">OPforU News</h1>
