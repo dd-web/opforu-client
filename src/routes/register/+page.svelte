@@ -1,32 +1,39 @@
 <script>
-	let username = 'david';
+	/** @type {import('./$types').ActionData} */
+	export let form;
 </script>
 
-<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">Sign up</h1>
+<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">Create an account</h1>
 
-<form
-	class="flex flex-col max-w-sm w-full mx-auto mt-8 bg-zinc-900 rounded-md mb-8 px-4 py-4"
-	method="POST"
-	action="?/register"
->
-	<!-- username -->
-	<label for="username">Username:</label>
-	<input type="text" id="username" name="username" />
+{#if form?.success}
+	<div>
+		<p>Account created! Welcome, {form?.account?.username}</p>
+	</div>
+{:else}
+	<form
+		class="flex flex-col max-w-sm w-full mx-auto mt-8 bg-zinc-900 rounded-md mb-8 px-4 py-4"
+		method="POST"
+		action="?/register"
+	>
+		<!-- username -->
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" />
 
-	<!-- email -->
-	<label for="email">Email:</label>
-	<input type="email" id="email" name="email" />
+		<!-- email -->
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" />
 
-	<!-- password -->
-	<label for="password">Password:</label>
-	<input type="password" id="password" name="password" autocomplete="new-password" minlength="8" />
+		<!-- password -->
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" autocomplete="new-password" minlength="8" />
 
-	<!-- confirm password -->
-	<label for="confirm-password">Confirm Password:</label>
-	<input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" minlength="8" />
+		<!-- confirm password -->
+		<label for="confirm-password">Confirm Password:</label>
+		<input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" minlength="8" />
 
-	<button type="submit" class="bg-blue-600 h-10 rounded-md mt-6">Create Account</button>
-</form>
+		<button type="submit" class="bg-blue-600 h-10 rounded-md mt-6">Create Account</button>
+	</form>
+{/if}
 
 <style lang="postcss">
 	input {

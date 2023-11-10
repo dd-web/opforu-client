@@ -36,10 +36,10 @@ export const actions = {
 
     if (registerRequest.ok) {
       cookies.set('session', registerResult.session.session_id, { httpOnly: true, path: '/' });
-      locals.account = registerResult.account;
+      locals.account = registerResult.session.account;
       return {
         success: true,
-        account: registerResult.account
+        account: registerResult.session.account
       }
     } else {
       return fail(400, { username, email, invalid: true })

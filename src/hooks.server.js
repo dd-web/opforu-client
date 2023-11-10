@@ -1,3 +1,4 @@
+import { fetcher } from '$lib/server/db';
 
 // /** @type {import('@sveltejs/kit').HandleFetch} */
 // export async function handleFetch({ event, request, fetch }) {
@@ -19,3 +20,12 @@
 //   return response;
 // }
 
+
+export async function handle({ event, resolve }) {
+  const sessid = event.cookies.get('session');
+  if (sessid) {
+    const res = await fetcher(`session/${sessid}`).then(r => JSON.parse(r))
+    if (res?.account) event.locals.account = res.account;
+  }
+  return resolve(event)
+}
