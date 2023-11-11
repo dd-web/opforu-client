@@ -20,7 +20,7 @@ import { fetcher } from '$lib/server/db';
 //   return response;
 // }
 
-
+/** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const sessid = event.cookies.get('session');
   if (sessid) {
