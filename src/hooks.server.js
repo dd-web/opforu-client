@@ -25,6 +25,12 @@ export async function handle({ event, resolve }) {
   const sessid = event.cookies.get('session');
   if (sessid) {
     const res = await fetcher(`session/${sessid}`).then(r => JSON.parse(r))
+    console.log('session res', res);
+    if (res?.error && res?.error === 'session expired') {
+      console.log('error!', res)
+      event.cookies.delete('session');
+      event.locals.session = "expired";
+    }
     if (res?.account) event.locals.account = res.account;
   }
   return resolve(event)

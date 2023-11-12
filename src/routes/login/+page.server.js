@@ -28,6 +28,7 @@ export const actions = {
     console.log('account result', accountResult)
 
     if (accountRequest.ok) {
+
       cookies.set('session', accountResult.session.session_id, { httpOnly: true, path: '/' })
       locals.account = accountResult.account
       return {

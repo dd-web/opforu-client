@@ -5,6 +5,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			account?: Account | null;
+			session?: Session | undefined | string;
 		}
 		// interface PageData {}
 		// interface Platform {}
@@ -161,17 +162,13 @@ declare global {
 
 
 	/** Front end types */
-	enum AlertType {
-		Success = 'success',
-		Info = 'info',
-		Warning = 'warning',
-		Error = 'error',
-	}
+	type AlertType = 'success' | 'info' | 'warning' | 'error';
 
 	type Alert = {
 		id: number;
 		type: AlertType;
 		message: string;
+		removecallback: Timeout | null;
 	}
 
 }

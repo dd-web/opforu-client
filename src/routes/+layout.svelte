@@ -3,8 +3,15 @@
 	import Header from '$lib/cmp/layout/Header.svelte';
 	import Footer from '$lib/cmp/layout/Footer.svelte';
 	import Sidebar from '$lib/cmp/layout/Sidebar.svelte';
+	import Notifications from '$lib/cmp/global/Notifications.svelte';
+
+	import { alerts } from '../stores/alerts';
 
 	export let data;
+
+	$: if (data?.session === 'expired') {
+		alerts.newAlert('Your session has expired, please log in', 'error');
+	}
 </script>
 
 <div id="app" class="h-full w-full">
@@ -19,6 +26,9 @@
 		</main>
 	</div>
 	<Footer />
+	<div class="fixed z-50 right-8 bottom-8 flex flex-col gap-4 max-w-xs w-full">
+		<Notifications />
+	</div>
 </div>
 
 <style lang="postcss">

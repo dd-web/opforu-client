@@ -13,12 +13,17 @@ const alertStore = () => {
    * @param {string} text 
    * @param {AlertType} type
    */
-  const newAlert = (text, type) => {
+  const newAlert = (text, type, ttl = 8000) => {
+    /** @type {Alert} */
     let createdAlert = {
       id: counter.getValue(),
       message: text,
-      type: type
+      type: type,
+      removecallback: null
     }
+    createdAlert.removecallback = setTimeout(() => {
+      removeAlert(createdAlert.id)
+    }, ttl)
     alerts.update((alerts) => [...alerts, createdAlert]);
   }
 
@@ -27,8 +32,17 @@ const alertStore = () => {
    * @param {number} id 
    */
   const removeAlert = (id) => {
-    alerts.update((alerts) => alerts.filter((alert) => alert.id !== id));
+    alerts.update((state) => {
+      state.map((a) => {
+        if (a.id === id) {
+          clearTimeout(a.removecallback)
+        }
+      })
+      let newState = state.filter((a) => a.id !== id)
+      return newState
+    })
   }
+
 
   return {
     subscribe: alerts.subscribe,
