@@ -9,3 +9,10 @@ export async function load({ fetch, params }) {
     thread: data.thread
   }
 }
+/** @type {import("./$types").Actions}*/
+export const actions = {
+  reply: async ({ fetch, cookies, request, locals }) => {
+    const data = await request.formData();
+    console.log('data', data);
+  }
+}

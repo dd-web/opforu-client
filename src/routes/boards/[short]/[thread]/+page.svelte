@@ -1,20 +1,32 @@
 <script>
 	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 
 	import PostListItem from '$lib/cmp/thread/PostListItem.svelte';
 	import ThreadAssets from '$lib/cmp/assets/ThreadAssets.svelte';
 	import TagInfo from '$lib/cmp/global/TagInfo.svelte';
 	import Identity from '$lib/cmp/global/Identity.svelte';
 
-	/** @type {{thread: Thread}} */
+	import ReplyForm from '$lib/cmp/thread/ReplyForm.svelte';
+
+	/** @type {import('./$types').PageData} */
 	export let data;
 
 	$: if (browser) console.log('data (thread)', data);
 </script>
 
+<svelte:head>
+	<title>{data.thread.title} - /{$page.params.short}/</title>
+	<meta name="description" content={data.thread.title} />
+</svelte:head>
+
+<div class="my-8">
+	<ReplyForm />
+</div>
+
 <section class="mt-8">
 	<!-- thread stuff -->
-	<article class="relative border rounded-lg border-zinc-800 shadow-lg shadow-black/20">
+	<article class="relative border rounded-lg border-zinc-700 shadow-lg shadow-black/20">
 		<!-- thread header -->
 		<header class="bg-zinc-900/50 pt-2 pb-4 px-4 rounded-t-lg">
 			<h3 class="text-blue-200 text-lg capitalize whitespace-nowrap overflow-hidden text-ellipsis w-full py-1">

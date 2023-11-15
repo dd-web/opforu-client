@@ -1,16 +1,11 @@
 <script>
 	import Caret from '$lib/icons/Caret.svelte';
 	import AccountDropdown from './header/AccountDropdown.svelte';
-	import { alerts } from '../../../stores/alerts';
 
 	/** @type {Account|null|undefined} */
 	export let account;
 
 	let dropdownVisible = false;
-
-	const testAdd = () => {
-		alerts.newAlert('this is a test alert', 'info');
-	};
 </script>
 
 <header class="h-full w-full flex justify-between items-center px-4 border-b border-zinc-800 shadow-lg shadow-black/20">
@@ -18,7 +13,6 @@
 		<a href="/">
 			<span>Logo</span>
 		</a>
-		<button on:click={testAdd}>alert</button>
 	</div>
 
 	{#if account && account?.username}

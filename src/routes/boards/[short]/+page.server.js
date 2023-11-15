@@ -11,9 +11,6 @@ export async function load({ fetch, params, url, cookies, locals }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-
-
-
   /** @type {{ records: Thread[] } & { paginator: Paginator } & { board: Board }} */
   const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`)
     .then(resp => resp.json())
@@ -24,3 +21,4 @@ export async function load({ fetch, params, url, cookies, locals }) {
     pagination: data.paginator
   }
 }
+

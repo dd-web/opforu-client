@@ -11,6 +11,11 @@
 	// $: if (browser) console.log('data (short)', data);
 </script>
 
+<svelte:head>
+	<title>OPforU - {data.board.title} Board</title>
+	<meta name="description" content={data.board.description} />
+</svelte:head>
+
 <div>
 	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">{data.board.title}</h1>
 	<h2 class="text-base italic text-center text-neutral-300">{data.board.description}</h2>

@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit'
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals, cookies }) {
+export async function load({ locals }) {
   if (locals?.account) throw redirect(301, '/')
 
   return {
