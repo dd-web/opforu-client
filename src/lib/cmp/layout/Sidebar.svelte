@@ -1,36 +1,35 @@
 <script>
 	import { page } from '$app/stores';
+	import { sidebarStore } from '$lib/stores/layout';
 
 	/** @type {Board[]} */
 	export let boards = [];
-
-	/** @type {string|null}*/
-	let pageCount;
-
-	$: pageCount = $page.url.searchParams.get('count');
-	$: query = `?page=1&count=${pageCount ?? 10}`;
 </script>
 
-<div class="sticky top-4 h-fit">
-	<nav class="px-4 mt-4">
-		<p class="text-xl tracking-widest font-bold">Board List</p>
-		<hr class="mb-2 mt-1 opacity-20" />
-		<ul class="flex flex-col gap-2">
-			{#each boards as board, ix (board._id)}
-				<li class="tracking-wider w-fit capitalize">
-					<a
-						href="/boards/{board.short}{pageCount && pageCount !== '10' ? query : ''}"
-						class=""
-						class:current-board={$page.params.short === board.short}>{board.title}</a
-					>
-				</li>
+{#if $sidebarStore}
+	<aside
+		id="sidebar"
+		class="bg-zinc-900 max-w-fit sticky top-12 flex-auto overflow-y-scroll overscroll-contain hover:has-hover z-10"
+	>
+		<ul class="flex flex-col gap-2 px-8">
+			{#each boards as board}
+				<div class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2">
+					<span class="tag-badge group-hover:text-zinc-200 group-hover:border-zinc-500">{board.short}</span>
+					<a class="capitalize" href="/boards/{board.short}">{board.title}</a>
+				</div>
 			{/each}
 		</ul>
-	</nav>
-</div>
+
+		<hr class="hr-split" />
+
+		{#each Array(50) as item}
+			<p>item</p>
+		{/each}
+	</aside>
+{/if}
 
 <style lang="postcss">
-	.current-board {
-		@apply text-blue-200;
+	aside {
+		height: calc(100vh - 3rem);
 	}
 </style>

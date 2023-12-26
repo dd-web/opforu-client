@@ -11,7 +11,7 @@
 
 <article
 	id="thread-{$page.params.short}-{thread.slug}"
-	class="mx-2 relative border rounded-lg border-zinc-800 shadow-lg shadow-black/20"
+	class="relative border rounded-lg border-zinc-800 shadow-lg shadow-black/20"
 >
 	<!-- thread header -->
 	<header class="bg-black/20 pt-2 pb-4 px-4 rounded-t-lg">

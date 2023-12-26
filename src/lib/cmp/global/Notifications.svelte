@@ -1,10 +1,8 @@
 <script>
-	import { alerts } from '../../../stores/alerts';
+	import { alerts } from '$lib/stores/alerts';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { quintOut, cubicOut } from 'svelte/easing';
-
-	import CircledI from '$lib/icons/CircledI.svelte';
 </script>
 
 {#each $alerts as notif, i (notif.id)}
@@ -19,22 +17,22 @@
 	>
 		<button on:click={() => alerts.removeAlert(notif.id)} class="absolute top-0 left-0 h-full w-full" />
 		<div class="flex justify-center items-center select-none">
-			<span class="fill-blue-200">
+			<span class="fill-blue-200/20">
 				{#if notif.type === 'info'}
-					<CircledI />
+					<span>I</span>
 				{:else if notif.type === 'success'}
-					<CircledI />
+					<span>I</span>
 				{:else if notif.type === 'warning'}
-					<CircledI />
+					<span>I</span>
 				{:else if notif.type === 'error'}
-					<CircledI />
+					<span>I</span>
 				{/if}
 			</span>
 			<span id="alert-title" class="hidden">{notif.type}</span>
 		</div>
 		<div role="document" class="text-center select-none px-2">
 			<p id="alert-desc" class="capitalize text-sm">{notif.message}</p>
-			<p class="text-xs text-blue-100/50 italic">click to dismiss</p>
+			<p class="text-xs text-blue-100/40 italic">click to dismiss</p>
 		</div>
 	</div>
 {/each}

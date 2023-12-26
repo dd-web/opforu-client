@@ -26,7 +26,7 @@
 	};
 </script>
 
-<nav class="flex justify-end items-center mx-2">
+<nav class="flex justify-end items-center">
 	<ul class="flex items-center justify-end mx-2 gap-2 py-2">
 		{#each Array(paginator.total_pages) as _, ix}
 			<li

@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export function load(event) {
@@ -24,5 +24,6 @@ export const actions = {
     event.cookies.delete("session");
     event.locals.account = null;
     throw redirect(302, '/login')
-  }
+  },
+
 }

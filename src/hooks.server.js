@@ -1,6 +1,10 @@
 import { fetcher } from '$lib/server/db';
 
 
+/**
+ * @TODO this is getting called every request. it should only be called on the first request.
+ */
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
   const sessid = event.cookies.get('session');

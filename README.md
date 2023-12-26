@@ -19,3 +19,7 @@ To create a production build of the client you can run:
 ```bash
 npm run build
 ```
+
+## Icons
+
+Icons should be from fontawesome

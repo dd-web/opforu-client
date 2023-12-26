@@ -18,10 +18,6 @@
 		method="POST"
 		action="?/login"
 	>
-		{#if form?.incorrect}
-			<p class="text-error text-center">Invalid login details</p>
-		{/if}
-
 		<!-- username -->
 		<label for="username">Username or Email:</label>
 		<input type="text" id="username" name="username" autocomplete="email" required value={form?.username ?? ''} />
@@ -30,12 +26,15 @@
 		<label for="password">Password:</label>
 		<input type="password" id="password" name="password" autocomplete="current-password" required />
 
+		{#if form?.incorrect}
+			<div class="mt-4">
+				<p class="text-error text-center">Invalid login details, please</p>
+			</div>
+		{/if}
+
 		<!-- submit -->
 		<div class="flex flex-col mt-4 items-center gap-2">
-			<button type="submit" class="bg-blue-600 h-10 px-8 rounded-md">Login</button>
-			<div class="text-sm text-zinc-400">
-				<span>don't have an account?</span> <a class="hover:text-blue-300 text-blue-100" href="/register">sign up</a> today!
-			</div>
+			<button type="submit" class="btn-primary h-10 px-8 rounded-md">Login</button>
 		</div>
 	</form>
 {/if}

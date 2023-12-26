@@ -1,9 +1,6 @@
 <script>
 	import { browser } from '$app/environment';
 
-	import ArticleListItem from '$lib/cmp/article/ArticleListItem.svelte';
-	import Pagination from '$lib/cmp/global/Pagination.svelte';
-
 	/** @type {import('./$types').PageData} */
 	export let data;
 
@@ -11,20 +8,10 @@
 </script>
 
 <svelte:head>
-	<title>OPforU News</title>
-	<meta name="description" content="OPforU - Latest news and information" />
+	<title>OPforU</title>
+	<meta name="description" content="OPforU - Home Page" />
 </svelte:head>
 
 <div>
-	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">OPforU News</h1>
-	<h2 class="text-base italic text-center text-neutral-300">Latest news and information from the team</h2>
-
-	<section class="pt-8 flex flex-col gap-8">
-		{#each data.articles as article (article._id)}
-			<ArticleListItem {article} />
-		{:else}
-			<p>No Articles Found</p>
-		{/each}
-	</section>
-	<Pagination paginator={data.pagination} path="/" />
+	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">OPforU</h1>
 </div>
