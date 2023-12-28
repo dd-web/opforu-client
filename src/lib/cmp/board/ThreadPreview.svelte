@@ -2,6 +2,8 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 
+	import AssetGrid from '../assets/AssetGrid.svelte';
+
 	/** @type {Thread} */
 	export let thread;
 
@@ -14,7 +16,23 @@
 		<div>
 			<p>{thread.post_count} Posts</p>
 		</div>
+		<p>ASSETS: {thread.assets.length}</p>
 	</header>
+
+	<div class="grid grid-cols-[0.3fr,_1fr] grid-rows-[1fr] px-4 my-2">
+		{#if thread?.assets?.length > 0}
+			<div class="aspect-square max-w-xs">
+				<AssetGrid assets={thread.assets} />
+			</div>
+		{/if}
+		<div class="ml-4">
+			{@html thread.body}
+		</div>
+	</div>
+
+	<footer>
+		<p>thread footer</p>
+	</footer>
 </article>
 
 <style lang="postcss">

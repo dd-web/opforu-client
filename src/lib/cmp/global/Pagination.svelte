@@ -30,7 +30,7 @@
 	<ul class="flex items-center justify-end mx-2 gap-2 py-2">
 		{#each Array(paginator.total_pages) as _, ix}
 			<li
-				class="bg-zinc-900 flex h-8 w-8 items-center text-zinc-200 justify-center rounded-md border border-zinc-600"
+				class="bg-zinc-900 flex h-8 w-8 items-center text-zinc-400 justify-center rounded-md border border-zinc-600"
 				class:current={ix + 1 === paginator.current_page}
 			>
 				<a href="{path}?page={ix + 1}&count={selectedSize}">{ix + 1}</a>
@@ -54,6 +54,6 @@
 
 <style>
 	.current {
-		@apply bg-blue-200/10 text-white;
+		@apply bg-zinc-800 text-white font-bold border-zinc-400;
 	}
 </style>

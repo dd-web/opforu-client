@@ -23,7 +23,7 @@
 	<h2 class="text-base italic text-center text-neutral-300">{data.board.description}</h2>
 	<!-- <hr class="mx-12 mt-4 opacity-25" /> -->
 
-	<section class="mt-8">
+	<section class="mt-8 mb-4 flex flex-col gap-4">
 		{#each data.threads as thread (thread._id)}
 			<ThreadPreview {thread} />
 		{:else}

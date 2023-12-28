@@ -32,7 +32,6 @@
 		</div>
 		<div role="document" class="text-center select-none px-2">
 			<p id="alert-desc" class="capitalize text-sm">{notif.message}</p>
-			<p class="text-xs text-blue-100/40 italic">click to dismiss</p>
 		</div>
 	</div>
 {/each}

@@ -15,7 +15,7 @@
 			{#each boards as board}
 				<div class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2">
 					<span class="tag-badge group-hover:text-zinc-200 group-hover:border-zinc-500">{board.short}</span>
-					<a class="capitalize" href="/boards/{board.short}">{board.title}</a>
+					<a class="capitalize link" href="/boards/{board.short}">{board.title}</a>
 				</div>
 			{/each}
 		</ul>
