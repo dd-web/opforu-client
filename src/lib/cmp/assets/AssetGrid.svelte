@@ -1,8 +1,14 @@
 <script>
+	/**
+	 * @TODO assets that don't load should reset the loading state from defered to immediate
+	 */
+
 	import { crossfade, scale, fade } from 'svelte/transition';
 
 	import AssetTypeResolver from './AssetTypeResolver.svelte';
 	import CircleTimer from '$lib/icons/CircleTimer.svelte';
+	import XMark from '$lib/icons/XMark.svelte';
+	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 
 	export let /** @type {Asset[]} */ assets = [];
 
@@ -19,27 +25,24 @@
 	const loadAsset = (/** @type {Asset} */ asset) => {
 		const timeout = setTimeout(() => (loadingAsset = asset), 100);
 
-		let img = new Image();
-		img.onload = () => {
+		// possibly needs to use parent constructor (media element) to get videos preloading properly
+		let localEl = asset.asset_type === 'image' ? new Image() : document.createElement('video');
+		localEl.onload = () => {
 			focusedAsset = asset;
 			clearTimeout(timeout);
 			loadingAsset = null;
 		};
 
-		img.src = asset.source.url;
+		localEl.src = asset.source.url;
+	};
 
-		/** necessary because videos don't load unless actually in the dom */
-		if (asset.asset_type === 'video') {
-			focusedAsset = asset;
-			clearTimeout(timeout);
-			loadingAsset = null;
-		}
+	const resetAssetFocus = () => {
+		console.log('resetAssetFocus');
+		focusedAsset = null;
 	};
 </script>
 
-<div
-	class="grid grid-rows-6 grid-cols-6 gap-2 h-full items-center justify-items-center border border-zinc-800 p-2 relative"
->
+<div class="grid grid-rows-6 grid-cols-6 gap-2 h-full items-center justify-items-center p-2 relative">
 	{#each assets as asset, index (index + asset.updated_at)}
 		<div
 			class="sz-{assets.length} sz-{assets.length}-ct-{index} grid-asset-area"
@@ -52,7 +55,7 @@
 					on:click={() => loadAsset(asset)}
 					in:receive={{ key: asset.source.url }}
 					out:send={{ key: asset.source.url }}
-					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full"
+					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full outline-none focus-visible:ring-2 ring-zinc-200"
 				/>
 			{/if}
 		</div>
@@ -61,7 +64,11 @@
 	{/each}
 
 	{#if loadingAsset}
-		<div class="bg-black/80 absolute top-0 left-0 h-full w-full flex justify-center items-center fill-white">
+		<div
+			in:fade={{ duration: 200 }}
+			out:fade={{ duration: 200 }}
+			class="bg-black/80 absolute top-0 left-0 h-full w-full flex justify-center items-center fill-white"
+		>
 			<span class="asset-loader">
 				<CircleTimer />
 			</span>
@@ -69,6 +76,7 @@
 	{/if}
 
 	{#if focusedAsset}
+		<div out:fade class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-black/80" />
 		{#await focusedAsset then d}
 			<div
 				in:receive|global={{ key: d.source.url }}
@@ -85,6 +93,12 @@
 				{/if}
 			</div>
 		{/await}
+		<div in:fade out:fade class="z-10 w-full absolute top-0 flex justify-between pt-2 px-4">
+			<span />
+			<CircularIconBtn on:click={resetAssetFocus}>
+				<XMark />
+			</CircularIconBtn>
+		</div>
 	{/if}
 </div>
 

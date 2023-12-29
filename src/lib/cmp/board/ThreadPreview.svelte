@@ -10,13 +10,12 @@
 	$: if (browser) console.log('thread', thread);
 </script>
 
-<article id="thread-{$page.params.short}-{thread.slug}" class="bg-zinc-900">
+<article id="thread-{$page.params.short}-{thread.slug}" class="bg-zinc-900 rounded-md">
 	<header>
-		<h3 class="text-xl font-semibold">{thread.title}</h3>
+		<h3 class="text-xl font-semibold mx-2 whitespace-nowrap overflow-hidden text-ellipsis">{thread.title}</h3>
 		<div>
 			<p>{thread.post_count} Posts</p>
 		</div>
-		<p>ASSETS: {thread.assets.length}</p>
 	</header>
 
 	<div class="grid grid-cols-[0.3fr,_1fr] grid-rows-[1fr] px-4 my-2">
@@ -25,7 +24,7 @@
 				<AssetGrid assets={thread.assets} />
 			</div>
 		{/if}
-		<div class="ml-4">
+		<div class="ml-4" class:col-span-2={thread?.assets?.length === 0}>
 			{@html thread.body}
 		</div>
 	</div>
