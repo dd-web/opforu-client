@@ -1,5 +1,4 @@
 <script>
-	import { page } from '$app/stores';
 	import { sidebarStore } from '$lib/stores/layout';
 
 	/** @type {Board[]} */
@@ -9,7 +8,7 @@
 {#if $sidebarStore}
 	<aside
 		id="sidebar"
-		class="bg-zinc-900 max-w-fit sticky top-12 flex-auto overflow-y-scroll overscroll-contain hover:has-hover z-10"
+		class="bg-zinc-900 min-w-fit max-w-fit sticky top-12 flex-auto overflow-y-scroll overscroll-contain hover:has-hover z-10"
 	>
 		<ul class="flex flex-col gap-2 px-8">
 			{#each boards as board}

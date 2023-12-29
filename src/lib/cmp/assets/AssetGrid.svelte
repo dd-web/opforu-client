@@ -76,7 +76,11 @@
 	{/if}
 
 	{#if focusedAsset}
-		<div out:fade class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-black/80" />
+		<div
+			in:fade={{ duration: 200 }}
+			out:fade
+			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-black/80"
+		/>
 		{#await focusedAsset then d}
 			<div
 				in:receive|global={{ key: d.source.url }}
