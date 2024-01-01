@@ -1,8 +1,4 @@
 <script>
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
-
-	// import ThreadListItem from '$lib/cmp/board/ThreadListItem.svelte';
 	import ThreadPreview from '$lib/cmp/board/ThreadPreview.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
 
@@ -10,7 +6,6 @@
 	export let data;
 
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
-	// $: if (browser) console.log('data (short)', data);
 </script>
 
 <svelte:head>
@@ -21,7 +16,6 @@
 <div class="px-8">
 	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">{data.board.title}</h1>
 	<h2 class="text-base italic text-center text-neutral-300">{data.board.description}</h2>
-	<!-- <hr class="mx-12 mt-4 opacity-25" /> -->
 
 	<section class="mt-8 mb-4 flex flex-col gap-4">
 		{#each data.threads as thread (thread._id)}

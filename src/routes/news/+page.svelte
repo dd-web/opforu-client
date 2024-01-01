@@ -2,7 +2,8 @@
 	import { browser } from '$app/environment';
 
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
-	import StaffTag from '$lib/cmp/global/StaffTag.svelte';
+	import AdminTag from '$lib/cmp/global/AdminTag.svelte';
+	import ModTag from '$lib/cmp/global/ModTag.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -22,11 +23,21 @@
 	<section class="pt-8 flex flex-col gap-8">
 		{#each data.articles as article (article._id)}
 			<article class="bg-zinc-900">
-				<StaffTag account={article.author} />
 				<div>
-					<h3 title={article.title} class="text-2xl font-semibold">
+					<h3 title={article.title} class="text-2xl font-semibold px-2">
 						<a href="/news/{article.slug}">{article.title}</a>
 					</h3>
+					<div class="flex gap-2 px-4">
+						<span class="italic text-zinc-500">Written by</span>
+						<AdminTag account={article.author} />
+						{#each article.co_authors as coauthor, i (coauthor.username + i)}
+							{#if coauthor.role === 'admin'}
+								<AdminTag account={coauthor} />
+							{:else if coauthor.role === 'mod'}
+								<ModTag account={coauthor} />
+							{/if}
+						{/each}
+					</div>
 				</div>
 			</article>
 		{:else}

@@ -1,5 +1,6 @@
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ fetch, locals, cookies, parent }) {
+  /** @type {{boards: Board[]}} */
   const data = await fetch('http://localhost:3001/api/boards')
     .then((res) => res.json())
 

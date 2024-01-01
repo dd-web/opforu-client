@@ -1,58 +1,63 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	/** @type {Identity} */
 	export let identity;
 </script>
 
-{#if ['creator', 'mod'].includes(identity.role)}
-	<span
-		title="thread {identity.role}"
-		class="{identity.role} h-6 font-mono text-center text-sm font-bold uppercase rounded px-1.5 border border-zinc-700 inline-flex items-center"
+{#if identity}
+	<button
+		class="tag-badge {['creator', 'mod'].includes(identity.role)
+			? ''
+			: identity.style} inline-flex flex-row gap-1 p-2 group hover:ring-opacity-40 outline-none focus-visible:underline underline-offset-4"
+		class:creator={identity.role === 'creator'}
+		class:mod={identity.role === 'mod'}
+		on:click={() => dispatch('click')}
 	>
-		{identity.role === 'creator' ? 'OP' : 'MOD'}
-	</span>
-{/if}
+		{#if identity.role === 'creator'}
+			<span class="font-bold text-red-300 group-hover:text-red-400"> OP </span>
+		{:else if identity.role === 'mod'}
+			<span class="font-bold text-purple-300 group-hover:text-purple-400"> MOD </span>
+		{/if}
 
-<span
-	class="{identity.style} h-6 font-mono px-1.5 rounded font-bold text-sm uppercase tracking-widest inline-flex items-center"
-	>{identity.name}</span
->
+		<span class="text-opacity-80 group-hover:text-opacity-100 text-inherit">{identity.name}</span>
+	</button>
+{/if}
 
 <style lang="postcss">
 	/* creator & mod roles */
-	.creator,
-	.mod {
-		@apply bg-zinc-800/50 text-white;
-	}
-
 	.creator {
-		@apply border-primary;
+		@apply border-none !ring-red-600 !ring-opacity-20 !bg-red-900 bg-opacity-10;
+		@apply hover:!ring-opacity-40 hover:!bg-opacity-20;
 	}
 
 	.mod {
-		@apply border-tertiary;
+		@apply border-none !ring-purple-600 !ring-opacity-20 !bg-purple-900 bg-opacity-10;
+		@apply hover:!ring-opacity-40 hover:!bg-opacity-20;
 	}
 
 	/* filled */
 	.variant-filled-primary {
-		@apply bg-primary text-on-primary;
+		@apply bg-primary !text-on-primary;
 	}
 	.variant-filled-secondary {
-		@apply bg-secondary text-on-secondary;
+		@apply bg-secondary !text-on-secondary;
 	}
 	.variant-filled-tertiary {
-		@apply bg-tertiary text-white;
+		@apply bg-tertiary !text-on-tertiary;
 	}
 	.variant-filled-success {
-		@apply bg-success text-on-success;
+		@apply bg-success !text-on-success;
 	}
 	.variant-filled-warning {
-		@apply bg-warning text-on-warning;
+		@apply bg-warning !text-on-warning;
 	}
 	.variant-filled-error {
-		@apply bg-error text-on-error;
+		@apply bg-error !text-on-error;
 	}
 	.variant-filled-surface {
-		@apply bg-surface text-on-surface;
+		@apply bg-surface !text-on-surface;
 	}
 
 	/* ghost */

@@ -47,6 +47,7 @@
     @apply active:opacity-50 active:scale-95 active:hover:bg-opacity-100 active:shadow-sm;
     @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:text-zinc-400 disabled:hover:bg-opacity-100;
   }
+
 }
 
 
@@ -60,4 +61,16 @@
   .hr-split {
     @apply bg-zinc-800 border-0 h-px m-4;
   }
+
+  .post-num-badge {
+    @apply tag-badge font-bold font-mono outline-none;
+    @apply border-blue-300 border-opacity-20 bg-blue-300 bg-opacity-5 text-blue-400;
+    @apply hover:border-opacity-50 hover:border-blue-200 hover:bg-opacity-10 hover:text-blue-300;
+    @apply focus-visible:border-opacity-50 focus-visible:border-blue-200 focus-visible:bg-opacity-10 focus-visible:text-blue-300 focus-visible:underline underline-offset-4;
+  }
+}
+
+
+div.thread-body p {
+  @apply my-4;
 }
