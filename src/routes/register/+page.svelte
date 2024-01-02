@@ -16,22 +16,31 @@
 		action="?/register"
 	>
 		<!-- username -->
-		<label for="username">Username:</label>
-		<input type="text" id="username" name="username" />
+		<label for="username">Username</label>
+		<input type="text" id="username" name="username" autocomplete="username" required value={form?.username ?? ''} />
 
 		<!-- email -->
-		<label for="email">Email:</label>
-		<input type="email" id="email" name="email" />
+		<label for="email">Email</label>
+		<input type="email" id="email" name="email" autocomplete="email" required value={form?.username ?? ''} />
 
 		<!-- password -->
-		<label for="password">Password:</label>
-		<input type="password" id="password" name="password" autocomplete="new-password" minlength="8" />
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password" autocomplete="new-password" minlength="8" required />
 
 		<!-- confirm password -->
-		<label for="confirm-password">Confirm Password:</label>
-		<input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" minlength="8" />
+		<label for="confirm-password">Confirm Password</label>
+		<input
+			type="password"
+			id="confirm-password"
+			name="confirm-password"
+			autocomplete="new-password"
+			minlength="8"
+			required
+		/>
 
-		<button type="submit" class="bg-blue-600 h-10 rounded-md mt-6">Create Account</button>
+		<div class="flex flex-col mt-4 items-center gap-2">
+			<button type="submit" class="btn-primary h-10 rounded-md mt-6 px-8">Create Account</button>
+		</div>
 	</form>
 {/if}
 
@@ -39,6 +48,11 @@
 	input {
 		@apply px-2 py-1 rounded-md border-none outline-none ring-2 ring-zinc-600 text-black;
 		@apply focus-visible:ring-blue-300;
+	}
+
+	label::after {
+		@apply mx-[0.1rem] text-zinc-200;
+		content: ':';
 	}
 
 	label:not(:first-of-type) {

@@ -19,16 +19,16 @@
 		action="?/login"
 	>
 		<!-- username -->
-		<label for="username">Username or Email:</label>
+		<label for="username">Username or Email</label>
 		<input type="text" id="username" name="username" autocomplete="email" required value={form?.username ?? ''} />
 
 		<!-- password -->
-		<label for="password">Password:</label>
+		<label for="password">Password</label>
 		<input type="password" id="password" name="password" autocomplete="current-password" required />
 
 		{#if form?.incorrect}
 			<div class="mt-4">
-				<p class="text-error text-center">Invalid login details, please</p>
+				<p class="text-error text-center">Invalid login details</p>
 			</div>
 		{/if}
 
@@ -43,6 +43,11 @@
 	input {
 		@apply px-2 py-1 rounded-md border-none outline-none ring-2 ring-zinc-600 text-black;
 		@apply focus-visible:ring-blue-300;
+	}
+
+	label::after {
+		@apply mx-[0.1rem] text-zinc-200;
+		content: ':';
 	}
 
 	label:not(:first-of-type) {

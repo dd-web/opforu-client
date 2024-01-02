@@ -12,9 +12,12 @@
 	>
 		<ul class="flex flex-col gap-2 px-8">
 			{#each boards as board}
-				<div class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2">
-					<span class="tag-badge group-hover:text-zinc-200 group-hover:border-zinc-500">{board.short}</span>
-					<a class="capitalize link" href="/boards/{board.short}">{board.title}</a>
+				<div id="sb-board" class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2">
+					<a class="capitalize link peer" href="/boards/{board.short}">{board.title}</a>
+					<span
+						class="tag-badge group-hover:border-zinc-500 group-hover:text-blue-200 peer-focus-visible:text-blue-200 peer-focus-visible:border-zinc-500"
+						>{board.short}</span
+					>
 				</div>
 			{/each}
 		</ul>
@@ -30,5 +33,15 @@
 <style lang="postcss">
 	aside {
 		height: calc(100vh - 3rem);
+	}
+
+	#sb-board a {
+		grid-row: 1;
+		grid-column: 2;
+	}
+
+	#sb-board span {
+		grid-row: 1;
+		grid-column: 1;
 	}
 </style>

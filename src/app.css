@@ -43,7 +43,7 @@
 
   .btn-primary {
     @apply btn;
-    @apply bg-[#475978] hover:bg-opacity-80 transition-all shadow-black/10 shadow-md hover:shadow-black/25;
+    @apply bg-blue-500 hover:bg-opacity-80 transition-all shadow-black/10 shadow-md hover:shadow-black/25;
     @apply active:opacity-50 active:scale-95 active:hover:bg-opacity-100 active:shadow-sm;
     @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:text-zinc-400 disabled:hover:bg-opacity-100;
   }
@@ -72,5 +72,5 @@
 
 
 div.thread-body p {
-  @apply my-4;
+  @apply my-6 leading-5 tracking-wider font-thin text-base;
 }
