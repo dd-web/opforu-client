@@ -12,6 +12,21 @@
 	<meta name="description" content="OPforU - Home Page" />
 </svelte:head>
 
-<div>
-	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100">OPforU</h1>
+<div class="w-full max-w-5xl">
+	<h1 class="text-4xl mt-4 text-center capitalize text-blue-100 font-semibold tracking-wider">OPforU</h1>
+	<hr class="hr-split max-w-4xl w-full" />
+	<div class="max-w-2xl">
+		<p class="my-2 leading-6 tracking-wider">
+			<span class="text-blue-200">OPforU</span> is an anonymous forum platform designed to improve the quality of discussion
+			on the internet. We believe that anonymity is a powerful tool that can be used to encourage people to be more open
+			and honest with their opinions and place more value on the ideas themselves rather than the individual expressing them.
+		</p>
+		<p class="my-2 leading-6 tracking-wider">
+			Anonymity introduces it's own set of issues however. <span class="text-blue-200">OPforU</span> aims to design a platform
+			that mitigates these issues without creating subversive systems that can be abused. This is a finely tuned line that
+			must be continually monitored and iterated upon to improve. While we understand this may seem vague, we want to avoid
+			providing information that could be used to abuse the system. More information will be provided in time as we improve
+			the platform.
+		</p>
+	</div>
 </div>
