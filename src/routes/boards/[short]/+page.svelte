@@ -1,6 +1,7 @@
 <script>
 	import ThreadPreview from '$lib/cmp/board/ThreadPreview.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
+	import ImageUploader from '$lib/cmp/global/ImageUploader.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;
@@ -28,7 +29,7 @@
 
 	{#if showThreadForm}
 		<form class="bg-zinc-900 rounded-md p-4">
-			<div class="grid grid-cols-[1fr,_1fr] gap-2">
+			<div class="grid grid-cols-[1fr,_1fr] gap-4">
 				<div>
 					<label for="title">Title</label>
 					<input type="text" id="title" name="title" required class="w-full" />
@@ -37,10 +38,7 @@
 					<textarea id="content" name="content" required rows="10" class="w-full resize-none" />
 				</div>
 
-				<div>
-					<label for="image">Image</label>
-					<input type="file" id="image" name="image" />
-				</div>
+				<ImageUploader />
 			</div>
 			<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold">Post</button>
 		</form>

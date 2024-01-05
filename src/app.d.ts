@@ -171,6 +171,19 @@ declare global {
 		removecallback: Timeout | null;
 	}
 
+
+	type LocalFileStatus = 'init' | 'uploading' | 'canceled' | 'complete' | 'error';
+
+	interface LocalFileInfo {
+		local_id: string;
+		name: string;
+		status: LocalFileStatus;
+		progress: number;
+		file: File;
+		width: number;
+		height: number;
+	}
+
 }
 
 /** End base type declarations */

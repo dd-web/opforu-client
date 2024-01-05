@@ -56,6 +56,14 @@
     @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:text-zinc-400 disabled:hover:bg-opacity-100;
   }
 
+  .btn-generic {
+    @apply btn w-fit rounded-md underline-offset-4;
+    @apply hover:bg-opacity-80 hover:shadow-sm hover:shadow-black/20;
+    @apply active:opacity-50 active:scale-95 active:hover:bg-opacity-100 active:shadow-none;
+    @apply focus-visible:ring-opacity-50;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:text-opacity-50 disabled:hover:bg-opacity-100;
+  }
+
 }
 
 
