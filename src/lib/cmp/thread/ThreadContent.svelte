@@ -5,7 +5,7 @@
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 	import Hamburger from '$lib/icons/Hamburger.svelte';
 
-	export let /** @type {Thread} */ thread;
+	/** @type {Thread} */ export let thread;
 </script>
 
 <article id="thread-{thread.slug}-content" class="bg-zinc-900 rounded-md">

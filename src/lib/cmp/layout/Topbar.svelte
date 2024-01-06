@@ -1,6 +1,5 @@
 <script>
 	import { sidebarStore } from '$lib/stores/layout';
-	import { alerts } from '$lib/stores/alerts';
 
 	import Hamburger from '$lib/icons/Hamburger.svelte';
 	import UserOutline from '$lib/icons/UserOutline.svelte';
@@ -8,17 +7,9 @@
 	import AccountDropdown from '../global/AccountDropdown.svelte';
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 
-	export let /** @type {Account|undefined|null}*/ account;
+	/** @type {Account?=}*/ export let account;
 
-	let accountDropdownVisible = false;
-
-	const toggleSidebar = () => {
-		$sidebarStore = !$sidebarStore;
-	};
-
-	const testAlert = () => {
-		alerts.newAlert('this is a test alert', 'success');
-	};
+	/** @type {boolean} */ let accountDropdownVisible = false;
 </script>
 
 <div class="bg-zinc-900 flex h-12 px-4 sticky top-0 gap-4 z-10">
@@ -46,6 +37,4 @@
 			</div>
 		{/if}
 	</div>
-
-	<!-- <button on:click={testAlert}>TestAlert</button> -->
 </div>

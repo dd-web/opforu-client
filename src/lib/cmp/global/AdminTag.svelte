@@ -1,6 +1,6 @@
 <script>
-	export let /** @type {Account|undefined|null} */ account;
-	export let /** @type {boolean} */ anonymous = false;
+	/** @type {Account?=} */ export let account;
+	/** @type {boolean} */ export let anonymous = false;
 </script>
 
 {#if account}

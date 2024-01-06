@@ -1,10 +1,9 @@
 <script>
 	import ThreadPreview from '$lib/cmp/board/ThreadPreview.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
-	import ImageUploader from '$lib/cmp/global/ImageUploader.svelte';
+	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	/** @type {import('./$types').PageData} */ export let data;
 
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 
@@ -28,9 +27,9 @@
 	</div>
 
 	{#if showThreadForm}
-		<form class="bg-zinc-900 rounded-md p-4">
-			<div class="grid grid-cols-[1fr,_1fr] gap-4">
-				<div>
+		<form class="bg-zinc-900 rounded-md">
+			<div class="grid grid-cols-[50%,50%]">
+				<div class="mx-2">
 					<label for="title">Title</label>
 					<input type="text" id="title" name="title" required class="w-full" />
 
@@ -38,7 +37,7 @@
 					<textarea id="content" name="content" required rows="10" class="w-full resize-none" />
 				</div>
 
-				<ImageUploader />
+				<FileUploadArea />
 			</div>
 			<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold">Post</button>
 		</form>

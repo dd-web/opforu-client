@@ -7,8 +7,7 @@
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 	import Hamburger from '$lib/icons/Hamburger.svelte';
 
-	/** @type {Thread} */
-	export let thread;
+	/** @type {Thread} */ export let thread;
 
 	$: if (browser) console.log('thread', thread);
 </script>

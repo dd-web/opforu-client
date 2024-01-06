@@ -2,8 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	/** @type {Identity} */
-	export let identity;
+	/** @type {Identity?=} */ export let identity;
 </script>
 
 {#if identity}

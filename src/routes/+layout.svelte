@@ -2,11 +2,11 @@
 	import '../app.css';
 	import Topbar from '$lib/cmp/layout/Topbar.svelte';
 	import Sidebar from '$lib/cmp/layout/Sidebar.svelte';
-	import Notifications from '$lib/cmp/global/Notifications.svelte';
+	import Alerts from '$lib/cmp/global/Alerts.svelte';
 
 	import { alerts } from '$lib/stores/alerts';
 
-	export let data;
+	/** @type {import('./$types').LayoutData} */ export let data;
 
 	$: if (data?.session === 'expired') {
 		alerts.newAlert('Your session has expired, please log in', 'error');
@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="fixed z-50 right-8 bottom-8 flex flex-col gap-4 max-w-xs w-full">
-		<Notifications />
+		<Alerts />
 	</div>
 </div>
 

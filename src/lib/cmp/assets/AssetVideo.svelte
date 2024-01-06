@@ -1,17 +1,13 @@
 <script>
-	import TriangleExclamation from '$lib/icons/TriangleExclamation.svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	import CirclePlay from '$lib/icons/CirclePlay.svelte';
 
-	export let /** @type {Asset} */ asset;
+	/** @type {Asset} */ export let asset;
 
-	let exists = true;
-
-	/** @type {HTMLImageElement} */ let previewAvatarEl;
-	/** @type {HTMLDivElement} */ let previewAvatarPlayBacksplashEl;
-
-	const handleImageError = () => {
-		exists = false;
-	};
+	/** @type {HTMLImageElement=} */ let previewAvatarEl;
+	/** @type {HTMLDivElement=} */ let previewAvatarPlayBacksplashEl;
 
 	const resizeBacksplash = () => {
 		if (!previewAvatarEl || !previewAvatarPlayBacksplashEl) return;
@@ -22,28 +18,20 @@
 	};
 </script>
 
-{#if exists}
-	<div class="relative flex max-h-full max-w-full justify-center items-center">
-		<img
-			class="object-contain max-h-full max-w-full"
-			src={asset.avatar.url}
-			alt={asset.file_name}
-			on:error={handleImageError}
-			on:load={resizeBacksplash}
-			bind:this={previewAvatarEl}
-		/>
-		<div
-			bind:this={previewAvatarPlayBacksplashEl}
-			class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full bg-black/80"
-		/>
-		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fill-white">
-			<CirclePlay />
-		</div>
+<div class="relative flex max-h-full max-w-full justify-center items-center">
+	<img
+		class="object-contain max-h-full max-w-full"
+		src={asset.avatar.url}
+		alt={asset.file_name}
+		on:error={() => dispatch('had-error')}
+		on:load={resizeBacksplash}
+		bind:this={previewAvatarEl}
+	/>
+	<div
+		bind:this={previewAvatarPlayBacksplashEl}
+		class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full bg-black/80"
+	/>
+	<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fill-white">
+		<CirclePlay />
 	</div>
-{:else}
-	<div class="flex justify-center items-center" title="content not found">
-		<span class="fill-error">
-			<TriangleExclamation />
-		</span>
-	</div>
-{/if}
+</div>

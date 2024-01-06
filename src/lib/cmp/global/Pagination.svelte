@@ -3,24 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	/** @type {string|undefined|null} */
-	export let path = `/boards/${$page.params.short}/`;
+	/** @type {string?=} */ export let path = `/boards/${$page.params.short}/`;
+	/** @type {Partial<Paginator>}*/ export let paginator = { current_page: 1, total_pages: 1 };
 
-	/** @type {Partial<Paginator>}*/
-	export let paginator = {
-		current_page: 1,
-		total_pages: 1
-	};
+	/** @type {number} */ let selectedSize;
 
-	/** @type {number} */
-	let selectedSize;
-
-	/**
-	 * on page size change redirect to page 1 with new page size as to not break pagination
-	 * @param {Event} e
-	 * @returns {void}
-	 */
-	const onPageSizeChange = (e) => {
+	const onPageSizeChange = () => {
 		if (!browser) return;
 		goto(`${path}?page=1&count=${selectedSize}`);
 	};

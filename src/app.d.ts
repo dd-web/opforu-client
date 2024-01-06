@@ -4,8 +4,8 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			account?: Account | null;
-			session?: Session | undefined | string;
+			account?: Account?;
+			session?: Session | string?;
 		}
 		// interface PageData {}
 		// interface Platform {}
@@ -155,11 +155,10 @@ declare global {
 		Creator = 'creator',
 	}
 
-	enum AssetType {
-		Image = 'image',
-		Video = 'video',
-	}
+	type AssetType = 'image' | 'video';
 
+	type Image = 'image';
+	type Video = 'video';
 
 	/** Front end types */
 	type AlertType = 'success' | 'info' | 'warning' | 'error';
@@ -182,7 +181,11 @@ declare global {
 		file: File;
 		width: number;
 		height: number;
+		type?: AssetType?;
+		poster?: string?;
 	}
+
+
 
 }
 

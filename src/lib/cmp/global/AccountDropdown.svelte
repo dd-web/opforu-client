@@ -6,8 +6,7 @@
 	import UserCircled from '$lib/icons/UserCircled.svelte';
 	import ArrowOut from '$lib/icons/ArrowOut.svelte';
 
-	/** @type {Account} */
-	export let account;
+	/** @type {Account} */ export let account;
 </script>
 
 <div
