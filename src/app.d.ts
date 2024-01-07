@@ -178,7 +178,7 @@ declare global {
 		name: string;
 		status: LocalFileStatus;
 		progress: number;
-		file: File;
+		file: File?;
 		width: number;
 		height: number;
 		type?: AssetType?;
