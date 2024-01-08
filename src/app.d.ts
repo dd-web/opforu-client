@@ -155,13 +155,11 @@ declare global {
 		Creator = 'creator',
 	}
 
-	type AssetType = 'image' | 'video';
-
-	type Image = 'image';
-	type Video = 'video';
 
 	/** Front end types */
 	type AlertType = 'success' | 'info' | 'warning' | 'error';
+	type AssetType = 'image' | 'video';
+	type LocalFileStatus = 'init' | 'uploading' | 'canceled' | 'complete' | 'error';
 
 	type Alert = {
 		id: number;
@@ -169,9 +167,6 @@ declare global {
 		message: string;
 		removecallback: Timeout | null;
 	}
-
-
-	type LocalFileStatus = 'init' | 'uploading' | 'canceled' | 'complete' | 'error';
 
 	interface LocalFileInfo {
 		local_id: string;
@@ -189,7 +184,7 @@ declare global {
 
 }
 
-/** End base type declarations */
+
 
 
 export { };
