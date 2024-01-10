@@ -28,12 +28,20 @@
 				alerts.newAlert('Could not load file', 'error');
 			});
 	};
+
+	/**
+	 * Remove a file from attached files list by its local_id
+	 * @param {string} id - local_id of file to remove
+	 */
+	const handleRemoveFile = (id) => {
+		filesAttached = filesAttached.filter((file) => file.local_id !== id);
+	};
 </script>
 
 <div class="flex flex-col justify-between py-2 mx-2 gap-4">
 	<div class="h-full flex gap-4 w-full overflow-x-scroll bg-zinc-900 rounded-t-md mt-4">
 		{#each filesAttached as file (file.local_id)}
-			<UploadingFile {file} />
+			<UploadingFile on:remove={(e) => handleRemoveFile(e.detail)} {file} />
 		{/each}
 	</div>
 	<div class="relative">
