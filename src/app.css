@@ -40,7 +40,8 @@
 }
 
 #file-uploader::-webkit-scrollbar {
-  width: 0.75rem;
+  width: 0.5rem;
+  height: 0.5rem;
 }
 
 
