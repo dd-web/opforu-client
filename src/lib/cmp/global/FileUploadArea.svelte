@@ -39,14 +39,14 @@
 </script>
 
 <div class="flex flex-col justify-between py-2 mx-2 gap-4">
-	<div class="h-full flex gap-4 w-full overflow-x-scroll bg-zinc-900 rounded-t-md mt-4">
+	<div id="file-uploader" class="h-full flex gap-4 w-full overflow-x-scroll bg-zinc-900 rounded-t-md mt-4 px-4">
 		{#each filesAttached as file (file.local_id)}
 			<UploadingFile on:remove={(e) => handleRemoveFile(e.detail)} {file} />
 		{/each}
 	</div>
 	<div class="relative">
 		{#if filesAttached.length < 9}
-			<label class="block h-20 rounded-xl outline-dashed outline-2 outline-zinc-700">
+			<label class="block h-16 rounded-xl outline-dashed outline-2 outline-zinc-700">
 				<input
 					bind:this={inputEl}
 					bind:files

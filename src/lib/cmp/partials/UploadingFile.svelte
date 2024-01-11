@@ -5,6 +5,7 @@
 
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 	import EllipsisVertical from '$lib/icons/EllipsisVertical.svelte';
+	import FileSizeFormatter from '../global/FileSizeFormatter.svelte';
 
 	/** @type {LocalFileInfo?=} */ export let file;
 
@@ -12,9 +13,11 @@
 </script>
 
 {#if file}
-	<div class="max-w-[12rem] bg-zinc-800 px-2 flex flex-col">
-		<div class="flex p-2 gap-2 items-center justify-between relative">
-			<span class="block whitespace-nowrap overflow-hidden text-ellipsis">{file.name}</span>
+	<div class="max-w-[12rem] bg-zinc-800 px-2 flex flex-col mb-4">
+		<div class="flex px-2 pt-2 gap-2 items-center justify-between relative">
+			<span title={file.name} class="block whitespace-nowrap overflow-hidden text-ellipsis text-blue-100 text-sm"
+				>{file.name}</span
+			>
 			<CircularIconBtn on:click={() => (contextMenuVisible = true)}>
 				<EllipsisVertical />
 			</CircularIconBtn>
@@ -33,6 +36,12 @@
 					<!-- <button type="button" class="btn-generic bg-zinc-700 px-2 text-sm py-1 w-full">Set description </button> -->
 				</div>
 			{/if}
+		</div>
+		<div class="flex justify-between items-center px-2">
+			<span class="text-xs italic text-zinc-400">{file?.file?.type}</span>
+			<span class="text-xs text-zinc-400">
+				<FileSizeFormatter size={file?.file?.size} />
+			</span>
 		</div>
 
 		<img class="max-h-32 m-auto" src={file.poster} alt={file.name} />
