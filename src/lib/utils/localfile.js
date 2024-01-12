@@ -17,6 +17,7 @@ export async function resolveFileInfo(file) {
     /** @type {LocalFileInfo} */
     let info = {
       local_id: nanoid(),
+      description: '',
       name: file.name,
       status: 'init',
       type: resolveFileTypeFromFile(file),

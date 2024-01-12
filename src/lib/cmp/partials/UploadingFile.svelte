@@ -7,10 +7,40 @@
 	import EllipsisVertical from '$lib/icons/EllipsisVertical.svelte';
 	import FileSizeFormatter from '../global/FileSizeFormatter.svelte';
 
+	import Modal from '../layout/Modal.svelte';
+
 	/** @type {LocalFileInfo?=} */ export let file;
 
 	let contextMenuVisible = false;
+	let modalVisible = false;
+	let descriptText = file?.description ?? '';
+
+	/** Description save handler */
+	const handleSaveDescription = () => {
+		dispatch('update', { ...file, description: descriptText });
+		modalVisible = false;
+	};
+
+	/** Description cancel handler */
+	const handleCancelDescription = () => {
+		descriptText = file?.description ?? '';
+		modalVisible = false;
+	};
 </script>
+
+{#if modalVisible}
+	<Modal handleClickOutside={handleCancelDescription} bind:visible={modalVisible}>
+		<div class="flex flex-col">
+			<label for="desscription">Set description</label>
+			<input bind:value={descriptText} id="description" name="description" type="text" />
+		</div>
+		<div class="flex justify-between mt-4">
+			<button type="button" class="btn-primary px-2 py-1 hover:text-white" on:click={handleSaveDescription}>Save</button
+			>
+			<button type="button" class="btn-generic bg-zinc-700 px-2 py-1" on:click={handleCancelDescription}>Cancel</button>
+		</div>
+	</Modal>
+{/if}
 
 {#if file}
 	<div class="max-w-[12rem] bg-zinc-800 px-2 flex flex-col mb-4">
@@ -33,7 +63,12 @@
 						class="btn-generic bg-zinc-700 px-2 text-sm py-1 w-full"
 						on:click={() => dispatch('remove', file?.local_id)}>Remove</button
 					>
-					<!-- <button type="button" class="btn-generic bg-zinc-700 px-2 text-sm py-1 w-full">Set description </button> -->
+					<button
+						type="button"
+						class="btn-generic bg-zinc-700 px-2 text-sm py-1 w-full"
+						on:click={() => (modalVisible = true)}
+						>Set description
+					</button>
 				</div>
 			{/if}
 		</div>

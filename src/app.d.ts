@@ -172,6 +172,7 @@ declare global {
 		local_id: string;
 		name: string;
 		status: LocalFileStatus;
+		description: string;
 		progress: number;
 		file: File?;
 		width: number;

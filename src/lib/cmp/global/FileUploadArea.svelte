@@ -10,8 +10,11 @@
 
 	$: console.log('files attached', filesAttached);
 
+	/**
+	 * Handles file input change events and resolves file info for each file
+	 * @returns {Promise<void>}
+	 */
 	const handleFiles = async () => {
-		console.log('file list:', files);
 		if (files.length === 0) return;
 		if (files.length + filesAttached.length > 9) {
 			console.log('cannot attach more than 9 files');
@@ -32,16 +35,30 @@
 	/**
 	 * Remove a file from attached files list by its local_id
 	 * @param {string} id - local_id of file to remove
+	 * @returns {void}
 	 */
 	const handleRemoveFile = (id) => {
 		filesAttached = filesAttached.filter((file) => file.local_id !== id);
+	};
+
+	/**
+	 * Update a file in attached files list
+	 * @param {LocalFileInfo} file - updated file
+	 * @returns {void}
+	 */
+	const handleUpdateFile = (file) => {
+		filesAttached = filesAttached.map((f) => (f.local_id === file.local_id ? file : f));
 	};
 </script>
 
 <div class="flex flex-col justify-between py-2 mx-2 gap-4">
 	<div id="file-uploader" class="h-full flex gap-4 w-full overflow-x-scroll bg-zinc-900 rounded-t-md mt-4 px-4">
 		{#each filesAttached as file (file.local_id)}
-			<UploadingFile on:remove={(e) => handleRemoveFile(e.detail)} {file} />
+			<UploadingFile
+				on:remove={(e) => handleRemoveFile(e.detail)}
+				on:update={(e) => handleUpdateFile(e.detail)}
+				{file}
+			/>
 		{/each}
 	</div>
 	<div class="relative">
