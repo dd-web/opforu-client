@@ -178,7 +178,9 @@ declare global {
 		width: number;
 		height: number;
 		type?: AssetType?;
+		signal?: AbortSignal?;
 		poster?: string?;
+		uploaded: boolean;
 	}
 
 

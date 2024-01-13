@@ -1,8 +1,9 @@
 <script>
 	import { alerts } from '$lib/stores/alerts';
+	import { resolveFileInfo, createFormDataFromFileInfo, uploadFileInfo } from '$lib/utils/localfile';
+	// import { newFileStore } from '$lib/stores/files';
 
 	import UploadingFile from '../partials/UploadingFile.svelte';
-	import { resolveFileInfo } from '$lib/utils/localfile';
 
 	/** @type {HTMLInputElement} */ let inputEl;
 	/** @type {FileList} */ let files;
@@ -29,6 +30,15 @@
 			.catch((error) => {
 				console.log('file promise error:', error);
 				alerts.newAlert('Could not load file', 'error');
+			})
+			.finally(() => {
+				for (const file of filesAttached) {
+					if (file.uploaded) continue;
+					const formData = createFormDataFromFileInfo(file);
+					uploadFileInfo(formData, '?/fileUpload').then((res) => {
+						console.log('upload file resp:', res);
+					});
+				}
 			});
 	};
 

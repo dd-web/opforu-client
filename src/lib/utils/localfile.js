@@ -17,10 +17,12 @@ export async function resolveFileInfo(file) {
     /** @type {LocalFileInfo} */
     let info = {
       local_id: nanoid(),
+      uploaded: false,
       description: '',
       name: file.name,
       status: 'init',
       type: resolveFileTypeFromFile(file),
+      signal: null,
       progress: 0,
       file: file,
       width: 0,
@@ -129,4 +131,38 @@ async function processVideoFileInfo(fileInfo) {
 
     shadow.src = url;
   })
+}
+
+/**
+ * Upload file to server based on local file info object
+ * @param {FormData} form - form data object
+ */
+export async function uploadFileInfo(form, url = '/api/upload') {
+  return new Promise((resolve, reject) => {
+    fetch(url, { method: 'POST', body: form }).then((res) => {
+      console.log('upload res:', res);
+      resolve(res)
+    }).catch((err) => {
+      console.log('upload err:', err);
+      reject(err)
+    })
+  })
+
+}
+
+/**
+ * Creates and returns a new FormData object from a local file info object
+ * @param {LocalFileInfo} fileInfo - local file info object
+ * @returns {FormData} - form data object
+ */
+export function createFormDataFromFileInfo(fileInfo) {
+  const formData = new FormData();
+  formData.append('file', fileInfo?.file ?? new Blob());
+  formData.append('name', fileInfo?.name ?? '');
+  formData.append('description', fileInfo?.description ?? '');
+  formData.append('type', fileInfo?.type ?? '');
+  formData.append('width', String(fileInfo?.width) ?? '0');
+  formData.append('height', String(fileInfo?.height) ?? '0');
+  formData.append('local_id', fileInfo?.local_id ?? '');
+  return formData;
 }

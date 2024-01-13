@@ -22,3 +22,16 @@ export async function load({ fetch, params, url, cookies, locals }) {
   }
 }
 
+/** @type {import('./$types').Actions} */
+export const actions = {
+  /**
+   * File upload should handle a single file upload, ensuring it's hash is unique.
+   * This should return either the existing file's ID or the new saved file's ID.
+   * This way we can handle all file uploads the same way.
+   */
+  fileUpload: async function ({ request, fetch, locals }) {
+    const formData = await request.formData();
+    const file = formData?.get("file");
+    console.log('FILE UPLOAD:', { file: file, formData: formData });
+  }
+}

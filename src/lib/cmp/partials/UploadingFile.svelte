@@ -15,6 +15,7 @@
 	let contextMenuVisible = false;
 	let modalVisible = false;
 	let descriptText = file?.description ?? '';
+	let uploadStatus = file?.status ?? 'init';
 
 	/** Description save handler */
 	const handleSaveDescription = () => {
