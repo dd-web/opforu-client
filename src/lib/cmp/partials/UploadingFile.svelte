@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { clickoutside } from '$lib/actions/clickoutside';
+	import { autofocus } from '$lib/actions/autofocus';
 	const dispatch = createEventDispatcher();
 
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
@@ -19,12 +20,20 @@
 	const handleSaveDescription = () => {
 		dispatch('update', { ...file, description: descriptText });
 		modalVisible = false;
+		contextMenuVisible = false;
 	};
 
 	/** Description cancel handler */
 	const handleCancelDescription = () => {
 		descriptText = file?.description ?? '';
 		modalVisible = false;
+		contextMenuVisible = false;
+	};
+
+	/** Context menu handler for description modal */
+	const handleShowDescriptionModal = () => {
+		modalVisible = true;
+		contextMenuVisible = false;
 	};
 </script>
 
@@ -32,7 +41,15 @@
 	<Modal handleClickOutside={handleCancelDescription} bind:visible={modalVisible}>
 		<div class="flex flex-col">
 			<label for="desscription">Set description</label>
-			<input bind:value={descriptText} id="description" name="description" type="text" />
+			<input
+				use:autofocus
+				on:keypress={(/** @type {KeyboardEvent} */ e) => e.key === 'Enter' && handleSaveDescription()}
+				bind:value={descriptText}
+				on:submit={() => console.log('submitted')}
+				id="description"
+				name="description"
+				type="text"
+			/>
 		</div>
 		<div class="flex justify-between mt-4">
 			<button type="button" class="btn-primary px-2 py-1 hover:text-white" on:click={handleSaveDescription}>Save</button
@@ -66,7 +83,7 @@
 					<button
 						type="button"
 						class="btn-generic bg-zinc-700 px-2 text-sm py-1 w-full"
-						on:click={() => (modalVisible = true)}
+						on:click={handleShowDescriptionModal}
 						>Set description
 					</button>
 				</div>

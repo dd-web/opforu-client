@@ -39,7 +39,7 @@
 
 				<FileUploadArea />
 			</div>
-			<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold">Post</button>
+			<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold m-2">Post</button>
 		</form>
 	{/if}
 
