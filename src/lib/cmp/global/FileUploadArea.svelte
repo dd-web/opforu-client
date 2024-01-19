@@ -36,6 +36,7 @@
 					if (file.uploaded) continue;
 					const formData = createFormDataFromFileInfo(file);
 					uploadFileInfo(formData, '?/fileUpload').then((res) => {
+						handleUpdateFile({ ...file, uploaded: true });
 						console.log('upload file resp:', res);
 					});
 				}

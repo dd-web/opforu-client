@@ -137,7 +137,7 @@ async function processVideoFileInfo(fileInfo) {
  * Upload file to server based on local file info object
  * @param {FormData} form - form data object
  */
-export async function uploadFileInfo(form, url = '/api/upload') {
+export async function uploadFileInfo(form, url = '?/fileUpload') {
   return new Promise((resolve, reject) => {
     fetch(url, { method: 'POST', body: form }).then((res) => {
       console.log('upload res:', res);
