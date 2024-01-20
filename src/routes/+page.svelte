@@ -24,9 +24,7 @@
 		<p class="my-2 leading-6 tracking-wider">
 			Anonymity introduces it's own set of issues however. <span class="text-blue-200">OPforU</span> aims to design a platform
 			that mitigates these issues without creating subversive systems that can be abused. This is a finely tuned line that
-			must be continually monitored and iterated upon to improve. While we understand this may seem vague, we want to avoid
-			providing information that could be used to abuse the system. More information will be provided in time as we improve
-			the platform.
+			must be continually monitored and iterated upon. More information will be provided in time as we improve the platform.
 		</p>
 	</div>
 </div>
