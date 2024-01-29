@@ -170,6 +170,7 @@ declare global {
 
 	interface LocalFileInfo {
 		local_id: string;
+		source_id: string?;
 		name: string;
 		status: LocalFileStatus;
 		description: string;

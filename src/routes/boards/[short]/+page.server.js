@@ -31,17 +31,14 @@ export const actions = {
    */
   fileUpload: async function ({ request, fetch, locals }) {
     const formData = await request.formData();
-    const file = formData?.get("file");
-    console.log('FILE UPLOAD:', { file: file, formData: formData });
     const data = await fetch('http://localhost:3001/api/assets', {
       method: 'POST',
       body: formData
-    }).then((resp) => resp.json());
-
-    console.log('File Upload Response (back end):', data);
+    }).then(resp => resp.json());
 
     return {
-      asset: data
+      local_id: data?.local_id ?? '',
+      source_id: data?.source_id ?? ''
     }
   }
 }

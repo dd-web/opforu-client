@@ -1,7 +1,6 @@
 <script>
 	import { alerts } from '$lib/stores/alerts';
 	import { resolveFileInfo, createFormDataFromFileInfo, uploadFileInfo } from '$lib/utils/localfile';
-	// import { newFileStore } from '$lib/stores/files';
 
 	import UploadingFile from '../partials/UploadingFile.svelte';
 
@@ -36,7 +35,7 @@
 					if (file.uploaded) continue;
 					const formData = createFormDataFromFileInfo(file);
 					uploadFileInfo(formData, '?/fileUpload').then((res) => {
-						handleUpdateFile({ ...file, uploaded: true });
+						handleUpdateFile({ ...file, source_id: String(res?.source_id), uploaded: true });
 						console.log('upload file resp:', res);
 					});
 				}

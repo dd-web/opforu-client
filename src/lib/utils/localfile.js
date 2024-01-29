@@ -1,4 +1,5 @@
 
+import { deserialize } from '$app/forms';
 import { nanoid } from 'nanoid'
 
 /**
@@ -17,6 +18,7 @@ export async function resolveFileInfo(file) {
     /** @type {LocalFileInfo} */
     let info = {
       local_id: nanoid(),
+      source_id: null,
       uploaded: false,
       description: '',
       name: file.name,
@@ -136,16 +138,18 @@ async function processVideoFileInfo(fileInfo) {
 /**
  * Upload file to server based on local file info object
  * @param {FormData} form - form data object
+ * @returns {Promise<Record<string, unknown> | undefined>} - response object
  */
 export async function uploadFileInfo(form, url = '?/fileUpload') {
   return new Promise((resolve, reject) => {
-    fetch(url, { method: 'POST', body: form }).then((res) => {
-      console.log('upload res:', res);
-      resolve(res)
-    }).catch((err) => {
-      console.log('upload err:', err);
-      reject(err)
-    })
+    fetch(url, { method: 'POST', body: form })
+      .then((res) => res.text())
+      .then(res => deserialize(res))
+      .then(res => {
+        if (res?.type === "success") {
+          resolve(res?.data)
+        }
+      })
   })
 
 }
