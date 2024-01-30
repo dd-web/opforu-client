@@ -1,12 +1,12 @@
 # OPforU Client
 
-Front end code for the OPforU project. Includes an intermediate back end for SSR and other benefits.
+Sveltekit client server
 
 ## Setup
 
-Check the opforu-server [`readme`](https://github.com/dd-web/opforu-server/blob/master/README.md) for information on starting the API server locally. it must be running in order to start the client locally.
+Check the opforu-server [`readme`](https://github.com/dd-web/opforu-server/blob/master/README.md) for information on starting the service server. it must be running in order for the client to make any requests.
 
-Once you've setup the API server and have it running, install the client dependencies with `npm install` and start the development server:
+Once the service server is up and running install the dependencies with `npm install` and start the sveltekit development server.
 
 ```bash
 npm run dev
@@ -19,7 +19,3 @@ To create a production build of the client you can run:
 ```bash
 npm run build
 ```
-
-## Icons
-
-Icons should be from fontawesome
