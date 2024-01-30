@@ -11,7 +11,7 @@ export async function load({ locals }) {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-  login: async ({ cookies, request, locals }) => {
+  login: async ({ cookies, request, locals, fetch }) => {
     const data = await request.formData();
 
     const username = data.get('username')

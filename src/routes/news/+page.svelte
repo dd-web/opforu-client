@@ -8,7 +8,7 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	$: if (browser) console.log('root +page.svelte', data);
+	// $: if (browser) console.log('root +page.svelte', data);
 </script>
 
 <svelte:head>

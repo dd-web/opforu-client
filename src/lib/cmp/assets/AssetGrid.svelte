@@ -37,7 +37,6 @@
 	};
 
 	const resetAssetFocus = () => {
-		console.log('resetAssetFocus');
 		focusedAsset = null;
 	};
 </script>

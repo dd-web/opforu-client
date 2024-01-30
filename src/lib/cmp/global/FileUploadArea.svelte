@@ -6,9 +6,7 @@
 
 	/** @type {HTMLInputElement} */ let inputEl;
 	/** @type {FileList} */ let files;
-	/** @type {LocalFileInfo[]} */ let filesAttached = [];
-
-	$: console.log('files attached', filesAttached);
+	/** @type {LocalFileInfo[]} */ export let filesAttached = [];
 
 	/**
 	 * Handles file input change events and resolves file info for each file
@@ -17,7 +15,6 @@
 	const handleFiles = async () => {
 		if (files.length === 0) return;
 		if (files.length + filesAttached.length > 9) {
-			console.log('cannot attach more than 9 files');
 			alerts.newAlert('Too many files. Total must be 9 or fewer.', 'warning');
 			return;
 		}
@@ -27,7 +24,6 @@
 				filesAttached = [...filesAttached, ...fileInfoValues];
 			})
 			.catch((error) => {
-				console.log('file promise error:', error);
 				alerts.newAlert('Could not load file', 'error');
 			})
 			.finally(() => {
@@ -36,7 +32,6 @@
 					const formData = createFormDataFromFileInfo(file);
 					uploadFileInfo(formData, '?/fileUpload').then((res) => {
 						handleUpdateFile({ ...file, source_id: String(res?.source_id), uploaded: true });
-						console.log('upload file resp:', res);
 					});
 				}
 			});

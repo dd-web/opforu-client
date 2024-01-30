@@ -16,12 +16,16 @@
 		previewAvatarPlayBacksplashEl.style.width = `${width + 1}px`;
 		previewAvatarPlayBacksplashEl.style.height = `${height + 1}px`;
 	};
+
+	/**
+	 * @TODO !!! This is using Source for Avatar previews currently because making avatars is not yet implemented.
+	 */
 </script>
 
 <div class="relative flex max-h-full max-w-full justify-center items-center">
 	<img
 		class="object-contain max-h-full max-w-full"
-		src={asset.avatar.url}
+		src={asset.source.url}
 		alt={asset.file_name}
 		on:error={() => dispatch('had-error')}
 		on:load={resizeBacksplash}

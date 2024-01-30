@@ -46,7 +46,6 @@
 				use:autofocus
 				on:keypress={(/** @type {KeyboardEvent} */ e) => e.key === 'Enter' && handleSaveDescription()}
 				bind:value={descriptText}
-				on:submit={() => console.log('submitted')}
 				id="description"
 				name="description"
 				type="text"

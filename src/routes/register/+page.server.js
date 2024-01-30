@@ -32,7 +32,7 @@ export const actions = {
     });
 
     const registerResult = await registerRequest.json();
-    console.log('register result', registerResult);
+    // console.log('register result', registerResult);
 
     if (registerRequest.ok) {
       cookies.set('session', registerResult.session.session_id, { httpOnly: true, path: '/' });

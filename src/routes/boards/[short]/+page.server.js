@@ -40,5 +40,30 @@ export const actions = {
       local_id: data?.local_id ?? '',
       source_id: data?.source_id ?? ''
     }
+  },
+
+  /**
+   * New thread should take the title and body of the thread, as well as 
+   * an array of the assets details that are attached to the thread. Asset details
+   * contain information such as the source_id, and any fields the user could have set,
+   * such as the title or description.
+   */
+  newThread: async function ({ request, params, fetch }) {
+    const formData = await request.formData();
+
+    const title = formData.get('title');
+    const content = formData.get('content');
+    const assets = JSON.parse(String(formData.get('assets'))) // must be parsed or encoding will be wrong
+
+    const body = await JSON.stringify({ title, content, assets })
+
+    const data = await fetch(`http://localhost:3001/api/boards/${params.short}`, {
+      method: 'POST',
+      body,
+    }).then(resp => resp.json());
+
+    return {
+      thread_id: data?.thread_id ?? ''
+    }
   }
 }

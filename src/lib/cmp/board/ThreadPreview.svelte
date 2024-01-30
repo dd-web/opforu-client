@@ -9,7 +9,7 @@
 
 	/** @type {Thread} */ export let thread;
 
-	$: if (browser) console.log('thread', thread);
+	// $: if (browser) console.log('thread', thread);
 </script>
 
 <article id="thread-{$page.params.short}-{thread.slug}" class="bg-zinc-900 rounded-md">

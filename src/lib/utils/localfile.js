@@ -170,3 +170,30 @@ export function createFormDataFromFileInfo(fileInfo) {
   formData.append('local_id', fileInfo?.local_id ?? '');
   return formData;
 }
+
+/**
+ * Creates and returns a new AttachedFileData object from a local file info object
+ * @param {LocalFileInfo} fileInfo local file info object
+ * @param {string[]=} tags - array of strings (tags) that describe the file
+ * @returns {Partial<AttachedFileData>}
+ */
+export function createFileAttachmentData(fileInfo, tags) {
+  /** @type {Partial<AttachedFileData>} */let obj = {
+    source_id: fileInfo?.source_id ?? '',
+    file_name: fileInfo?.name ?? '',
+  }
+
+  if (fileInfo?.description && typeof fileInfo?.description === 'string' && fileInfo?.description.length > 0) {
+    obj['description'] = fileInfo.description
+  }
+
+  if (fileInfo?.name && typeof fileInfo?.name === 'string' && fileInfo?.name.length > 0) {
+    obj['file_name'] = fileInfo.name
+  }
+
+  if (tags && Array.isArray(tags) && tags.length > 0) {
+    obj['tags'] = tags
+  }
+
+  return obj;
+}

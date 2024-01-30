@@ -16,7 +16,7 @@
 		.join(' ')
 		.replace('undefined', '')}`;
 
-	$: if (browser) console.log('data (thread)', data, threadTitle);
+	// $: if (browser) console.log('data (thread)', data, threadTitle);
 </script>
 
 <svelte:head>
