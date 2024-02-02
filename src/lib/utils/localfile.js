@@ -93,6 +93,7 @@ async function processImageFileInfo(fileInfo) {
     /** Onerror handler */
     shadow.onerror = () => reject('Image processing failed');
 
+    /** Set source and load */
     shadow.src = url;
   });
 }
@@ -131,6 +132,7 @@ async function processVideoFileInfo(fileInfo) {
     /** Onerror handler */
     shadow.onerror = () => reject('Video processing failed');
 
+    /* Set source and load */
     shadow.src = url;
   })
 }
@@ -146,8 +148,16 @@ export async function uploadFileInfo(form, url = '?/fileUpload') {
       .then((res) => res.text())
       .then(res => deserialize(res))
       .then(res => {
-        if (res?.type === "success") {
-          resolve(res?.data)
+        switch (res?.type) {
+          case "success":
+            resolve(res?.data);
+            break;
+          case "error":
+            reject(res?.error);
+            break;
+          default:
+            reject(res?.status)
+            break;
         }
       })
   })
