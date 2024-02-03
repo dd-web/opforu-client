@@ -98,7 +98,7 @@
 		{/await}
 		<div in:fade out:fade class="z-10 w-full absolute top-0 flex justify-between pt-2 px-4">
 			<span />
-			<CircularIconBtn on:click={resetAssetFocus}>
+			<CircularIconBtn class="mt-1" on:click={resetAssetFocus}>
 				<XMark />
 			</CircularIconBtn>
 		</div>

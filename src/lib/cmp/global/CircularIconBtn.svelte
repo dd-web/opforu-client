@@ -2,13 +2,16 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
+	/** @type {string} */ let css = '';
+	/** @type {string} */ export { css as class };
+
 	/** @type { "button" | "submit" | "reset" } */ export let buttonType = 'button';
 </script>
 
 <button
 	type={buttonType}
 	on:click={() => dispatch('click')}
-	class="group outline-none relative fill-zinc-400 hover:fill-zinc-200 active:scale-95 active:opacity-50 transition-all duration-150"
+	class="{css} group outline-none relative fill-zinc-400 hover:fill-zinc-200 active:scale-95 active:opacity-50 transition-all duration-150"
 >
 	<slot />
 	<span

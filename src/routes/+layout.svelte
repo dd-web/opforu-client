@@ -17,7 +17,7 @@
 	<Topbar account={data.account} />
 	<div id="app-content">
 		<Sidebar boards={data.boards} />
-		<main class="mx-auto max-w-[80%]">
+		<main class="w-full">
 			<slot />
 		</main>
 	</div>
