@@ -1,11 +1,11 @@
 <script>
 	import { goto, invalidateAll } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
+	import { createFileAttachmentData } from '$lib/utils/localfile';
 
 	import ThreadPreview from '$lib/cmp/board/ThreadPreview.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
 	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
-	import { createFileAttachmentData } from '$lib/utils/localfile';
 
 	/** @type {import('./$types').PageData} */ export let data;
 	/** @type {import('./$types').ActionData }*/ export let form;

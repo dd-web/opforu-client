@@ -4,9 +4,11 @@
 
 	import UploadingFile from '../partials/UploadingFile.svelte';
 
+	/** @type {LocalFileInfo[]} */ export let filesAttached = [];
+	/** @type {string} */ export let uploadPath = '?/fileUpload';
+
 	/** @type {HTMLInputElement} */ let inputEl;
 	/** @type {FileList} */ let files;
-	/** @type {LocalFileInfo[]} */ export let filesAttached = [];
 
 	/**
 	 * Handles file input change events and resolves file info for each file
@@ -30,7 +32,7 @@
 				for (const file of filesAttached) {
 					if (file.uploaded) continue;
 					const formData = createFormDataFromFileInfo(file);
-					uploadFileInfo(formData, '?/fileUpload').then((res) => {
+					uploadFileInfo(formData, uploadPath).then((res) => {
 						handleUpdateFile({ ...file, source_id: String(res?.source_id), uploaded: true });
 					});
 				}
