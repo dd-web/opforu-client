@@ -21,29 +21,34 @@
 	/** @type {Post[]} */ let embedded = [];
 	/** @type {HTMLElement}*/ let element;
 
+	$: html = content
+		.split('\n')
+		.map((line) => `<p>${line}</p>`)
+		.join('');
+
 	/**
 	 * @TODO should get the post/thread and add it to the array for displaying
 	 * Handler for post link events
 	 * @param {CustomEvent} event
 	 */
-	const handlePostLinkEvent = (event) => {
-		console.log('External post link:', event.detail);
-	};
+	function handlePostLinkEvent(event) {
+		console.log('post link:', event.detail);
+	}
 
 	onMount(() => {
 		const linkElements = element.querySelectorAll('button.post-link');
-		[...linkElements].forEach((btnEl) => {
-			const postLinkParams = resolvePostLinkEvent(btnEl, $page.params.short, $page.params.thread);
-
+		[...linkElements].forEach((button) => {
 			let cmp = new PostLink({
-				target: btnEl,
+				target: button,
 				props: {
-					postLinkData: postLinkParams
+					postLinkData: resolvePostLinkEvent(button, $page?.params?.short, $page?.params?.thread)
 				}
 			});
 
 			cmp.$on('post-link', handlePostLinkEvent);
 			cmp.$inject_state;
+
+			button.replaceWith(button.querySelector('button') ?? new Node());
 		});
 	});
 </script>
@@ -55,7 +60,7 @@
 	</slot>
 
 	<slot name="body">
-		<PostBody {assets} {content} />
+		<PostBody {assets} content={html} />
 	</slot>
 
 	<hr class="hr-split hidden" class:block={embedded.length > 0} />

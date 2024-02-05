@@ -7,51 +7,52 @@
  * @returns {PostLinkData}
  */
 export function resolvePostLinkEvent(node, board, thread) {
+  const type = resolveLinkType(node)
   const text = node.textContent ?? "";
   const arr = text.split('/');
 
   /** @type {PostLinkData} */
-  let obj = {
+  const obj = {
     board: board,
     thread: thread,
     post_number: 0,
-    link_type: 'post-internal-thread'
+    link_type: type
   }
 
-  if (isSameThreadLink(arr)) {
-    obj.post_number = parseInt(arr[0]);
-    return obj;
+  switch (type) {
+    case 'post-internal-thread':
+      obj.post_number = parseInt(text);
+      break;
+    case 'thread-internal-board':
+      obj.thread = text;
+      break;
+    case 'post-internal-board':
+      obj.thread = arr[0];
+      obj.post_number = parseInt(arr[1]);
+      break;
+    case 'thread-external-board':
+      obj.board = arr[0];
+      obj.thread = arr[1];
+      break;
+    case 'post-external-board':
+      obj.board = arr[0];
+      obj.thread = arr[1];
+      obj.post_number = parseInt(arr[2]);
+      break;
   }
-
-  if (isSameBoardLink(arr)) {
-    obj.thread = arr[0];
-    obj.link_type = arr.length === 1 ? 'thread-internal-board' : 'post-internal-board';
-    obj.post_number = arr.length === 1 ? 0 : parseInt(arr[1]);
-    return obj;
-  }
-
-  obj.board = arr[0]
-  obj.thread = arr[1];
-  obj.post_number = arr.length > 2 ? parseInt(arr[2]) : 0;
-  obj.link_type = arr.length > 2 ? 'post-external-board' : 'thread-external-board';
 
   return obj;
 }
 
 /**
- * @param {Array<any>} arr 
- * @returns {boolean} if the provided array has structure for same thread links
+ * Resolves post link type from node
+ * @param {Element} node - parsed DOM node
+ * @returns {PostLinkType} - resolved post link type
  */
-const isSameThreadLink = (arr) => {
-  return arr && arr.length === 1 && !isNaN(parseInt(arr[0]))
-}
-
-
-/**
- * @param {Array<any>} arr 
- * @returns {boolean} if the provided array has structure pointing to same board links
- */
-const isSameBoardLink = (arr) => {
-  return arr && arr.length === 1 ? true
-    : arr.length > 2 ? false : !isNaN(parseInt(arr[1]))
+function resolveLinkType(node) {
+  if (node.classList.contains('post-internal-thread')) return 'post-internal-thread';
+  if (node.classList.contains('thread-internal-board')) return 'thread-internal-board'
+  if (node.classList.contains('post-internal-board')) return 'post-internal-board'
+  if (node.classList.contains('thread-external-board')) return 'thread-external-board'
+  return 'post-external-board'
 }

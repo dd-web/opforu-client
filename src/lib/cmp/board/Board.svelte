@@ -9,8 +9,6 @@
 <section class="mt-8 mb-4 flex flex-col gap-4">
 	{#each threads as thread (thread._id)}
 		<Post
-			{board}
-			{thread}
 			elementId="board-{board.short}-{thread.slug}"
 			assets={thread.assets}
 			content={thread.body}
@@ -45,19 +43,3 @@
 		<div>No threads found</div>
 	{/each}
 </section>
-<!-- <h3
-class="text-xl font-semibold mx-2 whitespace-nowrap overflow-hidden text-ellipsis capitalize w-full text-blue-50 hover:text-blue-200 focus-within:underline underline-offset-4 focus-within:text-blue-200 outline-none"
->
-<a class="outline-none" href="/boards/{$page.params.short}/{thread.slug}">{thread.title}</a>
-</h3>
-<div class="whitespace-nowrap">
-<span class="text-sm text-zinc-500">
-  <span class="italic text-zinc-400">{thread.post_count}</span>
-  Posts
-</span>
-<span class="text-zinc-500 mx-2">|</span>
-<span class="text-sm text-zinc-500">
-  <span class="italic text-zinc-400">{thread.mods.length}</span>
-  Mod{thread.mods.length > 1 ? 's' : ''}
-</span>
-</div> -->
