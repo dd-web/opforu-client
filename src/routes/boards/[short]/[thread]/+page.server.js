@@ -35,11 +35,8 @@ export const actions = {
       body,
     }).then(resp => resp.json());
 
-    console.log('DATA (reply resp):', data)
-
     return {
       post_number: data?.post_number ?? 0
-      // post_number: 0
     }
 
   }

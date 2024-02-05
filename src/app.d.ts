@@ -168,97 +168,46 @@ declare global {
 		removecallback: Timeout | null;
 	}
 
+	/** Local data structure only */
 	interface LocalFileInfo {
-		/**
-		 * Local ID is a unique ID on the client side used to ensure we're updating the
-		 * same file once it's uploaded. The server will send back the same ID as well
-		 * as the source_id when processing the file.
-		 */
-		local_id: string;
-
-		/**
-		 * Source ID is the ID of the matching AssetSource on the server. It's received
-		 * after the file is uploaded (before form submission) and is sent along again
-		 * when the post/thread form is submitted in an array of AttachedFileData.
-		 */
-		source_id: string?;
-
-		/**
-		 * Name is the name of the file on the client's side when they selected it.
-		 */
-		name: string;
-
-		/**
-		 * Status determines the current stage of processing the file is in.
-		 * this determines many things such as when it can be previewed, uploaded, etc.
-		 */
-		status: LocalFileStatus;
-
-		/**
-		 * If the client wishes to enter a description for the file, they can do it here.
-		 */
-		description: string;
-
-		/**
-		 * File is the actual file data. Appended to a FormData object and sent to
-		 * the server for processing.
-		 */
-		file: File?;
-
-		/**
-		 * Dimensions of the file. Used for a few things, mostly display purposes.
-		 */
+		local_id: string; // random id for sync between client & server
+		source_id: string?; // updated after a response is received from uploading (AssetSource reference)
+		name: string; // filename on client machine
+		status: LocalFileStatus; // state of file upload process for this file
+		description: string; // client modified
+		file: File?; // actual file data
 		width: number;
 		height: number;
-
-		/**
-		 * Type of asset. Used to determine display behavior, and other details.
-		 */
 		type?: AssetType?;
-
-		/**
-		 * Poster is the local image data used to display the preview.
-		 * It's not ever uploaded or has any other purpose.
-		*/
-		poster?: string?;
-
-		/**
-		 * Uploaded tells us if the file had already been sent to the server
-		 * for processing. If it has, we don't need to send it again.
-		*/
-		uploaded: boolean;
+		poster?: string?; // local image data used by preview display (base64)
+		uploaded: boolean; // skip doing it again
 		signal?: AbortSignal?;
 		progress: number;
 	}
 
-	/**
-	 * File data when it's attached along with a post/thread after it's been uploaded.
-	 */
+	/** Response object of file upload requests */
 	interface AttachedFileData {
-		/**
-		 * Source ID is the ID of the matching AssetSource on the server.
-		 */
-		source_id: string;
-
-		/**
-		 * If the client wishes to enter a description for the file, they can do it here.
-		 */
-		description: string;
-
-		/**
-		 * The client can rename the file to whatever they want, if they wish. otherwise
-		 * the original file name will be used.
-		 */
-		file_name: string;
-
-		/**
-		 * Tags are used to categorize the file. They can be used for searching, filtering, etc.
-		 * They are not required.
-		 */
+		source_id: string; // AssetSource reference
+		description: string; // client modified
+		file_name: string; // client modified
 		tags: string[];
 	}
 
+	type PostDisplayData = TimeStampGroup & {
+		assets: Asset[];
+		body: string;
+		creator: Identity;
+		tags?: string[];
+	}
 
+	type PostLinkType = 'post-internal-thread' | 'thread-internal-board' | 'post-internal-board' | 'thread-external-board' | 'post-external-board';
+
+	interface PostLinkData {
+		link_type: PostLinkType;
+		post_number: number;
+		board: string;
+		thread: string;
+	}
 
 }
 

@@ -11,10 +11,14 @@
 <button
 	type={buttonType}
 	on:click={() => dispatch('click')}
-	class="{css} group outline-none relative fill-zinc-400 hover:fill-zinc-200 active:scale-95 active:opacity-50 transition-all duration-150"
+	class="{css} group outline-none relative text-attention-damp pressure-press"
 >
 	<slot />
-	<span
-		class="group-hover:bg-zinc-500 bg-transparent group-focus-visible:outline outline-1 absolute opacity-20 h-8 w-8 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-	/>
+	<span class="group-hover:bg-zinc-500 group-focus-visible:outline absolute-center" />
 </button>
+
+<style lang="postcss">
+	button > span {
+		@apply bg-transparent outline-1 opacity-20 h-8 w-8 rounded-full;
+	}
+</style>

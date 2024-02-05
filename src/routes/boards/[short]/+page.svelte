@@ -3,7 +3,7 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import { createFileAttachmentData } from '$lib/utils/localfile';
 
-	import ThreadPreview from '$lib/cmp/board/ThreadPreview.svelte';
+	import Board from '$lib/cmp/board/Board.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
 	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
 
@@ -74,13 +74,7 @@
 		</form>
 	{/if}
 
-	<section class="mt-8 mb-4 flex flex-col gap-4">
-		{#each data.threads as thread (thread._id)}
-			<ThreadPreview {thread} />
-		{:else}
-			<p>No Threads Found</p>
-		{/each}
-	</section>
+	<Board board={data?.board} threads={data?.threads} />
 	<Pagination paginator={data.pagination} path="/boards/{data.board.short}/" />
 </div>
 

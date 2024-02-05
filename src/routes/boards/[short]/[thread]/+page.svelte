@@ -3,12 +3,14 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import { createFileAttachmentData } from '$lib/utils/localfile';
 
-	import ThreadContent from '$lib/cmp/thread/ThreadContent.svelte';
-	import PostContent from '$lib/cmp/thread/PostContent.svelte';
+	import Thread from '$lib/cmp/thread/Thread.svelte';
 	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
 
 	/** @type {import('./$types').PageData} */ export let data;
 	/** @type {import('./$types').ActionData }*/ export let form;
+
+	$: console.log('FORM? (thread)', form);
+	$: console.log('thread', data?.thread);
 
 	$: boardTitle = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 	$: threadTitle = `${data.thread.title
@@ -83,14 +85,7 @@
 			<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold m-2">Post</button>
 		</form>
 	{/if}
-
-	<section class="mt-8 mb-4 flex flex-col gap-4">
-		<ThreadContent thread={data.thread} />
-
-		{#each data?.thread?.posts as post (post.post_number)}
-			<PostContent {post} thread={data?.thread} />
-		{/each}
-	</section>
+	<Thread thread={data?.thread} />
 </div>
 
 <style lang="postcss">

@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 
-/**
-  * Globals - Styles that should affect all elements defined, should be low specificity for easier overrides
-  */
+/* Global styles */
 
 * {
   @apply text-zinc-200;
 }
+
 
 input[type="text"] {
   @apply px-2 py-1 rounded-md border-none outline-none ring-2 ring-zinc-600 text-black;
@@ -20,7 +19,7 @@ label {
   @apply mb-1;
 }
 
-
+/* sidebar scroll bars */
 #sidebar:hover::-webkit-scrollbar-thumb {
   @apply bg-zinc-800
 }
@@ -37,6 +36,7 @@ label {
   @apply rounded-full bg-transparent hover:bg-zinc-700;
 }
 
+/* file uploader scroll bars (appears for file previews, horizontal overflow axis) */
 #file-uploader::-webkit-scrollbar-track {
   @apply bg-zinc-900;
 }
@@ -56,25 +56,54 @@ label {
 
 
 
-
-
-/**
-  * Base - Styles that should be more focused on specific elements, but still low specificity
-  */
+/* Base */
 
 @layer base {
+  /* accessability layers */
   .has-hover {
-    @apply motion-reduce:transition-none transition;
+    @apply motion-reduce:transition-none transition-all duration-150;
+  }
+
+  /* base text layers */
+  .text-limit {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+  }
+
+  .text-title {
+    @apply text-xl font-semibold capitalize;
+  }
+
+  .text-attention {
+    @apply text-blue-50; 
+    @apply hover:text-blue-200;
+    @apply focus-visible:text-blue-200;
+  }
+
+  .text-attention-damp {
+    @apply text-zinc-400 fill-zinc-400;
+    @apply hover:text-zinc-200 hover:fill-zinc-200;
+    @apply focus-within:text-zinc-200 focus-within:fill-zinc-200;
+    @apply focus-visible:text-zinc-200 focus-visible:fill-zinc-200;
   }
 
   .link {
     @apply outline-none underline-offset-4;
-    @apply focus-visible:underline;
+    @apply focus-visible:underline focus-within:underline;
   }
 
   .link-primary {
-    @apply link text-blue-100/80 hover:text-blue-200;
+    @apply link text-attention;
   }
+
+
+  /* position / dimension layers */
+  .absolute-center {
+    @apply absolute;
+    @apply top-1/2 left-1/2;
+    @apply -translate-x-1/2 -translate-y-1/2;
+  }
+
+  /* buttons & other mouse over / focus effect layers */
 
   .btn {
     @apply outline-none focus-visible:ring-1 ring-zinc-200;
@@ -95,12 +124,14 @@ label {
     @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:text-opacity-50 disabled:hover:bg-opacity-100;
   }
 
+  .pressure-press {
+    @apply has-hover;
+    @apply active:scale-95 active:opacity-50;
+  }
+
 }
 
-
-/**
-  * Components - Styles that are specific to groups of elements, or elements with a specific purpose
-  */
+/* Components */
 
 @layer components {
   .tag-badge {
@@ -120,19 +151,8 @@ label {
   }
 }
 
-/**
-  * Utilities - Styles that grant utility functions. These should be a bit higher specificity than components and base.
-  * These should be used sparingly
-  */
 
-@layer utilities {
-
-}
-
-
-/**
-  * Include - Styles to target things that can't be compiled because they're dynamic, such as thread posts and replies
-  */
+  /* Forced includes - for dynamic styles that can't be determined at compile time (post contents etc..) */
 
 div.thread-body p {
   @apply my-6 leading-5 tracking-wider font-thin text-base;
