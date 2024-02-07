@@ -19,6 +19,15 @@ label {
   @apply mb-1;
 }
 
+h1.link a, 
+h2.link a, 
+h3.link a, 
+h4.link a, 
+h5.link a, 
+h6.link a {
+  @apply outline-none;
+}
+
 /* sidebar scroll bars */
 #sidebar:hover::-webkit-scrollbar-thumb {
   @apply bg-zinc-800

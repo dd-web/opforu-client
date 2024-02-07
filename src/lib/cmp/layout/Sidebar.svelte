@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import { sidebarStore } from '$lib/stores/layout';
 
 	/** @type {Board[]} */
@@ -12,7 +13,11 @@
 	>
 		<ul class="flex flex-col gap-2 px-8">
 			{#each boards as board}
-				<div id="sb-board" class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2">
+				<div
+					class:current={$page.params.short === board.short}
+					id="sb-board"
+					class="grid grid-cols-[minmax(0,2.5rem)_1fr] items-center group gap-2"
+				>
 					<a class="capitalize link peer" href="/boards/{board.short}">{board.title}</a>
 					<span
 						class="tag-badge group-hover:border-zinc-500 group-hover:text-blue-200 peer-focus-visible:text-blue-200 peer-focus-visible:border-zinc-500"
@@ -33,6 +38,14 @@
 <style lang="postcss">
 	aside {
 		height: calc(100vh - 3rem);
+	}
+
+	.current {
+		@apply text-blue-200;
+	}
+
+	div.current span {
+		@apply text-blue-200 border-zinc-500;
 	}
 
 	#sb-board a {

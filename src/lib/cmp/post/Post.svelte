@@ -86,8 +86,4 @@
 	.embedded {
 		@apply m-4;
 	}
-
-	.base-split {
-		@apply hidden;
-	}
 </style>
