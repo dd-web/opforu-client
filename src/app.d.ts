@@ -41,6 +41,8 @@ declare global {
 	}
 
 	type Article = TimeStampGroup & {
+		assets: Asset[];
+		comments: ArticleComment[];
 		title: string;
 		body: string;
 		slug: string;
@@ -48,6 +50,13 @@ declare global {
 		status: ArticleStatus;
 		author: Account;
 		co_authors: Account[];
+	}
+
+	type ArticleComment = TimeStampGroup & {
+		author: Account;
+		comment_number: number;
+		body: string;
+		assets: Asset[];
 	}
 
 	type Board = TimeStampGroup & {

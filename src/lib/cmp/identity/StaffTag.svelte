@@ -1,24 +1,21 @@
 <script>
 	/** @type {Account} */ export let account;
 
-	// not implemented yet but article writers & admin/mods (not user appointed mods)
-	// should have the option of remaining anonymous when posting
-	/** @type {boolean} */ export let isAnonymous = false;
+	// text transforms having no effect so doing this instead
+	$: name = account?.username[0].toUpperCase() + account?.username?.slice(1);
 </script>
 
 <span
-	class:role-admin={account?.role === 'admin'}
-	class:role-mod={account?.role === 'mod'}
-	title={isAnonymous ? `Anonymous ${account?.role}` : account?.role}
-	class="relative bg-zinc-800 px-3 pb-1 rounded-sm text border-zinc-700 border"
+	class:role-admin={account.role === 'admin'}
+	class:role-mod={account.role === 'mod'}
+	title={account.role}
+	class="relative bg-zinc-800 px-3 pb-1 rounded-sm border-zinc-700 border"
 >
 	<span class="absolute -top-2.5 uppercase text-xs italic left-1/2 -translate-x-1/2 font-semibold opacity-75"
-		>{account?.role}</span
+		>{account.role}</span
 	>
 
-	<span class="font-semibold">
-		{isAnonymous ? 'Anonymous' : account.username}
-	</span>
+	<span class="font-semibold">{name}</span>
 </span>
 
 <style lang="postcss">

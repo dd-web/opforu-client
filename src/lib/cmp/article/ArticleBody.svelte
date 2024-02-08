@@ -1,7 +1,7 @@
 <script>
 	import AssetGrid from '$lib/cmp/assets/AssetGrid.svelte';
 
-	/** @type {Article & { assets: Asset[] }} */ export let article;
+	/** @type {Article} */ export let article;
 </script>
 
 <div class="px-4 my-2">

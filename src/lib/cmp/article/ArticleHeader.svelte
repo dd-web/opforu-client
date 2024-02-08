@@ -17,6 +17,13 @@
 		<h3 class="text-limit text-title text-attention link">
 			<a href="/news/{article.slug}">{article.title}</a>
 		</h3>
+
+		<div class="ml-auto">
+			<span class="text-sm text-zinc-500">
+				<span class="italic text-zinc-400">{article?.comments?.length ?? 0}</span>
+				Comments
+			</span>
+		</div>
 	</div>
 
 	<div class="px-4 inline-flex gap-2 py-2">

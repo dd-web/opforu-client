@@ -1,10 +1,6 @@
 <script>
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
 	import Article from '$lib/cmp/article/Article.svelte';
-	import StaffTag from '$lib/cmp/identity/StaffTag.svelte';
-
-	import AdminTag from '$lib/cmp/global/AdminTag.svelte';
-	import ModTag from '$lib/cmp/global/ModTag.svelte';
 
 	/** @type {import('./$types').PageData} */ export let data;
 </script>
