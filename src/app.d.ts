@@ -1,4 +1,6 @@
 // See https://kit.svelte.dev/docs/types#app
+import type { SvelteComponent } from "svelte";
+
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -37,7 +39,6 @@ declare global {
 
 
 	/** base data structures - more or less similar to back end */
-
 	interface IAccount extends IStructMeta {
 		username: string;
 		email: string;
@@ -207,6 +208,17 @@ declare global {
 	}
 
 	/*****************************/
+
+	interface IActionBarItem {
+		id: string;
+		text: string;
+		event_name: string;
+		event_data: any;
+	}
+
+	interface IFormEvent {
+		currentTarget: EventTarget & HTMLFormElement
+	}
 
 	interface IAlert {
 		id: number;

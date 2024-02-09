@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 
 /**
  * Resolves an object for creating post link and post link events
@@ -70,5 +72,22 @@ export function defaultPaginator() {
     total_records: 10,
     last_page: 1,
     last_page_size: 10,
+  }
+}
+
+
+/**
+ * New action bar button item
+ * @param {string} event_name - if emit is true, will emit an event with this name to parent of ContentActionBar
+ * @param {any} event_data - data to pass along when emitting the event
+ * @param {string} text - action button display text
+ * @returns {IActionBarItem}
+ */
+export function newActionBarItem(event_name, event_data, text = 'ActionButton') {
+  return {
+    id: nanoid(),
+    event_name,
+    text,
+    event_data
   }
 }
