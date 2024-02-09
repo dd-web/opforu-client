@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	/** @type {Asset} */ export let asset;
+	/** @type {IAsset} */ export let asset;
 	/**
 	 * @TODO !!! This is using Source for Avatar previews currently because making avatars is not yet implemented.
 	 */

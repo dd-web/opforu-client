@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { sidebarStore } from '$lib/stores/layout';
 
-	/** @type {Board[]} */
+	/** @type {IBoard[]} */
 	export let boards = [];
 </script>
 

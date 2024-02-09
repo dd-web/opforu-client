@@ -2,25 +2,25 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	/** @type {Identity} */ export let identity;
+	/** @type {IIdentity} */ export let creator;
 </script>
 
-{#if identity}
+{#if creator}
 	<button
-		class="tag-badge {['creator', 'mod'].includes(identity.role)
+		class="tag-badge {['creator', 'mod'].includes(creator.role)
 			? ''
-			: identity.style} inline-flex flex-row gap-1 p-2 group hover:ring-opacity-40 outline-none focus-visible:underline underline-offset-4"
-		class:creator={identity.role === 'creator'}
-		class:mod={identity.role === 'mod'}
+			: creator.style} inline-flex flex-row gap-1 p-2 group hover:ring-opacity-40 outline-none focus-visible:underline underline-offset-4"
+		class:creator={creator.role === 'creator'}
+		class:mod={creator.role === 'mod'}
 		on:click={() => dispatch('click')}
 	>
-		{#if identity.role === 'creator'}
+		{#if creator.role === 'creator'}
 			<span class="font-bold text-red-300 group-hover:text-red-400"> OP </span>
-		{:else if identity.role === 'mod'}
+		{:else if creator.role === 'mod'}
 			<span class="font-bold text-purple-300 group-hover:text-purple-400"> MOD </span>
 		{/if}
 
-		<span class="text-opacity-80 group-hover:text-opacity-100 text-inherit">{identity.name}</span>
+		<span class="text-opacity-80 group-hover:text-opacity-100 text-inherit">{creator.name}</span>
 	</button>
 {/if}
 

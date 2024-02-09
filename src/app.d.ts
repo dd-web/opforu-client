@@ -4,20 +4,23 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			account?: Account?;
+			account?: IAccount?;
 			session?: Session | string?;
 		}
 		// interface PageData {}
 		// interface Platform {}
 	}
 
-	/**
-	 * These are Public API types for the most part. They are what a default public client would see, and
-	 * a couple other ephemeral fields added for convenience. They do not represent the full data model or
-	 * what a registered client would see. Extend from these bases when necessary.
-	 */
+	/*****************************/
 
-	type Paginator = {
+	interface IStructMeta {
+		_id?: string?;
+		created_at?: string?;
+		updated_at?: string?;
+		deleted_at?: string?;
+	}
+
+	interface IPaginator {
 		current_page: number;
 		page_size: number;
 		total_pages: number;
@@ -26,89 +29,57 @@ declare global {
 		last_page_size: number;
 	}
 
-	type TimeStampGroup = {
-		_id?: string;
-		created_at: string;
-		updated_at: string;
-		deleted_at?: string;
-	}
-
-	type Account = TimeStampGroup & {
-		username: string;
-		email: string;
-		role: AccountRole;
-		status: AccountStatus;
-	}
-
-	type Article = TimeStampGroup & {
-		assets: Asset[];
-		comments: ArticleComment[];
-		title: string;
-		body: string;
-		slug: string;
-		tags: string[];
-		status: ArticleStatus;
-		author: Account;
-		co_authors: Account[];
-	}
-
-	type ArticleComment = TimeStampGroup & {
-		author: Account;
-		comment_number: number;
-		body: string;
-		assets: Asset[];
-	}
-
-	type Board = TimeStampGroup & {
-		title: string;
-		short: string;
-		description: string;
-		threads: Thread[];
-		post_ref: number;
-	};
-
-	type Thread = TimeStampGroup & {
-		title: string;
-		body: string;
-		slug: string;
-		status: ThreadStatus;
-		creator: IIdentity;
-		mods: IIdentity[];
-		posts: Post[];
-		assets: Asset[];
-		tags: string[];
-		post_count: number;
-	}
-
-	type Identity = TimeStampGroup & {
-		name: string;
-		role: ThreadRole;
-		status: IdentityStatus;
-		style: string;
-	}
-
-	type Post = TimeStampGroup & {
-		body: string;
-		creator: Identity;
-		post_number: number;
-		assets: Asset[];
-	}
-
-	type Session = TimeStampGroup & {
+	interface ISession {
 		session_id: string;
 		account_id: string;
 		expires: string;
 	}
 
-	type Asset = TimeStampGroup & {
-		asset_type: AssetType;
-		avatar: AssetDetail;
-		source: AssetDetail;
+
+	/** base data structures - more or less similar to back end */
+
+	interface IAccount extends IStructMeta {
+		username: string;
+		email: string;
+		role: keyof typeof EAccountRole;
+		status: keyof typeof EAccountStatus;
+	}
+
+	interface IIdentity extends IStructMeta {
+		name: string;
+		role: keyof typeof EThreadRole;
+		status: keyof typeof EIdentityStatus;
+		style: string;
+	}
+
+	interface IArticle extends IStructMeta {
+		author: IAccount;
+		co_authors: IAccount[];
+		assets: IAsset[];
+		comments: IArticleComment[];
+		title: string;
+		body: string;
+		slug: string;
+		tags: string[];
+		status: keyof typeof EArticleStatus;
+	}
+
+	interface IArticleComment extends IStructMeta {
+		author: IAccount;
+		comment_number: number;
+		body: string;
+		assets: IAsset[];
+	}
+
+	interface IAsset extends IStructMeta {
+		asset_type: keyof typeof EAssetType;
+		avatar: IAssetDetail;
+		source: IAssetDetail;
 		file_name: string;
 		tags: string[];
 	}
 
-	type AssetDetail = {
+	interface IAssetDetail {
 		extension: string;
 		height: number;
 		width: number;
@@ -117,110 +88,173 @@ declare global {
 		url: string;
 	}
 
-	/**
-	 * Enums / Constants
-	 */
-	enum AccountStatus {
-		Unknown = 'unknown',
-		Active = 'active',
-		Suspended = 'suspended',
-		Banned = 'banned',
-		Deleted = 'deleted',
+	interface IBoard extends IStructMeta {
+		title: string;
+		short: string;
+		description: string;
+		threads: IThread[];
+		post_ref: number;
 	}
 
-	enum AccountRole {
-		Unknown = 'unknown',
-		Public = 'public',
-		User = 'user',
-		Mod = 'mod',
-		Admin = 'admin',
+	interface IThread extends IStructMeta {
+		title: string;
+		body: string;
+		slug: string;
+		status: keyof typeof EThreadStatus;
+		creator: IIdentity;
+		mods: IIdentity[];
+		posts: IPost[];
+		assets: IAsset[];
+		tags: string[];
+		post_count: number;
 	}
 
-	enum ArticleStatus {
-		Draft = 'draft',
-		Published = 'published',
-		Archived = 'archived',
-		Deleted = 'deleted',
+	interface IPost extends IStructMeta {
+		body: string;
+		creator: IIdentity;
+		post_number: number;
+		assets: IAsset[];
 	}
 
-	enum IdentityStatus {
-		Unkown = 'unknown',
-		Active = 'active',
-		Suspended = 'suspended',
-		Banned = 'banned',
-		Deleted = 'deleted',
+	/*****************************/
+
+	enum EAccountStatus {
+		unknown = "unknown",
+		active = "active",
+		suspended = "suspended",
+		banned = "banned",
+		deleted = "deleted",
 	}
 
-	enum ThreadStatus {
-		Open = 'open',
-		Closed = 'closed',
-		Archived = 'archived',
-		Deleted = 'deleted',
+	enum EAccountRole {
+		unknown = "unknown",
+		public = "public",
+		user = "user",
+		mod = "mod",
+		admin = "admin",
 	}
 
-	enum ThreadRole {
-		User = 'user',
-		Mod = 'mod',
-		Creator = 'creator',
+	enum EArticleStatus {
+		draft = "draft",
+		published = "published",
+		archived = "archived",
+		deleted = "deleted",
 	}
 
+	enum EIdentityStatus {
+		unkown = "unknown",
+		active = "active",
+		suspended = "suspended",
+		banned = "banned",
+		deleted = "deleted",
+	}
 
-	/** Front end types */
-	type AlertType = 'success' | 'info' | 'warning' | 'error';
-	type AssetType = 'image' | 'video';
-	type LocalFileStatus = 'init' | 'uploading' | 'canceled' | 'complete' | 'error';
+	enum EThreadStatus {
+		open = "open",
+		closed = "closed",
+		archived = "archived",
+		deleted = "deleted",
+	}
 
-	type Alert = {
+	enum EThreadRole {
+		user = "user",
+		mod = "mod",
+		creator = "creator",
+	}
+
+	enum EAssetType {
+		unknown = "unknown",
+		image = "image",
+		video = "video",
+	}
+
+	/** front end specific types */
+	/*****************************/
+
+	enum EPostLinkType {
+		"post-internal-thread" = "post-internal-thread",
+		"thread-internal-board" = "thread-internal-board",
+		"post-internal-board" = "post-internal-board",
+		"thread-external-board" = "thread-external-board",
+		"post-external-board" = "post-external-board",
+	}
+
+	enum EAlertType {
+		success = "success",
+		info = "info",
+		warning = "warning",
+		error = "error"
+	}
+
+	enum ELocalFileStatus {
+		init = "init",
+		uploading = "uploading",
+		canceled = "canceled",
+		complete = "complete",
+		error = "error",
+	}
+
+	enum EModifiedContext {
+		created = "created",
+		updated = "updated",
+		deleted = "deleted",
+	}
+
+	enum EButtonType {
+		button = "button",
+		submit = "submit",
+		reset = "reset",
+	}
+
+	/*****************************/
+
+	interface IAlert {
 		id: number;
-		type: AlertType;
+		type: keyof typeof EAlertType;
 		message: string;
-		removecallback: Timeout | null;
+		removecallback: number | NodeJS.Timeout;
 	}
 
-	/** Local data structure only */
-	interface LocalFileInfo {
-		local_id: string; // random id for sync between client & server
-		source_id: string?; // updated after a response is received from uploading (AssetSource reference)
+	interface ILocalFileInfo {
+		local_id: string;
+		source_id: string?; // set when response received from upload
 		name: string; // filename on client machine
-		status: LocalFileStatus; // state of file upload process for this file
-		description: string; // client modified
+		status: keyof typeof ELocalFileStatus;
+		description: string;
 		file: File?; // actual file data
 		width: number;
 		height: number;
-		type?: AssetType?;
+		type?: keyof typeof EAssetType;
 		poster?: string?; // local image data used by preview display (base64)
-		uploaded: boolean; // skip doing it again
+		uploaded: boolean;
 		signal?: AbortSignal?;
 		progress: number;
 	}
 
-	/** Response object of file upload requests */
-	interface AttachedFileData {
-		source_id: string; // AssetSource reference
-		description: string; // client modified
-		file_name: string; // client modified
-		tags: string[];
-	}
-
-	type PostDisplayData = TimeStampGroup & {
-		assets: Asset[];
-		body: string;
-		creator: Identity;
-		tags?: string[];
-	}
-
-	type PostLinkType = 'post-internal-thread' | 'thread-internal-board' | 'post-internal-board' | 'thread-external-board' | 'post-external-board';
-
-	interface PostLinkData {
-		link_type: PostLinkType;
+	interface IPostLinkData {
+		link_type: keyof typeof EPostLinkType;
 		post_number: number;
 		board: string;
 		thread: string;
 	}
 
+	/** form submission result structs */
+	/***********************************/
+
+	interface IAttachedFileData {
+		source_id: string;
+		description: string;
+		file_name: string;
+		tags: string[];
+	}
+
+	interface IPostDisplayData extends IStructMeta {
+		assets: IAsset[];
+		body: string;
+		creator: IIdentity;
+		tags?: string[];
+	}
+
 }
-
-
-
 
 export { };

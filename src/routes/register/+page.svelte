@@ -1,6 +1,5 @@
 <script>
-	/** @type {import('./$types').ActionData} */
-	export let form;
+	/** @type {import('./$types').ActionData} */ export let form;
 </script>
 
 <h1 class="text-4xl mt-4 text-center capitalize text-blue-100">Create an account</h1>

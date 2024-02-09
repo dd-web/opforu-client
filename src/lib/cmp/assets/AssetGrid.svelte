@@ -10,10 +10,10 @@
 	import XMark from '$lib/icons/XMark.svelte';
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 
-	export let /** @type {Asset[]} */ assets = [];
+	export let /** @type {IAsset[]} */ assets = [];
 
-	/** @type {Asset?} */ let loadingAsset = null;
-	/** @type {Asset?} */ let focusedAsset = null;
+	/** @type {IAsset?} */ let loadingAsset = null;
+	/** @type {IAsset?} */ let focusedAsset = null;
 
 	let croassfadeDuration = 300;
 
@@ -22,7 +22,7 @@
 		fallback: (n, p) => scale(n, { ...p, duration: croassfadeDuration })
 	});
 
-	const loadAsset = (/** @type {Asset} */ asset) => {
+	const loadAsset = (/** @type {IAsset} */ asset) => {
 		const timeout = setTimeout(() => (loadingAsset = asset), 100);
 
 		// possibly needs to use parent constructor (media element) to get videos preloading properly
@@ -42,7 +42,7 @@
 </script>
 
 <div class="grid grid-rows-6 grid-cols-6 gap-2 h-full items-center justify-items-center p-2 relative">
-	{#each assets as asset, index (index + asset.updated_at)}
+	{#each assets as asset, index (index + (asset?.updated_at ?? ''))}
 		<div
 			class="sz-{assets.length} sz-{assets.length}-ct-{index} grid-asset-area"
 			class:col-start-4={assets.length === 6 && index % 2 !== 0}

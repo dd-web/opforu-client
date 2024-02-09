@@ -1,11 +1,11 @@
 <script>
-	import IdentityComponent from '$lib/cmp/global/Identity.svelte';
+	import Identity from '$lib/cmp/identity/Identity.svelte';
 	import CircularIconBtn from '$lib/cmp/global/CircularIconBtn.svelte';
 	import Hamburger from '$lib/icons/Hamburger.svelte';
-	import PostNumber from '$lib/cmp/thread/PostNumber.svelte';
+	import PostNumber from '$lib/cmp/post/partials/PostNumber.svelte';
 
-	/** @type {Identity} */ export let identity;
-	/** @type {number}*/ export let postNumber = 0;
+	/** @type {IIdentity} */ export let creator;
+	/** @type {number} */ export let postNumber = 0;
 </script>
 
 <header class="flex justify-between items-center gap-4 p-2 h-12">
@@ -21,10 +21,8 @@
 
 	<slot name="right">
 		<div class="flex gap-2 items-center">
-			<IdentityComponent {identity} />
-			{#if typeof postNumber === 'number' && postNumber !== 0}
-				<PostNumber {postNumber} />
-			{/if}
+			<Identity {creator} />
+			<PostNumber num={postNumber} />
 		</div>
 	</slot>
 </header>

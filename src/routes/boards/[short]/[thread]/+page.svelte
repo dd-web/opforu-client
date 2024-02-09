@@ -15,12 +15,12 @@
 	$: boardTitle = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 	$: threadTitle = `${data.thread.title
 		.split(' ')
-		.map((word) => word[0]?.toUpperCase() + word.slice(1))
+		.map((/** @type {string} */ word) => word[0]?.toUpperCase() + word.slice(1))
 		.join(' ')
 		.replace('undefined', '')}`;
 
 	/** @type {boolean} */ let showReplyForm = false;
-	/** @type {LocalFileInfo[]} */ let replyFiles = [];
+	/** @type {ILocalFileInfo[]} */ let replyFiles = [];
 
 	/** Toggle reply form visibility */
 	const toggleReplyFormVis = () => (showReplyForm = !showReplyForm);

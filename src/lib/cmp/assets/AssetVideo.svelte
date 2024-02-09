@@ -4,7 +4,7 @@
 
 	import CirclePlay from '$lib/icons/CirclePlay.svelte';
 
-	/** @type {Asset} */ export let asset;
+	/** @type {IAsset} */ export let asset;
 
 	/** @type {HTMLImageElement=} */ let previewAvatarEl;
 	/** @type {HTMLDivElement=} */ let previewAvatarPlayBacksplashEl;

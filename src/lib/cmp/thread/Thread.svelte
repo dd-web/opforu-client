@@ -1,7 +1,7 @@
 <script>
 	import Post from '$lib/cmp/post/Post.svelte';
 
-	/** @type {Thread} */ export let thread;
+	/** @type {IThread} */ export let thread;
 </script>
 
 <section class="mt-8 mb-4 flex flex-col gap-4">

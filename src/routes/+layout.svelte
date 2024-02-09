@@ -2,7 +2,7 @@
 	import '../app.css';
 	import Topbar from '$lib/cmp/layout/Topbar.svelte';
 	import Sidebar from '$lib/cmp/layout/Sidebar.svelte';
-	import Alerts from '$lib/cmp/global/Alerts.svelte';
+	import Alerts from '$lib/cmp/layout/Alerts.svelte';
 
 	import { alerts } from '$lib/stores/alerts';
 

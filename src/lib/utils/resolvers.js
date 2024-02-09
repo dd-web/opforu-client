@@ -4,14 +4,14 @@
  * @param {Element} node - parsed html node
  * @param {string} board - board short (always pass current)
  * @param {string} thread - thread slug (always pass current)
- * @returns {PostLinkData}
+ * @returns {IPostLinkData}
  */
 export function resolvePostLinkEvent(node, board, thread) {
   const type = resolveLinkType(node)
   const text = node.textContent ?? "";
   const arr = text.split('/');
 
-  /** @type {PostLinkData} */
+  /** @type {IPostLinkData} */
   const obj = {
     board: board,
     thread: thread,
@@ -47,7 +47,7 @@ export function resolvePostLinkEvent(node, board, thread) {
 /**
  * Resolves post link type from node
  * @param {Element} node - parsed DOM node
- * @returns {PostLinkType} - resolved post link type
+ * @returns {keyof typeof EPostLinkType} - resolved post link type
  */
 function resolveLinkType(node) {
   if (node.classList.contains('post-internal-thread')) return 'post-internal-thread';
@@ -55,4 +55,20 @@ function resolveLinkType(node) {
   if (node.classList.contains('post-internal-board')) return 'post-internal-board'
   if (node.classList.contains('thread-external-board')) return 'thread-external-board'
   return 'post-external-board'
+}
+
+
+/**
+ * Creates a pagination object with default values
+ * @returns {IPaginator} default pagination object
+ */
+export function defaultPaginator() {
+  return {
+    current_page: 1,
+    page_size: 10,
+    total_pages: 1,
+    total_records: 10,
+    last_page: 1,
+    last_page_size: 10,
+  }
 }

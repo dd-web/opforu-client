@@ -10,7 +10,7 @@ export async function load({ fetch, url, locals }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-  /** @type {{ records: Article[] } & { paginator: Paginator }} */
+  /** @type {{ records: IArticle[] } & { paginator: IPaginator }} */
   const data = await fetch(`http://localhost:3001/api/articles?${qs.toString()}`)
     .then(res => res.json())
 

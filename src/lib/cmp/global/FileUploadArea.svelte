@@ -4,7 +4,7 @@
 
 	import UploadingFile from '../partials/UploadingFile.svelte';
 
-	/** @type {LocalFileInfo[]} */ export let filesAttached = [];
+	/** @type {ILocalFileInfo[]} */ export let filesAttached = [];
 	/** @type {string} */ export let uploadPath = '?/fileUpload';
 
 	/** @type {HTMLInputElement} */ let inputEl;
@@ -50,7 +50,7 @@
 
 	/**
 	 * Update a file in attached files list
-	 * @param {LocalFileInfo} file - updated file
+	 * @param {ILocalFileInfo} file - updated file
 	 * @returns {void}
 	 */
 	const handleUpdateFile = (file) => {

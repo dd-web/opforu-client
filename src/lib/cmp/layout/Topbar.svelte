@@ -4,12 +4,12 @@
 	import Hamburger from '$lib/icons/Hamburger.svelte';
 	import UserOutline from '$lib/icons/UserOutline.svelte';
 
-	import AccountDropdown from '../global/AccountDropdown.svelte';
+	import AccountDropdown from './AccountDropdown.svelte';
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 
-	/** @type {Account?=}*/ export let account;
+	/** @type {IAccount?} */ export let account = null;
 
-	/** @type {boolean} */ let accountDropdownVisible = false;
+	let dropdownVisibile = false;
 </script>
 
 <div class="bg-zinc-900 flex h-12 px-4 sticky top-0 gap-4 z-10">
@@ -23,12 +23,12 @@
 
 	<div class="ml-auto flex flex-col items-center justify-center mr-2">
 		{#if account}
-			<CircularIconBtn on:click={() => (accountDropdownVisible = !accountDropdownVisible)}>
+			<CircularIconBtn on:click={() => (dropdownVisibile = !dropdownVisibile)}>
 				<UserOutline />
 			</CircularIconBtn>
 
-			{#if accountDropdownVisible}
-				<AccountDropdown on:close={() => (accountDropdownVisible = false)} {account} />
+			{#if dropdownVisibile}
+				<AccountDropdown on:close={() => (dropdownVisibile = false)} {account} />
 			{/if}
 		{:else}
 			<div>

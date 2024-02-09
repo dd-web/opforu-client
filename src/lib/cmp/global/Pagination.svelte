@@ -1,10 +1,11 @@
 <script>
+	import { defaultPaginator } from '$lib/utils/resolvers';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	/** @type {string?=} */ export let path = `/boards/${$page.params.short}/`;
-	/** @type {Partial<Paginator>}*/ export let paginator = { current_page: 1, total_pages: 1 };
+	/** @type {IPaginator}*/ export let paginator = defaultPaginator();
 
 	/** @type {number} */ let selectedSize;
 

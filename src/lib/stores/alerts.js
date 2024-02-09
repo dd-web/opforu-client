@@ -4,26 +4,29 @@ import { writable } from "svelte/store";
 import { counterStore } from "./counter";
 
 const alertStore = () => {
-  /** @type {import('svelte/store').Writable<Alert[]>} */
+  /** @type {import('svelte/store').Writable<IAlert[]>} */
   const alerts = writable([]);
   const counter = counterStore();
 
   /**
    * Add a new alert to the store
    * @param {string} text 
-   * @param {AlertType} type
+   * @param {keyof typeof EAlertType} type
    */
   const newAlert = (text, type, ttl = 8000) => {
-    /** @type {Alert} */
+    /** @type {IAlert} */
     let createdAlert = {
       id: counter.getValue(),
       message: text,
       type: type,
-      removecallback: null
+      removecallback: setTimeout(() => {
+        removeAlert(createdAlert.id)
+      }, ttl)
     }
-    createdAlert.removecallback = setTimeout(() => {
-      removeAlert(createdAlert.id)
-    }, ttl)
+
+    // createdAlert.removecallback = setTimeout(() => {
+    //   removeAlert(createdAlert.id)
+    // }, ttl)
     alerts.update((alerts) => [...alerts, createdAlert]);
   }
 

@@ -3,7 +3,7 @@
 export async function load({ fetch, params, parent }) {
   const { boards } = await parent();
 
-  /** @type {{ thread: Thread } & {boards: Board[]}} */
+  /** @type {{ thread: IThread } & {boards: IBoard[]}} */
   const data = await fetch(`http://localhost:3001/api/threads/${params.thread}`)
     .then(resp => resp.json())
 

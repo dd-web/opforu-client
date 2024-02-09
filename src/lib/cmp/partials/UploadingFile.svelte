@@ -10,7 +10,7 @@
 
 	import Modal from '../layout/Modal.svelte';
 
-	/** @type {LocalFileInfo?=} */ export let file;
+	/** @type {ILocalFileInfo?=} */ export let file;
 
 	let contextMenuVisible = false;
 	let modalVisible = false;

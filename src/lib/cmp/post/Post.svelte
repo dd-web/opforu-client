@@ -3,22 +3,22 @@
 	import { page } from '$app/stores';
 	import { resolvePostLinkEvent } from '$lib/utils/resolvers';
 
-	import PostHeader from './PostHeader.svelte';
-	import PostBody from './PostBody.svelte';
-	import PostFooter from './PostFooter.svelte';
+	import PostHeader from './partials/PostHeader.svelte';
+	import PostBody from './partials/PostBody.svelte';
+	import PostFooter from './partials/PostFooter.svelte';
 	import PostLink from '../partials/PostLink.svelte';
 
 	/** @type {string} */ export let elementId;
-	/** @type {Identity} */ export let creator;
-	/** @type {Asset[]} */ export let assets;
+	/** @type {IIdentity} */ export let creator;
+	/** @type {IAsset[]} */ export let assets;
 	/** @type {string} */ export let content;
-	/** @type {Date|string} */ export let createdAt;
-	/** @type {Date|string} */ export let updatedAt;
+	/** @type {string?=} */ export let createdAt;
+	/** @type {string?=} */ export let updatedAt;
 	/** @type {string[]} */ export let tagList = [];
 	/** @type {number} */ export let postNumber = 0;
 
 	/** @type {number} */ export let depth = 0;
-	/** @type {Post[]} */ let embedded = [];
+	/** @type {IPost[]} */ let embedded = [];
 	/** @type {HTMLElement}*/ let element;
 
 	$: html = content
@@ -56,7 +56,7 @@
 <!-- post-{thread.slug}-{post.post_number} -->
 <article bind:this={element} id={elementId} class="bg-zinc-900 rounded-md" class:embedded={depth > 0}>
 	<slot name="header">
-		<PostHeader identity={creator} {postNumber} />
+		<PostHeader {creator} {postNumber} />
 	</slot>
 
 	<slot name="body">

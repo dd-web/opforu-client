@@ -5,7 +5,7 @@
 	/** @type {string} */ let css = '';
 	/** @type {string} */ export { css as class };
 
-	/** @type { "button" | "submit" | "reset" } */ export let buttonType = 'button';
+	/** @type {keyof typeof EButtonType} */ export let buttonType = 'button';
 </script>
 
 <button

@@ -10,7 +10,7 @@
 	/** @type {import('./$types').PageData} */ export let data;
 	/** @type {import('./$types').ActionData }*/ export let form;
 	/** @type {boolean} */ let showThreadForm = false;
-	/** @type {LocalFileInfo[]} */ let newThreadFiles = [];
+	/** @type {ILocalFileInfo[]} */ let newThreadFiles = [];
 
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 

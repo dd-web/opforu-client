@@ -8,13 +8,13 @@
 	import AssetImage from './AssetImage.svelte';
 	import AssetVideo from './AssetVideo.svelte';
 
-	/** @type {Asset} */ export let asset;
+	/** @type {IAsset} */ export let asset;
 
 	let hasError = false;
 
 	/**
 	 * Resolves an asset type to it's corresponding component
-	 * @param {AssetType} [type='image'] - type of asset to resolve
+	 * @param {keyof typeof EAssetType} [type='image'] - type of asset to resolve
 	 * @returns {import('svelte').ComponentType}
 	 */
 	const resolveComponent = (type = 'image') => {

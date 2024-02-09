@@ -2,9 +2,9 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	/** @type {PostLinkData} */ export let postLinkData;
+	/** @type {IPostLinkData} */ export let postLinkData;
 
-	/** @type {Post?} */ let post = null;
+	/** @type {IPost?} */ let post = null;
 </script>
 
 <button type="button" on:click={() => dispatch('post-link', postLinkData)}>

@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 /**
  * Resolve local file info object from file
  * @param {File} file - file
- * @returns {Promise<LocalFileInfo>} - local file info object
+ * @returns {Promise<ILocalFileInfo>} - local file info object
  */
 export async function resolveFileInfo(file) {
   return await new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ export async function resolveFileInfo(file) {
       reject(new Error('File processing timed out'))
     }, 10000);
 
-    /** @type {LocalFileInfo} */
+    /** @type {ILocalFileInfo} */
     let info = {
       local_id: nanoid(),
       source_id: null,
@@ -55,7 +55,7 @@ export async function resolveFileInfo(file) {
 /**
  * Resolve type of asset from file
  * @param {File} file - file
- * @returns {AssetType?=} - asset type
+ * @returns {keyof typeof EAssetType} - asset type
  */
 function resolveFileTypeFromFile(file) {
   if (file && file?.type && typeof file?.type === 'string') {
@@ -69,13 +69,13 @@ function resolveFileTypeFromFile(file) {
     }
   }
 
-  return null
+  return "unknown"
 }
 
 /**
  * Process local file info object for image files
- * @param {LocalFileInfo} fileInfo - local file info object
- * @returns {Promise<LocalFileInfo>} - processed local file info object
+ * @param {ILocalFileInfo} fileInfo - local file info object
+ * @returns {Promise<ILocalFileInfo>} - processed local file info object
  */
 async function processImageFileInfo(fileInfo) {
   return new Promise((resolve, reject) => {
@@ -100,8 +100,8 @@ async function processImageFileInfo(fileInfo) {
 
 /**
  * Process local file info object for video files
- * @param {LocalFileInfo} fileInfo - local file info object
- * @returns {Promise<LocalFileInfo>} - processed local file info object
+ * @param {ILocalFileInfo} fileInfo - local file info object
+ * @returns {Promise<ILocalFileInfo>} - processed local file info object
  */
 async function processVideoFileInfo(fileInfo) {
   return new Promise((resolve, reject) => {
@@ -166,7 +166,7 @@ export async function uploadFileInfo(form, url = '?/fileUpload') {
 
 /**
  * Creates and returns a new FormData object from a local file info object
- * @param {LocalFileInfo} fileInfo - local file info object
+ * @param {ILocalFileInfo} fileInfo - local file info object
  * @returns {FormData} - form data object
  */
 export function createFormDataFromFileInfo(fileInfo) {
@@ -183,12 +183,12 @@ export function createFormDataFromFileInfo(fileInfo) {
 
 /**
  * Creates and returns a new AttachedFileData object from a local file info object
- * @param {LocalFileInfo} fileInfo local file info object
+ * @param {ILocalFileInfo} fileInfo local file info object
  * @param {string[]=} tags - array of strings (tags) that describe the file
- * @returns {Partial<AttachedFileData>}
+ * @returns {Partial<IAttachedFileData>}
  */
 export function createFileAttachmentData(fileInfo, tags) {
-  /** @type {Partial<AttachedFileData>} */let obj = {
+  /** @type {Partial<IAttachedFileData>} */let obj = {
     source_id: fileInfo?.source_id ?? '',
     file_name: fileInfo?.name ?? '',
   }
