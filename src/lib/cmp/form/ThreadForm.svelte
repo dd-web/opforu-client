@@ -1,11 +1,16 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 	import { goto, invalidateAll } from '$app/navigation';
 	import { applyAction, deserialize } from '$app/forms';
 	import { createFileAttachmentData } from '$lib/utils/localfile';
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
+
 	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
 
 	/** @type {ILocalFileInfo[]} */ let newThreadFiles = [];
+	/** @type {HTMLFormElement=}*/ let formElement;
 
 	/**
 	 * Handle new thread form submission
@@ -24,15 +29,29 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success') {
+			resetForm();
+			applyAction(result);
 			await invalidateAll();
+			dispatch('close');
 			await goto(`/boards/${$page.data.board.short}/${result?.data?.thread_id}`);
 		}
-
-		applyAction(result);
 	}
+
+	/** Handles resetting form fields including files to empty values */
+	const resetForm = () => {
+		if (!browser || !formElement) return;
+		formElement.reset();
+		newThreadFiles = [];
+	};
 </script>
 
-<form method="POST" on:submit|preventDefault={handleNewThread} action="?/newThread" class="bg-zinc-900 rounded-md">
+<form
+	bind:this={formElement}
+	method="POST"
+	on:submit|preventDefault={handleNewThread}
+	action="?/newThread"
+	class="bg-zinc-900 rounded-md"
+>
 	<div class="grid grid-cols-[50%,50%]">
 		<div class="mx-2">
 			<label for="title">Title</label>

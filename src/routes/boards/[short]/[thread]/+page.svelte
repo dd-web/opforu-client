@@ -7,7 +7,6 @@
 	import ReplyForm from '$lib/cmp/form/ReplyForm.svelte';
 
 	/** @type {import('./$types').PageData} */ export let data;
-	/** @type {import('./$types').ActionData }*/ export let form;
 
 	$: boardTitle = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 	$: threadTitle = `${data.thread.title
@@ -39,6 +38,11 @@
 			component = component === componentMap[event.detail] ? null : componentMap[event.detail];
 		}
 	};
+
+	/** Resets the current component to null, rendering nothing */
+	const handleResetComponent = () => {
+		component = null;
+	};
 </script>
 
 <svelte:head>
@@ -55,7 +59,7 @@
 
 	<ContentActionBar on:new-reply={handleActionEvent} items={actionButtons} />
 
-	<svelte:component this={component} />
+	<svelte:component this={component} on:close={handleResetComponent} />
 
 	<Thread thread={data?.thread} />
 </div>

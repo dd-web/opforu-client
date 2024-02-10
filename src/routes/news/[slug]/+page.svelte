@@ -1,20 +1,19 @@
 <script>
+	import { newActionBarItem } from '$lib/utils/resolvers';
+	import { goto } from '$app/navigation';
+
 	import Article from '$lib/cmp/article/Article.svelte';
 	import ContentActionBar from '$lib/cmp/layout/ContentActionBar.svelte';
 	import ArticleHeader from '$lib/cmp/article/partials/ArticleHeader.svelte';
 	import ArticleSubHeader from '$lib/cmp/article/partials/ArticleSubHeader.svelte';
 	import ArticleComment from '$lib/cmp/article/ArticleComment.svelte';
 	import CommentForm from '$lib/cmp/form/CommentForm.svelte';
-	import { newActionBarItem } from '$lib/utils/resolvers';
-	import { goto } from '$app/navigation';
 
 	/** @type {import('./$types').PageData} */ export let data;
-	/** @type {import('./$types').ActionData} */ export let form;
 
-	// $: console.log('single article', data?.article);
 	$: title = `${data?.article?.title[0].toUpperCase() + data?.article?.title?.slice(1)}`;
 
-	/** @type {any} */
+	/** @type {Record<string, any>} */
 	let componentMap = {
 		commentForm: CommentForm
 	};
@@ -32,7 +31,6 @@
 			const qs = new URLSearchParams();
 			qs.append('next', 'article');
 			qs.append('id', data?.article?.slug);
-
 			goto(`/login?${qs.toString()}`);
 		} else {
 			component = component === componentMap[event.detail] ? null : componentMap[event.detail];

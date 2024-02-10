@@ -8,7 +8,6 @@
 	import ThreadForm from '$lib/cmp/form/ThreadForm.svelte';
 
 	/** @type {import('./$types').PageData} */ export let data;
-	/** @type {import('./$types').ActionData }*/ export let form;
 
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 
@@ -35,6 +34,11 @@
 			component = component === componentMap[event.detail] ? null : componentMap[event.detail];
 		}
 	};
+
+	/** Resets the current component to null, rendering nothing */
+	const handleResetComponent = () => {
+		component = null;
+	};
 </script>
 
 <svelte:head>
@@ -48,7 +52,7 @@
 
 	<ContentActionBar on:new-thread={handleActionEvent} items={actionButtons} />
 
-	<svelte:component this={component} />
+	<svelte:component this={component} on:close={handleResetComponent} />
 
 	<Board board={data?.board} threads={data?.threads} />
 	<Pagination paginator={data.pagination} path="/boards/{data.board.short}/" />
