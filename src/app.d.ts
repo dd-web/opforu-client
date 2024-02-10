@@ -1,5 +1,5 @@
 // See https://kit.svelte.dev/docs/types#app
-import type { SvelteComponent } from "svelte";
+
 
 // for information about these interfaces
 declare global {
@@ -8,6 +8,7 @@ declare global {
 		interface Locals {
 			account?: IAccount?;
 			session?: Session | string?;
+			redir?: boolean?;
 		}
 		// interface PageData {}
 		// interface Platform {}

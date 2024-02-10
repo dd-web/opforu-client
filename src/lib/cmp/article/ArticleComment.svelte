@@ -14,7 +14,7 @@
 	};
 </script>
 
-<article class="bg-zinc-900 rounded-md">
+<article id="comment-{comment?.comment_number}" class="bg-zinc-900 rounded-md">
 	<slot name="header">
 		<ACommentHeader on:comment-ctx={handleCtx} {comment} />
 	</slot>

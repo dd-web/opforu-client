@@ -58,7 +58,7 @@
 	};
 </script>
 
-<div class="flex flex-col justify-between py-2 mx-2 gap-4">
+<div class="flex flex-col justify-between pt-2 mx-2 gap-4">
 	<div id="file-uploader" class="h-full flex gap-4 w-full overflow-x-scroll bg-zinc-900 rounded-t-md mt-4 px-4">
 		{#each filesAttached as file (file.local_id)}
 			<UploadingFile

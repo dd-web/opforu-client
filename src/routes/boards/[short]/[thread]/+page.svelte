@@ -1,5 +1,6 @@
 <script>
 	import { newActionBarItem } from '$lib/utils/resolvers';
+	import { goto } from '$app/navigation';
 
 	import Thread from '$lib/cmp/thread/Thread.svelte';
 	import ContentActionBar from '$lib/cmp/layout/ContentActionBar.svelte';
@@ -15,7 +16,7 @@
 		.join(' ')
 		.replace('undefined', '')}`;
 
-	/** @type {any} */
+	/** @type {Record<string, any>} */
 	let componentMap = {
 		replyForm: ReplyForm
 	};
@@ -29,7 +30,14 @@
 	 * @param {CustomEvent} event
 	 */
 	const handleActionEvent = (event) => {
-		component = component === componentMap[event.detail] ? null : componentMap[event.detail];
+		if (event.detail === 'replyForm' && !data?.account) {
+			const qs = new URLSearchParams();
+			qs.append('next', 'thread');
+			qs.append('id', `${data?.board?.short}-${data?.thread?.slug}`);
+			goto(`/login?${qs.toString()}`);
+		} else {
+			component = component === componentMap[event.detail] ? null : componentMap[event.detail];
+		}
 	};
 </script>
 

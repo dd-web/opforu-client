@@ -26,23 +26,21 @@
 
 		if (result.type === 'success') {
 			await invalidateAll();
-			await goto(
-				`/boards/${$page.data.board.short}/${$page.data.thread.slug}#post-${$page.data.thread.slug}-${result?.data?.post_number}`
-			);
+			await goto(`/news/${$page.data.slug}#comment-${result?.data?.comment_number}`);
 		}
 
 		applyAction(result);
 	}
 </script>
 
-<form method="POST" on:submit|preventDefault={handleNewReply} action="?/reply" class="bg-zinc-900 rounded-md">
+<form method="POST" on:submit|preventDefault={handleNewReply} action="?/comment" class="bg-zinc-900 rounded-md mb-4">
 	<div class="grid grid-cols-[50%,50%]">
 		<div class="mx-2">
 			<label for="content">Content</label>
 			<textarea id="content" name="content" required rows="12" class="w-full resize-none" />
 		</div>
 
-		<FileUploadArea uploadPath={`/boards/${$page.data.board.short}?/fileUpload`} bind:filesAttached={replyFiles} />
+		<FileUploadArea bind:filesAttached={replyFiles} />
 	</div>
 	<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold m-2">Post</button>
 </form>

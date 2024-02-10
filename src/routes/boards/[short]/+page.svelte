@@ -1,5 +1,6 @@
 <script>
 	import { newActionBarItem } from '$lib/utils/resolvers';
+	import { goto } from '$app/navigation';
 
 	import Board from '$lib/cmp/board/Board.svelte';
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
@@ -11,7 +12,7 @@
 
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 
-	/** @type {any} */
+	/** @type {Record<string, any>} */
 	let componentMap = {
 		threadForm: ThreadForm
 	};
@@ -25,7 +26,14 @@
 	 * @param {CustomEvent} event
 	 */
 	const handleActionEvent = (event) => {
-		component = component === componentMap[event.detail] ? null : componentMap[event.detail];
+		if (event.detail === 'threadForm' && !data?.account) {
+			const qs = new URLSearchParams();
+			qs.append('next', 'board');
+			qs.append('id', data?.board?.short);
+			goto(`/login?${qs.toString()}`);
+		} else {
+			component = component === componentMap[event.detail] ? null : componentMap[event.detail];
+		}
 	};
 </script>
 

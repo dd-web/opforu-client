@@ -1,23 +1,30 @@
 import { fail, redirect } from '@sveltejs/kit'
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals }) {
-  if (locals?.account) throw redirect(301, '/')
-  return {
-    account: undefined
+export async function load({ locals, url }) {
+  const destCtx = url.searchParams.get('next');
+  const destId = url.searchParams.get('id');
+
+  if (destCtx && typeof destCtx === 'string' && destCtx.length > 0 &&
+    destId && typeof destId === 'string' && destId.length > 0) {
+    return {
+      account: locals.account
+    }
   }
+
+  if (locals?.account) throw redirect(301, '/')
 }
 
 
 /** @type {import('./$types').Actions} */
 export const actions = {
   register: async ({ cookies, request, locals, fetch }) => {
-    const data = await request.formData();
+    const formData = await request.formData();
 
-    const username = data.get('username')
-    const email = data.get('email')
-    const password = data.get('password');
-    const confirm_password = data.get('confirm-password');
+    const username = formData.get('username')
+    const email = formData.get('email')
+    const password = formData.get('password');
+    const confirm_password = formData.get('confirm-password');
 
     if (password !== confirm_password) {
       return fail(400, { password, matches: false })
@@ -25,25 +32,21 @@ export const actions = {
 
     const body = await JSON.stringify({ username, email, password, confirm_password });
 
-    const registerRequest = await fetch('http://localhost:3001/api/account/register', {
+    const data = await fetch('http://localhost:3001/api/account/register', {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body,
-    });
+    }).then((resp) => resp.json())
 
-    const registerResult = await registerRequest.json();
-    // console.log('register result', registerResult);
-
-    if (registerRequest.ok) {
-      cookies.set('session', registerResult.session.session_id, { httpOnly: true, path: '/' });
-      locals.account = registerResult.session.account;
+    if (data && data?.session && data?.session?.account) {
+      cookies.set('session', data.session.session_id, { httpOnly: true, path: '/' });
+      locals.account = data.session.account;
       return {
         success: true,
-        account: registerResult.session.account
+        account: data.session.account
       }
-    } else {
-      return fail(400, { username, email, invalid: true })
     }
 
+    return fail(400, { username, email, invalid: true })
   }
 }

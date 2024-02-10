@@ -8,7 +8,7 @@
 
 	/** @type {import('./$types').LayoutData} */ export let data;
 
-	$: if (data?.session === 'expired') {
+	$: if (data?.session && typeof data?.session === 'string' && data?.session === 'expired') {
 		alerts.newAlert('Your session has expired, please log in', 'error');
 	}
 </script>

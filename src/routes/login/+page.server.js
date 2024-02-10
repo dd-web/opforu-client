@@ -1,12 +1,18 @@
 import { fail, redirect } from '@sveltejs/kit'
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals }) {
-  if (locals?.account) throw redirect(301, '/')
+export async function load({ locals, url }) {
+  const destCtx = url.searchParams.get('next');
+  const destId = url.searchParams.get('id');
 
-  return {
-    account: locals.account
+  if (destCtx && typeof destCtx === 'string' && destCtx.length > 0 &&
+    destId && typeof destId === 'string' && destId.length > 0) {
+    return {
+      account: locals.account
+    }
   }
+
+  if (locals?.account) throw redirect(301, '/')
 }
 
 /** @type {import('./$types').Actions} */
@@ -23,8 +29,6 @@ export const actions = {
       headers: { "Content-Type": "application/json" },
       body,
     }).then((resp) => resp.json())
-
-    console.log('login data:', data);
 
     if (data && data?.account && data?.session) {
       cookies.set('session', data?.session?.session_id, { httpOnly: true, path: '/' })
