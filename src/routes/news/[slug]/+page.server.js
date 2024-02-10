@@ -35,19 +35,25 @@ export const actions = {
    * 
    * anonimity is taken care of on the database level in binary operators
    */
-  comment: async function ({ request, params, fetch }) {
+  comment: async function ({ request, params, fetch, locals }) {
     const formData = await request.formData();
     const content = formData.get('content');
     const assets = JSON.parse(String(formData.get('assets'))) // must be parsed or encoding will be wrong
-    const body = await JSON.stringify({ content, assets });
+    let anonimize = false;
 
+    if (locals?.account?.role === 'admin' || locals?.account?.role === 'mod') {
+      anonimize = typeof formData.get('anonymize') === 'string' && formData.get('anonymize') === 'on';
+    }
+
+    const body = await JSON.stringify({ content, assets, make_anonymous: anonimize });
     const data = await fetch(`http://localhost:3001/api/articles/${params.slug}`, {
       method: 'POST',
       body,
     }).then(resp => resp.json());
 
     return {
-      comment_number: data?.comment_number ?? 0
+      comment_number: data?.comment_number ?? 0,
+      article_id: params?.slug
     }
   }
 }

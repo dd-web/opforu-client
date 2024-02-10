@@ -9,6 +9,7 @@
 	import { goto } from '$app/navigation';
 
 	/** @type {import('./$types').PageData} */ export let data;
+	/** @type {import('./$types').ActionData} */ export let form;
 
 	// $: console.log('single article', data?.article);
 	$: title = `${data?.article?.title[0].toUpperCase() + data?.article?.title?.slice(1)}`;
@@ -38,6 +39,11 @@
 		}
 	};
 
+	/** Resets the current component to null, rendering nothing */
+	const handleResetComponent = () => {
+		component = null;
+	};
+
 	/**
 	 * Context menu handler
 	 * @param {CustomEvent} event
@@ -61,7 +67,7 @@
 
 	<ContentActionBar on:new-comment={handleActionEvent} items={actionButtons} />
 
-	<svelte:component this={component} />
+	<svelte:component this={component} on:close={handleResetComponent} />
 
 	<Article article={data?.article}>
 		<ArticleHeader on:article-ctx={handleArticleCtx} article={data?.article} slot="header">
