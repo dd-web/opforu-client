@@ -7,7 +7,7 @@ declare global {
 		interface Locals {
 			account?: IAccount?;
 			session?: Session | string?;
-			redir?: boolean?;
+			favorite_assets?: IFavoriteAssets?;
 		}
 		// interface PageData {}
 		// interface Platform {}
@@ -77,6 +77,7 @@ declare global {
 		avatar: IAssetDetail;
 		source: IAssetDetail;
 		file_name: string;
+		description: string;
 		tags: string[];
 	}
 
@@ -85,8 +86,14 @@ declare global {
 		height: number;
 		width: number;
 		size: number;
+		file_size: number;
 		size_str: string;
 		url: string;
+	}
+
+	interface IFavoriteAssets {
+		items: IAsset[];
+		updated_at?: string?;
 	}
 
 	interface IBoard extends IStructMeta {

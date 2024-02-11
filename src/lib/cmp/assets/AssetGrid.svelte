@@ -9,6 +9,8 @@
 	import CircleTimer from '$lib/icons/CircleTimer.svelte';
 	import XMark from '$lib/icons/XMark.svelte';
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
+	import Hamburger from '$lib/icons/Hamburger.svelte';
+	import { formatBytes } from '$lib/utils/localfile';
 
 	export let /** @type {IAsset[]} */ assets = [];
 
@@ -39,6 +41,8 @@
 	const resetAssetFocus = () => {
 		focusedAsset = null;
 	};
+
+	$: console.log('focusedasset', focusedAsset);
 </script>
 
 <div class="grid grid-rows-6 grid-cols-6 gap-2 h-full items-center justify-items-center p-2 relative">
@@ -97,10 +101,29 @@
 			</div>
 		{/await}
 		<div in:fade out:fade class="z-10 w-full absolute top-0 flex justify-between pt-2 px-4">
-			<span />
-			<CircularIconBtn class="mt-1" on:click={resetAssetFocus}>
+			<CircularIconBtn class="">
+				<Hamburger />
+			</CircularIconBtn>
+
+			<div class="overflow-hidden flex-shrink flex-[0_1_12rem] text-center flex gap-2 justify-between">
+				<p title="file name" class="text-limit text-sm capitalize">
+					{focusedAsset.file_name}
+				</p>
+				<p
+					title="file size"
+					class="text-limit text-zinc-400 text-xs max-w-[5rem] flex-shrink-0 flex-grow-0 bg-zinc-900 px-2 py-1 rounded-full font-semibold border border-zinc-700"
+				>
+					{formatBytes(focusedAsset.source.file_size)}
+				</p>
+			</div>
+
+			<CircularIconBtn class="" on:click={resetAssetFocus}>
 				<XMark />
 			</CircularIconBtn>
+		</div>
+
+		<div in:fade out:fade class="z-10 w-full absolute bottom-0 p-4">
+			<p title="description" class="text-xs text-limit text-center">{focusedAsset?.description}</p>
 		</div>
 	{/if}
 </div>

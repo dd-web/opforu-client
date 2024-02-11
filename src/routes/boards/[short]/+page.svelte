@@ -6,9 +6,11 @@
 	import Pagination from '$lib/cmp/global/Pagination.svelte';
 	import ContentActionBar from '$lib/cmp/layout/ContentActionBar.svelte';
 	import ThreadForm from '$lib/cmp/form/ThreadForm.svelte';
+	import { browser } from '$app/environment';
 
 	/** @type {import('./$types').PageData} */ export let data;
 
+	$: if (browser) console.log('data?(board short)', data);
 	$: title = `${data.board.title[0].toUpperCase() + data.board.title.slice(1)}`;
 
 	/** @type {Record<string, any>} */

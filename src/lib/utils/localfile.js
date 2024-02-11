@@ -207,3 +207,23 @@ export function createFileAttachmentData(fileInfo, tags) {
 
   return obj;
 }
+
+
+
+/**
+ * Formats size of bytes into short readable string, ex: 2.4 mb, etc.
+ * @param {number} size - size of file/whatever to get size of
+ * @returns {string}
+ */
+export function formatBytes(size) {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+  let bytes = size;
+  let unitIndex = 0;
+
+  for (unitIndex = 0; bytes >= 1024 && unitIndex < 4; unitIndex++) {
+    bytes /= 1024;
+  }
+
+  return `${bytes.toFixed(2)} ${units[unitIndex]}`
+}
