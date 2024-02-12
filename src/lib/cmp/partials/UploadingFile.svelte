@@ -1,12 +1,12 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 	import { clickoutside } from '$lib/actions/clickoutside';
 	import { autofocus } from '$lib/actions/autofocus';
-	const dispatch = createEventDispatcher();
+	import { formatBytes } from '$lib/utils/localfile';
 
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
 	import EllipsisVertical from '$lib/icons/EllipsisVertical.svelte';
-	import FileSizeFormatter from '../global/FileSizeFormatter.svelte';
 
 	import Modal from '../layout/Modal.svelte';
 
@@ -92,7 +92,7 @@
 		<div class="flex justify-between items-center px-2">
 			<span class="text-xs italic text-zinc-400">{file?.file?.type}</span>
 			<span class="text-xs text-zinc-400">
-				<FileSizeFormatter size={file?.file?.size} />
+				{formatBytes(file?.file?.size ?? 0)}
 			</span>
 		</div>
 
