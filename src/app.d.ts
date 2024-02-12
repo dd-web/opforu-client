@@ -6,8 +6,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			account?: IAccount?;
-			session?: Session | string?;
-			favorite_assets?: IFavoriteAssets?;
+			session?: ISession | string?;
 		}
 		// interface PageData {}
 		// interface Platform {}
@@ -82,19 +81,16 @@ declare global {
 	}
 
 	interface IAssetDetail {
-		extension: string;
+		server_file_name: string;
 		height: number;
 		width: number;
-		size: number;
 		file_size: number;
-		size_str: string;
 		url: string;
+		extension: string;
+		hash_md5: string;
+		hash_sha256: string;
 	}
 
-	interface IFavoriteAssets {
-		items: IAsset[];
-		updated_at?: string?;
-	}
 
 	interface IBoard extends IStructMeta {
 		title: string;

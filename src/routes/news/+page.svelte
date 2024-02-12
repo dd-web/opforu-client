@@ -3,6 +3,8 @@
 	import Article from '$lib/cmp/article/Article.svelte';
 
 	/** @type {import('./$types').PageData} */ export let data;
+
+	// $: console.log('news data', data);
 </script>
 
 <svelte:head>

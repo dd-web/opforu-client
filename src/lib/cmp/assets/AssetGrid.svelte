@@ -4,20 +4,19 @@
 	 */
 
 	import { crossfade, scale, fade } from 'svelte/transition';
+	import { formatBytes } from '$lib/utils/localfile';
 
 	import AssetTypeResolver from './AssetTypeResolver.svelte';
 	import CircleTimer from '$lib/icons/CircleTimer.svelte';
 	import XMark from '$lib/icons/XMark.svelte';
 	import CircularIconBtn from '../global/CircularIconBtn.svelte';
-	import Hamburger from '$lib/icons/Hamburger.svelte';
-	import { formatBytes } from '$lib/utils/localfile';
 
 	export let /** @type {IAsset[]} */ assets = [];
 
 	/** @type {IAsset?} */ let loadingAsset = null;
 	/** @type {IAsset?} */ let focusedAsset = null;
-
 	let croassfadeDuration = 300;
+	let ctxMenuVisible = false;
 
 	const [send, receive] = crossfade({
 		duration: (d) => croassfadeDuration,
@@ -38,11 +37,10 @@
 		localEl.src = asset.source.url;
 	};
 
+	/** handler for resetting gird */
 	const resetAssetFocus = () => {
 		focusedAsset = null;
 	};
-
-	$: console.log('focusedasset', focusedAsset);
 </script>
 
 <div class="grid grid-rows-6 grid-cols-6 gap-2 h-full items-center justify-items-center p-2 relative">
@@ -101,20 +99,8 @@
 			</div>
 		{/await}
 		<div in:fade out:fade class="z-10 w-full absolute top-0 flex justify-between pt-2 px-4">
-			<CircularIconBtn class="">
-				<Hamburger />
-			</CircularIconBtn>
-
-			<div class="overflow-hidden flex-shrink flex-[0_1_12rem] text-center flex gap-2 justify-between">
-				<p title="file name" class="text-limit text-sm capitalize">
-					{focusedAsset.file_name}
-				</p>
-				<p
-					title="file size"
-					class="text-limit text-zinc-400 text-xs max-w-[5rem] flex-shrink-0 flex-grow-0 bg-zinc-900 px-2 py-1 rounded-full font-semibold border border-zinc-700"
-				>
-					{formatBytes(focusedAsset.source.file_size)}
-				</p>
+			<div>
+				<a href={focusedAsset.source.url} target="_blank" class="text-blue-200 underline underline-offset-4">src</a>
 			</div>
 
 			<CircularIconBtn class="" on:click={resetAssetFocus}>
@@ -122,8 +108,12 @@
 			</CircularIconBtn>
 		</div>
 
-		<div in:fade out:fade class="z-10 w-full absolute bottom-0 p-4">
-			<p title="description" class="text-xs text-limit text-center">{focusedAsset?.description}</p>
+		<div in:fade out:fade class="z-10 w-full absolute bottom-0 px-2">
+			<div class="flex gap-2">
+				<p class="text-xs text-limit capitalize text-blue-200 font-semibold">{focusedAsset.file_name}</p>
+				<span class="text-xs text-zinc-400">{formatBytes(focusedAsset.source.file_size)}</span>
+			</div>
+			<p title="description" class="text-xs text-limit">{focusedAsset?.description}</p>
 		</div>
 	{/if}
 </div>
