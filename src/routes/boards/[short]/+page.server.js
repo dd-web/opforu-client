@@ -1,3 +1,5 @@
+import { JSDOM } from 'jsdom'
+import DOMPurify from 'dompurify'
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ fetch, params, url, cookies, locals }) {
@@ -50,12 +52,17 @@ export const actions = {
    */
   newThread: async function ({ request, params, fetch }) {
     const formData = await request.formData();
-
-    const title = formData.get('title');
-    const content = formData.get('content');
+    const title = String(formData.get('title'));
+    const content = String(formData.get('content'));
     const assets = JSON.parse(String(formData.get('assets'))) // must be parsed or encoding will be wrong
 
-    const body = await JSON.stringify({ title, content, assets })
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+
+    const cleanTitle = purify.sanitize(title);
+    const cleanContent = purify.sanitize(content);
+
+    const body = await JSON.stringify({ title: cleanTitle, content: cleanContent, assets })
 
     const data = await fetch(`http://localhost:3001/api/boards/${params.short}`, {
       method: 'POST',

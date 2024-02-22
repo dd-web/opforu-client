@@ -36,8 +36,6 @@ declare global {
 		expires: string;
 	}
 
-
-	/** base data structures - more or less similar to back end */
 	interface IAccount extends IStructMeta {
 		username: string;
 		email: string;
@@ -210,6 +208,13 @@ declare global {
 		reset = "reset",
 	}
 
+	enum EPostLookupResult {
+		init = "init",
+		success = "success",
+		error = "error",
+		processing = "processing"
+	}
+
 	/*****************************/
 
 	interface IActionBarItem {
@@ -268,6 +273,15 @@ declare global {
 		body: string;
 		creator: IIdentity;
 		tags?: string[];
+	}
+
+	interface IPostLookupData extends IStructMeta {
+		board: string; // short
+		assets: IAsset[]
+		body: string;
+		creator: IIdentity;
+		post_number: number;
+		thread: string; // slug
 	}
 
 }

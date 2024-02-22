@@ -11,6 +11,8 @@
 
 	/** @type {import('./$types').PageData} */ export let data;
 
+	$: console.log('news data', data);
+
 	$: title = `${data?.article?.title[0].toUpperCase() + data?.article?.title?.slice(1)}`;
 
 	/** @type {Record<string, any>} */

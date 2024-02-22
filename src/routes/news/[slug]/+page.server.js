@@ -1,3 +1,6 @@
+import { JSDOM } from 'jsdom'
+import DOMPurify from 'dompurify'
+
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ fetch, params, url, cookies, locals }) {
   /** @type {{ article: IArticle }} */
@@ -37,7 +40,7 @@ export const actions = {
    */
   comment: async function ({ request, params, fetch, locals }) {
     const formData = await request.formData();
-    const content = formData.get('content');
+    const content = String(formData.get('content'));
     const assets = JSON.parse(String(formData.get('assets'))) // must be parsed or encoding will be wrong
     let anonimize = false;
 
@@ -45,7 +48,13 @@ export const actions = {
       anonimize = typeof formData.get('anonymize') === 'string' && formData.get('anonymize') === 'on';
     }
 
-    const body = await JSON.stringify({ content, assets, make_anonymous: anonimize });
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+    console.log('content?', content)
+
+    const cleanContent = purify.sanitize(content);
+
+    const body = await JSON.stringify({ content: content, assets, make_anonymous: anonimize });
     const data = await fetch(`http://localhost:3001/api/articles/${params.slug}`, {
       method: 'POST',
       body,

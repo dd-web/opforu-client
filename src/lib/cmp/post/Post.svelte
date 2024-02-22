@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { resolvePostLinkEvent } from '$lib/utils/resolvers';
+	import { alerts } from '$lib/stores/alerts';
+	import { goto } from '$app/navigation';
 
 	import PostHeader from './partials/PostHeader.svelte';
 	import PostBody from './partials/PostBody.svelte';
@@ -18,13 +20,17 @@
 	/** @type {number} */ export let postNumber = 0;
 
 	/** @type {number} */ export let depth = 0;
-	/** @type {IPost[]} */ let embedded = [];
+	/** @type {{ id: string, post: IPostLookupData}[]} */ let embedded = [];
 	/** @type {HTMLElement}*/ let element;
+
+	let gotEmbedWarning = false;
 
 	$: html = content
 		.split('\n')
 		.map((line) => `<p>${line}</p>`)
 		.join('');
+
+	$: hrSplitCss = embedded.length > 0 ? 'block' : 'hidden';
 
 	/**
 	 * @TODO should get the post/thread and add it to the array for displaying
@@ -32,6 +38,50 @@
 	 * @param {CustomEvent} event
 	 */
 	function handlePostLinkEvent(event) {
+		if (depth >= 8) {
+			if (gotEmbedWarning === false) {
+				alerts.newAlert('Max embedded depth. Next will redirect.', 'info');
+				gotEmbedWarning = true;
+				return;
+			} else {
+				switch (event?.detail?.linktype) {
+					case 'post-internal-thread':
+						goto(
+							`/boards/${$page.params.short}/${$page.params.thread}#post-${$page.params.thread}-${event?.detail?.post?.post_number}`
+						);
+						break;
+					case 'thread-internal-board':
+						goto(`/boards/${$page.params.short}/${event?.detail?.post?.thread}`);
+						break;
+					case 'post-internal-board':
+						goto(
+							`/boards/${$page.params.short}/${event?.detail?.post?.thread}#post-${event?.detail?.post?.thread}-${event?.detail?.post?.post_number}`
+						);
+						break;
+					case 'thread-external-board':
+						goto(`/boards/${event?.detail?.post?.board}/${event?.detail?.post?.thread}`);
+						break;
+					case 'post-external-board':
+						goto(
+							`/boards/${event?.detail?.post?.board}/${event?.detail?.post?.thread}#post-${event?.detail?.post?.thread}-${event?.detail?.post?.post_number}`
+						);
+						break;
+				}
+				return;
+			}
+		}
+
+		let { id, post } = event.detail;
+		if (!id || !post || typeof post?.post_number !== 'number') return;
+
+		let hasItem = embedded.filter((p) => p.id === id);
+
+		if (hasItem.length === 0) {
+			embedded = [...embedded, { id, post: event.detail.post }];
+		} else {
+			embedded = embedded.filter((p) => p.id !== id);
+		}
+
 		console.log('post link:', event.detail);
 	}
 
@@ -63,18 +113,21 @@
 		<PostBody {assets} content={html} />
 	</slot>
 
-	<hr class="hr-split hidden" class:block={embedded.length > 0} />
+	<hr class="hr-split clear-left {hrSplitCss}" />
 
-	{#each embedded as post ('embedded' + '-' + depth + '-' + post?.post_number)}
+	{#each embedded as wrapper ('embedded' + '-' + depth + '-' + wrapper.post?.post_number)}
 		<svelte:self
 			depth={depth + 1}
-			elementId="embedded-{depth}-{post?.post_number}"
-			identity={post?.creator}
-			assets={post?.assets}
-			content={post?.body}
-			createdAt={post?.created_at}
-			updatedAt={post?.updated_at}
+			elementId="embedded-{depth}-{wrapper?.post?.post_number}"
+			creator={wrapper?.post?.creator}
+			postNumber={wrapper?.post?.post_number}
+			assets={wrapper?.post?.assets}
+			content={wrapper?.post?.body}
+			createdAt={wrapper?.post?.created_at}
+			updatedAt={wrapper?.post?.updated_at}
 		/>
+	{:else}
+		<span />
 	{/each}
 
 	<slot name="footer">
