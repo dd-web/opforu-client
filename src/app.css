@@ -167,12 +167,35 @@ h6.link a {
 
   /* Forced includes - for dynamic styles that can't be determined at compile time (post contents etc..) */
 
+
+/* parsed html classes */
+
 div.content-body p {
   @apply my-4 font-thin leading-5 text-base;
 }
 
 div.content-body button {
   @apply border mx-1 font-bold;
+}
+
+div.content-body button span {
+  @apply mx-0.5;
+}
+
+div.content-body button span.separate {
+  @apply text-zinc-600;
+}
+
+div.content-body button span.board {
+  @apply text-amber-300/50;
+}
+
+div.content-body button span.thread {
+  @apply text-green-300/50;
+}
+
+div.content-body button span.post {
+  @apply text-blue-200/50;
 }
 
 div.content-body button.init {
@@ -188,7 +211,7 @@ div.content-body button.error {
 }
 
 div.content-body button.success {
-  @apply bg-blue-600/20 border-blue-800/50 text-blue-200/50;
+  @apply bg-blue-600/5 border-blue-800/50 text-blue-200/50;
 }
 
 div.content-body blockquote {

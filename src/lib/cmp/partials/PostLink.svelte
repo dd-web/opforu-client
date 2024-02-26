@@ -62,19 +62,43 @@
 	on:focus={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
 	title={hoverName}
 	type="button"
-	class="post-link {status}"
+	class="post-link inline-flex flex-row {status}"
 	on:click={handleClick}
 >
 	{#if postLinkData.link_type === 'post-internal-thread'}
 		{postLinkData.post_number}
 	{:else if postLinkData.link_type === 'thread-internal-board'}
-		{postLinkData.thread}
+		<span class="thread">
+			{postLinkData.thread}
+		</span>
 	{:else if postLinkData.link_type === 'post-internal-board'}
-		{postLinkData.thread}/{postLinkData.post_number}
+		<span class="thread">
+			{postLinkData.thread}
+		</span>
+		<span class="separate">/</span>
+		<span class="post">
+			{postLinkData.post_number}
+		</span>
 	{:else if postLinkData.link_type === 'thread-external-board'}
-		{postLinkData.board}/{postLinkData.thread}
+		<span class="board">
+			{postLinkData.board}
+		</span>
+		<span class="separate">/</span>
+		<span class="thread">
+			{postLinkData.thread}
+		</span>
 	{:else if postLinkData.link_type === 'post-external-board'}
-		{postLinkData.board}/{postLinkData.thread}/{postLinkData.post_number}
+		<span class="board">
+			{postLinkData.board}
+		</span>
+		<span class="separate">/</span>
+		<span class="thread">
+			{postLinkData.thread}
+		</span>
+		<span class="separate">/</span>
+		<span class="post">
+			{postLinkData.post_number}
+		</span>
 	{/if}
 </button>
 

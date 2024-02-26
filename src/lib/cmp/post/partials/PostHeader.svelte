@@ -1,4 +1,7 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	import Identity from '$lib/cmp/identity/Identity.svelte';
 	import CircularIconBtn from '$lib/cmp/global/CircularIconBtn.svelte';
 	import Hamburger from '$lib/icons/Hamburger.svelte';
@@ -21,7 +24,7 @@
 
 	<slot name="right">
 		<div class="flex gap-2 items-center">
-			<Identity {creator} />
+			<Identity {creator} on:click={() => dispatch('alias-click', creator)} />
 			<PostNumber num={postNumber} />
 		</div>
 	</slot>

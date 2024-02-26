@@ -1,5 +1,6 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 	import { page } from '$app/stores';
 	import { resolvePostLinkEvent } from '$lib/utils/resolvers';
 	import { alerts } from '$lib/stores/alerts';
@@ -18,6 +19,7 @@
 	/** @type {string?=} */ export let updatedAt;
 	/** @type {string[]} */ export let tagList = [];
 	/** @type {number} */ export let postNumber = 0;
+	/** @type {IFocusedIdentity?} */ export let focusedIdentity = null;
 
 	/** @type {number} */ export let depth = 0;
 	/** @type {{ id: string, post: IPostLookupData}[]} */ let embedded = [];
@@ -27,6 +29,7 @@
 	let gotEmbedWarning = false;
 
 	$: hrSplitCss = embedded.length > 0 ? 'block' : 'hidden';
+	$: isFocusedAlias = focusedIdentity?.identity?.name === creator?.name;
 
 	/**
 	 * Handles post link events, add/removal from embedded list and redirects
@@ -76,8 +79,6 @@
 		} else {
 			embedded = embedded.filter((p) => p.id !== id);
 		}
-
-		console.log('post link:', event.detail);
 	}
 
 	onMount(() => {
@@ -102,9 +103,21 @@
 </script>
 
 <!-- post-{thread.slug}-{post.post_number} -->
-<article bind:this={element} id={elementId} class="bg-zinc-900 rounded-md" class:embedded={depth > 0}>
+<article
+	bind:this={element}
+	id={elementId}
+	class="bg-zinc-900 rounded-md border border-transparent"
+	class:embedded={depth > 0}
+	class:highlight={isFocusedAlias}
+>
 	<slot name="header">
-		<PostHeader {creator} {postNumber} />
+		<PostHeader {creator} {postNumber} on:alias-click>
+			<div class="ml-auto {isFocusedAlias ? `` : 'hidden'}" slot="center">
+				<span class="tag-badge px-2 -mr-2" title="number of posts by this user within this thread">
+					{focusedIdentity?.post_count} Post{focusedIdentity && focusedIdentity?.post_count > 1 ? 's' : ''}
+				</span>
+			</div>
+		</PostHeader>
 	</slot>
 
 	<slot name="body">
@@ -136,5 +149,9 @@
 <style lang="postcss">
 	.embedded {
 		@apply m-4;
+	}
+
+	.highlight {
+		@apply bg-blue-100/10 border border-blue-200/20;
 	}
 </style>

@@ -258,6 +258,11 @@ declare global {
 		thread: string;
 	}
 
+	interface IFocusedIdentity {
+		identity: IIdentity;
+		post_count: number;
+	}
+
 	interface IPostStore {
 		[key: string]: IPostStoreBoard
 	}

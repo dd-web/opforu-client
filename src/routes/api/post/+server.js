@@ -10,11 +10,8 @@ export async function GET({ url }) {
     .then(resp => resp.json())
 
   if (!data?.post || !data?.post?.thread || typeof data?.post?.post_number != 'number') {
-    console.log('post was not found err')
     error(404, 'post not found')
   }
-
-  console.log('DATA (post lookup)', data?.post);
 
   return new Response(JSON.stringify(data?.post))
 }
