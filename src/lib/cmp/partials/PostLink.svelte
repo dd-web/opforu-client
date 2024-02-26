@@ -43,7 +43,8 @@
 		if (!post || post === null) return;
 		dispatch('post-link', {
 			post: post,
-			id: localID
+			id: localID,
+			data: postLinkData
 		});
 	};
 

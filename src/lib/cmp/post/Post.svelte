@@ -2,7 +2,7 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { page } from '$app/stores';
-	import { resolvePostLinkEvent } from '$lib/utils/resolvers';
+	import { resolvePostLinkEvent, resolvePostLinkURL } from '$lib/utils/resolvers';
 	import { alerts } from '$lib/stores/alerts';
 	import { goto } from '$app/navigation';
 
@@ -11,7 +11,11 @@
 	import PostFooter from './partials/PostFooter.svelte';
 	import PostLink from '../partials/PostLink.svelte';
 
+	/** DOM details */
 	/** @type {string} */ export let elementId;
+	/** @type {boolean} */ export let showPostCount = false;
+
+	/** post fields */
 	/** @type {IIdentity} */ export let creator;
 	/** @type {IAsset[]} */ export let assets;
 	/** @type {string} */ export let content;
@@ -19,21 +23,25 @@
 	/** @type {string?=} */ export let updatedAt;
 	/** @type {string[]} */ export let tagList = [];
 	/** @type {number} */ export let postNumber = 0;
+
+	/** thread info */
+	/** @type {number} */ export let creatorPostCount = 1;
 	/** @type {IFocusedIdentity?} */ export let focusedIdentity = null;
 
+	/** recursion info */
 	/** @type {number} */ export let depth = 0;
-	/** @type {{ id: string, post: IPostLookupData}[]} */ let embedded = [];
-	/** @type {HTMLElement}*/ let element;
+	/** @type {ICEPostLink[]} */ let embedded = [];
 
-	/** @type {boolean} when trying to embed, the 8th level will redirect after showing a warning */
-	let gotEmbedWarning = false;
+	/** local state */
+	/** @type {boolean} */ let gotEmbedWarning = false;
+	/** @type {HTMLElement}*/ let element;
 
 	$: hrSplitCss = embedded.length > 0 ? 'block' : 'hidden';
 	$: isFocusedAlias = focusedIdentity?.identity?.name === creator?.name;
 
 	/**
 	 * Handles post link events, add/removal from embedded list and redirects
-	 * @param {CustomEvent} event
+	 * @param {CustomEvent<ICEPostLink>} event
 	 */
 	function handlePostLinkEvent(event) {
 		if (depth >= 8) {
@@ -42,29 +50,7 @@
 				gotEmbedWarning = true;
 				return;
 			} else {
-				switch (event?.detail?.linktype) {
-					case 'post-internal-thread':
-						goto(
-							`/boards/${$page.params.short}/${$page.params.thread}#post-${$page.params.thread}-${event?.detail?.post?.post_number}`
-						);
-						break;
-					case 'thread-internal-board':
-						goto(`/boards/${$page.params.short}/${event?.detail?.post?.thread}`);
-						break;
-					case 'post-internal-board':
-						goto(
-							`/boards/${$page.params.short}/${event?.detail?.post?.thread}#post-${event?.detail?.post?.thread}-${event?.detail?.post?.post_number}`
-						);
-						break;
-					case 'thread-external-board':
-						goto(`/boards/${event?.detail?.post?.board}/${event?.detail?.post?.thread}`);
-						break;
-					case 'post-external-board':
-						goto(
-							`/boards/${event?.detail?.post?.board}/${event?.detail?.post?.thread}#post-${event?.detail?.post?.thread}-${event?.detail?.post?.post_number}`
-						);
-						break;
-				}
+				goto(resolvePostLinkURL(event.detail.data));
 				return;
 			}
 		}
@@ -75,7 +61,7 @@
 		let hasItem = embedded.filter((p) => p.id === id);
 
 		if (hasItem.length === 0) {
-			embedded = [...embedded, { id, post: event.detail.post }];
+			embedded = [...embedded, { ...event.detail }];
 		} else {
 			embedded = embedded.filter((p) => p.id !== id);
 		}
@@ -102,7 +88,6 @@
 	});
 </script>
 
-<!-- post-{thread.slug}-{post.post_number} -->
 <article
 	bind:this={element}
 	id={elementId}
@@ -112,10 +97,15 @@
 >
 	<slot name="header">
 		<PostHeader {creator} {postNumber} on:alias-click>
-			<div class="ml-auto {isFocusedAlias ? `` : 'hidden'}" slot="center">
-				<span class="tag-badge px-2 -mr-2" title="number of posts by this user within this thread">
-					{focusedIdentity?.post_count} Post{focusedIdentity && focusedIdentity?.post_count > 1 ? 's' : ''}
-				</span>
+			<div class="ml-auto" slot="center">
+				{#if showPostCount}
+					<span
+						class="tag-badge px-2 -mr-2"
+						title="{creatorPostCount} post{creatorPostCount > 1 ? 's' : ''} by this user"
+					>
+						{creatorPostCount} Post{creatorPostCount > 1 ? 's' : ''}
+					</span>
+				{/if}
 			</div>
 		</PostHeader>
 	</slot>

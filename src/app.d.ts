@@ -277,6 +277,16 @@ declare global {
 
 	interface IPostStorePost extends IPostLookupData { }
 
+	/** custom event dispatch structs */
+	/***********************************/
+
+	interface ICEPostLink {
+		id: string;
+		post: IPost;
+		data: IPostLinkData;
+	}
+
+
 	/** form submission result structs */
 	/***********************************/
 

@@ -92,3 +92,27 @@ export function newActionBarItem(event_name, event_data, text = 'ActionButton') 
   }
 }
 
+
+/**
+ * Resolve the url of a post link item
+ * @param {IPostLinkData} data - post link data describing it's reference
+ * @returns {string} URL to provided post/thread including the header link (scroll offset)
+ */
+export function resolvePostLinkURL(data) {
+  if (!data || !data?.link_type || !data?.board || !data?.thread || !data?.post_number) return `/`
+
+  switch (data.link_type) {
+    case 'post-internal-thread':
+      return `/boards/${data.board}/${data.thread}#post-${data.thread}-${data.post_number}`
+    case 'thread-internal-board':
+      return `/boards/${data.board}/${data.thread}`;
+    case 'post-internal-board':
+      return `/boards/${data.board}/${data.thread}#post-${data.thread}-${data.post_number}`
+    case 'thread-external-board':
+      return `/boards/${data.board}/${data.thread}`;
+    case 'post-external-board':
+      return `/boards/${data.board}/${data.thread}#post-${data.thread}-${data.post_number}`
+    default:
+      return `/`
+  }
+}
