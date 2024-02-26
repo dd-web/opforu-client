@@ -191,6 +191,10 @@ div.content-body button.success {
   @apply bg-blue-600/20 border-blue-800/50 text-blue-200/50;
 }
 
+div.content-body blockquote {
+  @apply pl-2 py-2 border-l-2 border-blue-300/50 bg-zinc-800 rounded-md text-zinc-400 italic;
+}
+
 article.embedded {
   @apply border border-zinc-800;
 }

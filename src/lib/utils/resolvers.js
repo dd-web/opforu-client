@@ -92,10 +92,3 @@ export function newActionBarItem(event_name, event_data, text = 'ActionButton') 
   }
 }
 
-/**
- * New ID from nanoid
- * @returns {string}
- */
-export function newID() {
-  return nanoid()
-}

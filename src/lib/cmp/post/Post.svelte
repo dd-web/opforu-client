@@ -23,18 +23,13 @@
 	/** @type {{ id: string, post: IPostLookupData}[]} */ let embedded = [];
 	/** @type {HTMLElement}*/ let element;
 
+	/** @type {boolean} when trying to embed, the 8th level will redirect after showing a warning */
 	let gotEmbedWarning = false;
-
-	$: html = content
-		.split('\n')
-		.map((line) => `<p>${line}</p>`)
-		.join('');
 
 	$: hrSplitCss = embedded.length > 0 ? 'block' : 'hidden';
 
 	/**
-	 * @TODO should get the post/thread and add it to the array for displaying
-	 * Handler for post link events
+	 * Handles post link events, add/removal from embedded list and redirects
 	 * @param {CustomEvent} event
 	 */
 	function handlePostLinkEvent(event) {
@@ -98,7 +93,10 @@
 			cmp.$on('post-link', handlePostLinkEvent);
 			cmp.$inject_state;
 
-			button.replaceWith(button.querySelector('button') ?? new Node());
+			let btnEl = button.querySelector('button');
+			if (btnEl) {
+				button.replaceWith(btnEl);
+			}
 		});
 	});
 </script>
@@ -110,7 +108,7 @@
 	</slot>
 
 	<slot name="body">
-		<PostBody {assets} content={html} />
+		<PostBody {assets} {content} />
 	</slot>
 
 	<hr class="hr-split clear-left {hrSplitCss}" />

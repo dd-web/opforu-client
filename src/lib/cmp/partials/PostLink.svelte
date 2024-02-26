@@ -1,5 +1,6 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { postStore } from '$lib/stores/posts';
+	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	/** @type {IPostLinkData} */ export let postLinkData;
@@ -7,7 +8,7 @@
 	/** @type {IPost?} */ let post = null;
 	/** @type {keyof typeof EPostLookupResult} */ let status = 'init';
 
-	let localID = String(postLinkData.thread + postLinkData.post_number);
+	let localID = String(postLinkData.board + postLinkData.thread + postLinkData.post_number);
 
 	$: hoverName = `Post ${
 		status === 'processing'
@@ -16,57 +17,49 @@
 			? 'not found'
 			: status === 'success'
 			? 'found'
-			: 'delayed'
+			: 'unretrievable'
 	}`;
 
 	/**
 	 * Lookup a single post
+	 * @param {string} board - board short name
 	 * @param {string} thread - thread slug (in url)
-	 * @param {number} post_num - post number
+	 * @param {number} postnum - post number
 	 */
-	const lookupPost = async (thread, post_num) => {
+	const lookupPost = async (board, thread, postnum) => {
 		if (status !== 'init') return;
 		status = 'processing';
 
-		const qs = new URLSearchParams();
-		qs.append('thread', thread);
-		qs.append('post', String(post_num));
-
-		const data = await fetch(`/api/post?${qs.toString()}`)
-			.then((resp) => {
-				status = 'success';
-				return resp.json();
-			})
-			.catch(() => {
-				status = 'error';
-			})
-			.finally((/** @type {IPostLookupData?} */ resdata) => {
-				post = resdata;
-			});
-
-		post = data;
+		let p = await postStore.resolvePost(board, thread, postnum);
+		if (typeof p === 'string') {
+			status = 'error';
+		} else if (p && typeof p?.post_number === 'number') {
+			status = 'success';
+			post = p;
+		}
 	};
 
 	const handleClick = () => {
 		if (!post || post === null) return;
 		dispatch('post-link', {
 			post: post,
-			id: localID,
-			linktype: postLinkData.link_type
+			id: localID
 		});
 	};
 
-	const handleLookupPost = () => {
-		if (status === 'init') {
-			lookupPost(postLinkData.thread, postLinkData.post_number);
+	onMount(() => {
+		let cached = postStore.getPost(postLinkData.board, postLinkData.thread, postLinkData.post_number);
+		if (cached) {
+			status = typeof cached === 'string' ? 'error' : 'success';
+			post = typeof cached === 'string' ? null : cached;
 		}
-	};
+	});
 </script>
 
 <button
-	on:mouseenter={handleLookupPost}
-	on:mouseover={handleLookupPost}
-	on:focus={handleLookupPost}
+	on:mouseenter={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
+	on:mouseover={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
+	on:focus={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
 	title={hoverName}
 	type="button"
 	class="post-link {status}"

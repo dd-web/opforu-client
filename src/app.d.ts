@@ -258,6 +258,20 @@ declare global {
 		thread: string;
 	}
 
+	interface IPostStore {
+		[key: string]: IPostStoreBoard
+	}
+
+	interface IPostStoreBoard {
+		[key: string]: IPostStoreThread
+	}
+
+	interface IPostStoreThread {
+		[key: number]: IPostStorePost | "not found"
+	}
+
+	interface IPostStorePost extends IPostLookupData { }
+
 	/** form submission result structs */
 	/***********************************/
 
