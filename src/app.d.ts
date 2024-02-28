@@ -222,6 +222,11 @@ declare global {
 
 	/*****************************/
 
+	type TFetchResult<T> = {
+		account?: IAccount;
+		session?: ISession;
+	} & T
+
 	interface IActionBarItem {
 		id: string;
 		text: string;

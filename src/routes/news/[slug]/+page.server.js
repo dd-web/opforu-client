@@ -3,9 +3,18 @@ import DOMPurify from 'dompurify'
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ fetch, params, url, cookies, locals }) {
-  /** @type {{ article: IArticle }} */
+  /** @type {TFetchResult<{ article: IArticle }>} */
   const data = await fetch(`http://localhost:3001/api/articles/${params.slug}`)
     .then(resp => resp.json())
+
+  if (data?.account) {
+    locals.account = data.account;
+  }
+
+  if (data?.session) {
+    locals.session = data.session
+    cookies.set('session', data?.session?.session_id, { httpOnly: true, path: '/' });
+  }
 
   return {
     article: data.article

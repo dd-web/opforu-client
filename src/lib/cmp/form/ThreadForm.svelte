@@ -30,6 +30,7 @@
 		const formData = new FormData(event.currentTarget);
 		const fileData = newThreadFiles.map((data) => createFileAttachmentData(data));
 		formData.append('assets', JSON.stringify(fileData));
+		formData.append('flags', JSON.stringify(threadFlags));
 
 		const response = await fetch(event.currentTarget.action, {
 			method: 'POST',

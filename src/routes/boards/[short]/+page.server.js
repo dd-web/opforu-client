@@ -13,9 +13,18 @@ export async function load({ fetch, params, url, cookies, locals }) {
   if (count) qs.append("count", count)
   if (search) qs.append("search", search)
 
-  /** @type {{ records: IThread[] } & { paginator: IPaginator } & { board: IBoard }} */
+  /** @type {TFetchResult<{ records: IThread[] } & { paginator: IPaginator } & { board: IBoard }>} */
   const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`)
     .then(resp => resp.json())
+
+  if (data?.account) {
+    locals.account = data.account;
+  }
+
+  if (data?.session) {
+    locals.session = data.session;
+    cookies.set('session', data?.session?.session_id, { httpOnly: true, path: '/' })
+  }
 
   return {
     threads: data.records,
@@ -54,6 +63,7 @@ export const actions = {
     const formData = await request.formData();
     const title = String(formData.get('title'));
     const content = String(formData.get('content'));
+    const flags = JSON.parse(String((formData.get('flags'))));
     const assets = JSON.parse(String(formData.get('assets'))) // must be parsed or encoding will be wrong
 
     const window = new JSDOM('').window;
@@ -62,7 +72,7 @@ export const actions = {
     const cleanTitle = purify.sanitize(title);
     const cleanContent = purify.sanitize(content);
 
-    const body = await JSON.stringify({ title: cleanTitle, content: cleanContent, assets })
+    const body = await JSON.stringify({ title: cleanTitle, content: cleanContent, assets, flags })
 
     const data = await fetch(`http://localhost:3001/api/boards/${params.short}`, {
       method: 'POST',

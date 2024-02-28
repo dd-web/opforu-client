@@ -2,12 +2,21 @@ import { JSDOM } from 'jsdom'
 import DOMPurify from 'dompurify'
 
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ fetch, params, parent }) {
+export async function load({ fetch, params, parent, locals, cookies }) {
   const { boards } = await parent();
 
-  /** @type {{ thread: IThread } & {boards: IBoard[]}} */
+  /** @type {TFetchResult<{ thread: IThread } & {boards: IBoard[]}>} */
   const data = await fetch(`http://localhost:3001/api/threads/${params.thread}`)
     .then(resp => resp.json())
+
+  if (data?.account) {
+    locals.account = data.account;
+  }
+
+  if (data?.session) {
+    locals.session = data.session;
+    cookies.set('session', data?.session?.session_id, { httpOnly: true, path: '/' })
+  }
 
   const threadBoard = boards?.filter(b => b.short === params.short)[0]
 
