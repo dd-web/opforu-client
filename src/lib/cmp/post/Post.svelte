@@ -44,6 +44,7 @@
 	 * @param {CustomEvent<ICEPostLink>} event
 	 */
 	function handlePostLinkEvent(event) {
+		console.log('post link', event.detail);
 		if (depth >= 8) {
 			if (gotEmbedWarning === false) {
 				alerts.newAlert('Max embedded depth. Next will redirect.', 'info');
@@ -55,15 +56,18 @@
 			}
 		}
 
-		let { id, post } = event.detail;
-		if (!id || !post || typeof post?.post_number !== 'number') return;
+		let resourceType = event.detail?.resource;
+		let resourceId = event.detail?.id;
+		let item = event.detail?.item;
 
-		let hasItem = embedded.filter((p) => p.id === id);
+		if (!resourceType || !resourceId || !item) return;
+
+		let hasItem = embedded.filter((p) => p.id === resourceId);
 
 		if (hasItem.length === 0) {
 			embedded = [...embedded, { ...event.detail }];
 		} else {
-			embedded = embedded.filter((p) => p.id !== id);
+			embedded = embedded.filter((p) => p.id !== resourceId);
 		}
 	}
 
@@ -116,16 +120,16 @@
 
 	<hr class="hr-split clear-left {hrSplitCss}" />
 
-	{#each embedded as wrapper ('embedded' + '-' + depth + '-' + wrapper.post?.post_number)}
+	{#each embedded as wrapper ('embedded' + '-' + depth + '-' + wrapper.item?.slug ?? wrapper.item?.post_number)}
 		<svelte:self
 			depth={depth + 1}
-			elementId="embedded-{depth}-{wrapper?.post?.post_number}"
-			creator={wrapper?.post?.creator}
-			postNumber={wrapper?.post?.post_number}
-			assets={wrapper?.post?.assets}
-			content={wrapper?.post?.body}
-			createdAt={wrapper?.post?.created_at}
-			updatedAt={wrapper?.post?.updated_at}
+			elementId="embedded-{depth}-{wrapper?.item?.post_number}"
+			creator={wrapper?.item?.creator}
+			postNumber={wrapper?.item?.item_number}
+			assets={wrapper?.item?.assets}
+			content={wrapper?.item?.body}
+			createdAt={wrapper?.item?.created_at}
+			updatedAt={wrapper?.item?.updated_at}
 		/>
 	{:else}
 		<span />

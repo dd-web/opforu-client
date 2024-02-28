@@ -215,6 +215,11 @@ declare global {
 		processing = "processing"
 	}
 
+	enum EPostLinkResource {
+		thread = "thread",
+		post = "post"
+	}
+
 	/*****************************/
 
 	interface IActionBarItem {
@@ -251,12 +256,6 @@ declare global {
 		progress: number;
 	}
 
-	interface IPostLinkData {
-		link_type: keyof typeof EPostLinkType;
-		post_number: number;
-		board: string;
-		thread: string;
-	}
 
 	interface IFocusedIdentity {
 		identity: IIdentity;
@@ -275,15 +274,37 @@ declare global {
 		[key: number]: IPostStorePost | "not found"
 	}
 
+	interface IThreadStore {
+		[key: string]: IThreadStoreBoard
+	}
+
+	interface IThreadStoreBoard {
+		[key: string]: IThreadStoreThread | "not found"
+	}
+
 	interface IPostStorePost extends IPostLookupData { }
+	interface IThreadStoreThread extends IThreadLookupData { }
+
+
+	interface IPostLinkData {
+		link_type: keyof typeof EPostLinkType;
+		board: string;
+		thread: string;
+		post_number: number;
+	}
 
 	/** custom event dispatch structs */
 	/***********************************/
 
 	interface ICEPostLink {
 		id: string;
-		post: IPost;
+		item: IPostLinkItem;
 		data: IPostLinkData;
+		resource: keyof typeof EPostLinkResource;
+	}
+
+	interface IPostLinkItem extends IStructMeta extends Partial<IThread> extends Partial<IPost> {
+		[key: string]: string;
 	}
 
 
@@ -297,13 +318,6 @@ declare global {
 		tags: string[];
 	}
 
-	interface IPostDisplayData extends IStructMeta {
-		assets: IAsset[];
-		body: string;
-		creator: IIdentity;
-		tags?: string[];
-	}
-
 	interface IPostLookupData extends IStructMeta {
 		board: string; // short
 		assets: IAsset[]
@@ -311,6 +325,20 @@ declare global {
 		creator: IIdentity;
 		post_number: number;
 		thread: string; // slug
+	}
+
+	interface IThreadLookupData extends IStructMeta {
+		assets: IAsset[];
+		board: string;
+		body: string;
+		creator: IIdentity;
+		post_count: number;
+		slug: string;
+		thread: string; // same as slug, exists for overlap with IPostLookupData
+		title: string;
+		status: keyof typeof EThreadStatus;
+		tags: string[];
+		mods: IIdentity[];
 	}
 
 }

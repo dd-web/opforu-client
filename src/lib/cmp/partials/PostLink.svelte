@@ -1,14 +1,22 @@
 <script>
 	import { postStore } from '$lib/stores/posts';
+	import { threadStore } from '$lib/stores/threads';
 	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	/** @type {IPostLinkData} */ export let postLinkData;
 
-	/** @type {IPost?} */ let post = null;
+	/** @type {keyof typeof EPostLinkResource} */ $: resource = postLinkData?.link_type[0] === 'p' ? 'post' : 'thread';
+
+	/** @type {IPostStorePost?} */ let post = null;
+	/** @type {IThreadStoreThread?} */ let thread = null;
+
 	/** @type {keyof typeof EPostLookupResult} */ let status = 'init';
 
-	let localID = String(postLinkData.board + postLinkData.thread + postLinkData.post_number);
+	let localID =
+		postLinkData?.link_type[0] === 'p'
+			? String(postLinkData.board + postLinkData.thread + postLinkData.post_number)
+			: String(postLinkData.board + postLinkData.thread);
 
 	$: hoverName = `Post ${
 		status === 'processing'
@@ -20,17 +28,12 @@
 			: 'unretrievable'
 	}`;
 
-	/**
-	 * Lookup a single post
-	 * @param {string} board - board short name
-	 * @param {string} thread - thread slug (in url)
-	 * @param {number} postnum - post number
-	 */
-	const lookupPost = async (board, thread, postnum) => {
+	/** Lookup a single post */
+	const lookupPost = async () => {
 		if (status !== 'init') return;
 		status = 'processing';
 
-		let p = await postStore.resolvePost(board, thread, postnum);
+		let p = await postStore.resolvePost(postLinkData.board, postLinkData.thread, postLinkData.post_number);
 		if (typeof p === 'string') {
 			status = 'error';
 		} else if (p && typeof p?.post_number === 'number') {
@@ -39,28 +42,62 @@
 		}
 	};
 
+	/** Lookup a single thread */
+	const lookupThread = async () => {
+		if (status !== 'init') return;
+		status = 'processing';
+
+		let t = await threadStore.resolveThread(postLinkData.board, postLinkData.thread);
+		if (typeof t === 'string') {
+			status = 'error';
+		} else if (t && typeof t?.post_count === 'number') {
+			status = 'success';
+			thread = t;
+		}
+	};
+
+	/** resolves lookup for determined resource referenced */
+	const handleResolver = () => {
+		if (typeof postLinkData?.link_type !== 'string') return;
+		resource === 'post' ? lookupPost() : lookupThread();
+	};
+
+	/** Click handler for embedding */
 	const handleClick = () => {
-		if (!post || post === null) return;
+		if (resource === 'post' && post === null) return;
+		if (resource === 'thread' && thread === null) return;
 		dispatch('post-link', {
-			post: post,
 			id: localID,
-			data: postLinkData
+			item: resource === 'post' ? post : thread,
+			data: postLinkData,
+			resource: resource
 		});
 	};
 
 	onMount(() => {
-		let cached = postStore.getPost(postLinkData.board, postLinkData.thread, postLinkData.post_number);
-		if (cached) {
-			status = typeof cached === 'string' ? 'error' : 'success';
-			post = typeof cached === 'string' ? null : cached;
+		if (typeof postLinkData?.link_type !== 'string') return;
+		let cached_post = null,
+			cached_thread = null;
+
+		if (resource === 'post') {
+			cached_post = postStore.getPost(postLinkData.board, postLinkData.thread, postLinkData.post_number);
+		} else {
+			cached_thread = threadStore.getThread(postLinkData.board, postLinkData.thread);
 		}
+
+		if (typeof cached_post === 'string' || typeof cached_thread === 'string') {
+			status = 'error';
+		}
+
+		post = typeof cached_post === 'string' ? null : cached_post;
+		thread = typeof cached_thread === 'string' ? null : cached_thread;
 	});
 </script>
 
 <button
-	on:mouseenter={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
-	on:mouseover={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
-	on:focus={() => lookupPost(postLinkData.board, postLinkData.thread, postLinkData.post_number)}
+	on:mouseenter={handleResolver}
+	on:mouseover={handleResolver}
+	on:focus={handleResolver}
 	title={hoverName}
 	type="button"
 	class="post-link inline-flex flex-row {status}"

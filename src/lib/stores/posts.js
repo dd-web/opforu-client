@@ -79,7 +79,7 @@ function newPostStore() {
   }
 
   /**
-   * 
+   * Resolves a post any way it can be found
    * @param {string} board board short name
    * @param {string} thread thread slug
    * @param {number} postnum post number
