@@ -305,6 +305,7 @@ declare global {
 
 	interface IPostLinkItem extends IStructMeta extends Partial<IThread> extends Partial<IPost> {
 		[key: string]: string;
+		creator: IIdentity;
 	}
 
 

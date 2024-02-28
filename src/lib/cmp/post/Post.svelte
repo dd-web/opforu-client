@@ -120,20 +120,40 @@
 
 	<hr class="hr-split clear-left {hrSplitCss}" />
 
-	{#each embedded as wrapper ('embedded' + '-' + depth + '-' + wrapper.item?.slug ?? wrapper.item?.post_number)}
-		<svelte:self
-			depth={depth + 1}
-			elementId="embedded-{depth}-{wrapper?.item?.post_number}"
-			creator={wrapper?.item?.creator}
-			postNumber={wrapper?.item?.item_number}
-			assets={wrapper?.item?.assets}
-			content={wrapper?.item?.body}
-			createdAt={wrapper?.item?.created_at}
-			updatedAt={wrapper?.item?.updated_at}
-		/>
-	{:else}
-		<span />
-	{/each}
+	<!-- these need max sizes or an overflow can occur because of a flex bug, it's going to be annoying and a lot of work -->
+	<div class="overflow-hidden">
+		{#each embedded as wrapper ('embedded' + '-' + depth + '-' + wrapper?.resource === 'thread' ? wrapper.item?.thread : wrapper.item?.post_number)}
+			<svelte:self
+				depth={depth + 1}
+				elementId="embedded-{depth}-{wrapper?.resource === 'thread' ? wrapper.item?.thread : wrapper.item?.post_number}"
+				creator={wrapper?.item?.creator}
+				postNumber={wrapper?.item?.post_number}
+				assets={wrapper?.item?.assets}
+				content={wrapper?.item?.body}
+				createdAt={wrapper?.item?.created_at}
+				updatedAt={wrapper?.item?.updated_at}
+			>
+				<div slot="header">
+					<PostHeader creator={wrapper?.item?.creator}>
+						<div class="tag-badge px-2" slot="left">
+							{wrapper?.resource}
+						</div>
+
+						<div class="overflow-hidden flex-1" slot="center">
+							{#if wrapper?.resource === 'thread'}
+								<h4 class="text-lg text-limit">
+									{wrapper?.item?.title} dklasjkldj aslkdjalk sdjlkas dlkaskld askdj alkdjlk asjdkl asjdklas sjdklaj dslkajskdl
+									jaslkd jalksdj akldj klasjdlk asjdkl ajslkdja kldjaslk dklajdskl jdl
+								</h4>
+							{/if}
+						</div>
+					</PostHeader>
+				</div>
+			</svelte:self>
+		{:else}
+			<span />
+		{/each}
+	</div>
 
 	<slot name="footer">
 		<PostFooter {createdAt} {updatedAt} {tagList} />

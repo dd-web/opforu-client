@@ -27,7 +27,7 @@ export const actions = {
     const confirm_password = formData.get('confirm-password');
 
     if (password !== confirm_password) {
-      return fail(400, { password, matches: false })
+      return fail(400, { password: 'Password does not match' })
     }
 
     const body = await JSON.stringify({ username, email, password, confirm_password });
@@ -38,12 +38,14 @@ export const actions = {
       body,
     }).then((resp) => resp.json())
 
-    if (data && data?.session && data?.session?.account) {
-      cookies.set('session', data.session.session_id, { httpOnly: true, path: '/' });
-      locals.account = data.session.account;
+    console.log('register data', data);
+
+    if (data && data?.account && data?.session) {
+      cookies.set('session', data?.session?.session_id, { httpOnly: true, path: '/' });
+      locals.account = data?.account;
       return {
         success: true,
-        account: data.session.account
+        account: data?.account
       }
     }
 

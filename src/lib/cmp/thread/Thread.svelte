@@ -54,7 +54,7 @@
 			on:alias-click={handleAliasFocus}
 			{focusedIdentity}
 			showPostCount={true}
-			creatorPostCount={postCountDict[post.creator.name]}
+			creatorPostCount={postCountDict[post.creator.name] ?? 1}
 			elementId="post-{thread.slug}-{post.post_number}"
 			creator={post?.creator}
 			postNumber={post?.post_number}

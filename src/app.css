@@ -15,9 +15,28 @@ input[type="text"] {
   @apply focus-visible:ring-blue-300;
 }
 
+input[type="checkbox"] {
+  @apply h-4 w-4 outline-none border-none ring-2 ring-zinc-700;
+  @apply focus-visible:ring-blue-300;
+}
+
 label {
   @apply mb-1;
 }
+
+select {
+  @apply bg-zinc-800 text-zinc-200 rounded-md py-0.5 px-2 border-none outline-none ring-1 ring-zinc-600;
+  @apply focus-visible:ring-blue-300;
+}
+
+option {
+  @apply bg-zinc-700 text-zinc-400;
+}
+
+option.selected {
+  @apply font-semibold text-zinc-300;
+}
+
 
 h1.link a, 
 h2.link a, 
@@ -162,6 +181,8 @@ h6.link a {
   .post-link {
     @apply tag-badge inline-flex px-2 tracking-wide text-xs;
   }
+
+
 }
 
 

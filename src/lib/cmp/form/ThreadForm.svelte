@@ -8,9 +8,19 @@
 	import { browser } from '$app/environment';
 
 	import FileUploadArea from '$lib/cmp/global/FileUploadArea.svelte';
+	import Modal from '$lib/cmp/layout/Modal.svelte';
+	import Gear from '$lib/icons/Gear.svelte';
 
 	/** @type {ILocalFileInfo[]} */ let newThreadFiles = [];
 	/** @type {HTMLFormElement=}*/ let formElement;
+	let threadFlags = {
+		nsfw: false,
+		nsfl: false,
+		images: 'optional',
+		text: 'optional'
+	};
+
+	let flagModalVisible = false;
 
 	/**
 	 * Handle new thread form submission
@@ -43,7 +53,51 @@
 		formElement.reset();
 		newThreadFiles = [];
 	};
+
+	const handleShowFlagsModal = () => {
+		console.log('flags', threadFlags);
+		flagModalVisible = true;
+	};
+
+	const handleHideFlagsModal = () => {
+		console.log('flags', threadFlags);
+		flagModalVisible = false;
+	};
 </script>
+
+{#if flagModalVisible}
+	<Modal bind:visible={flagModalVisible}>
+		<ul>
+			<li>
+				<label for="nsfw">Not Safe For Work (NSFW)</label>
+				<span />
+				<input type="checkbox" name="nsfw" id="nsfw" bind:checked={threadFlags['nsfw']} />
+			</li>
+			<li>
+				<label for="nsfl">Not Safe For Life (NSFL)</label>
+				<span />
+				<input type="checkbox" name="nsfl" id="nsfl" bind:checked={threadFlags['nsfl']} />
+			</li>
+			<li>
+				<label for="images">Images</label>
+				<select bind:value={threadFlags['images']} name="images" id="images">
+					<option class:selected={threadFlags['images'] === 'optional'} value="optional">Optional</option>
+					<option class:selected={threadFlags['images'] === 'required'} value="required">Required</option>
+					<option class:selected={threadFlags['images'] === 'forbid'} value="forbid">Forbid</option>
+				</select>
+			</li>
+			<li>
+				<label for="text">Text</label>
+				<select bind:value={threadFlags['text']} name="text" id="text">
+					<option class:selected={threadFlags['text'] === 'optional'} value="optional">Optional</option>
+					<option class:selected={threadFlags['text'] === 'required'} value="required">Required</option>
+					<option class:selected={threadFlags['text'] === 'forbid'} value="forbid">Forbid</option>
+				</select>
+			</li>
+		</ul>
+		<button type="button" class="btn-primary h-8 px-4 block mx-auto mt-4" on:click={handleHideFlagsModal}>Done</button>
+	</Modal>
+{/if}
 
 <form
 	bind:this={formElement}
@@ -63,11 +117,23 @@
 
 		<FileUploadArea bind:filesAttached={newThreadFiles} />
 	</div>
-	<button type="submit" class="btn-primary h-10 px-4 rounded-md font-semibold m-2">Post</button>
+
+	<div class="flex items-center">
+		<button type="submit" class="btn-primary h-10 px-4 font-semibold m-2">Post</button>
+		<button type="reset" class="btn-generic h-10 px-4 bg-zinc-800" on:click={resetForm}>Clear</button>
+
+		<button
+			type="button"
+			class="btn-generic h-8 w-8 ml-auto mr-2 fill-zinc-600 hover:fill-zinc-500 focus-visible:fill-zinc-500 bg-zinc-800 p-1"
+			on:click={handleShowFlagsModal}
+		>
+			<Gear />
+		</button>
+	</div>
 </form>
 
 <style lang="postcss">
-	input,
+	input[type='text'],
 	textarea {
 		@apply px-2 py-1 rounded-md border-none outline-none ring-2 ring-zinc-600 text-black;
 		@apply focus-visible:ring-blue-300;
@@ -76,5 +142,13 @@
 	label::after {
 		@apply mx-[0.1rem] text-zinc-200;
 		content: ':';
+	}
+
+	ul {
+		@apply flex flex-col gap-2;
+	}
+
+	ul li {
+		@apply flex justify-between items-center gap-2;
 	}
 </style>
