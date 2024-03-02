@@ -1,6 +1,7 @@
 <script>
 	import Post from '$lib/cmp/post/Post.svelte';
 	import PostHeader from '$lib/cmp/post/partials/PostHeader.svelte';
+	import Flags from './partials/Flags.svelte';
 
 	/** @type {IBoard} */ export let board;
 	/** @type {IThread[]}*/ export let threads;
@@ -26,6 +27,8 @@
 					</div>
 
 					<div slot="right" class="text-limit">
+						<Flags {thread} />
+
 						<span class="text-sm text-zinc-500">
 							<span class="italic text-zinc-400">{thread.post_count}</span>
 							Posts

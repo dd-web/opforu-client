@@ -98,6 +98,8 @@ declare global {
 		post_ref: number;
 	}
 
+	type ThreadFlag = keyof typeof EThreadFlags;
+
 	interface IThread extends IStructMeta {
 		title: string;
 		body: string;
@@ -109,6 +111,7 @@ declare global {
 		assets: IAsset[];
 		tags: string[];
 		post_count: number;
+		flags: ThreadFlag[];
 	}
 
 	interface IPost extends IStructMeta {
@@ -162,6 +165,12 @@ declare global {
 		user = "user",
 		mod = "mod",
 		creator = "creator",
+	}
+
+	enum EThreadFlags {
+		nsfw = "nsfw",
+		nsfl = "nsfl",
+		media_required = "media_required"
 	}
 
 	enum EAssetType {
@@ -226,6 +235,7 @@ declare global {
 		account?: IAccount;
 		session?: ISession;
 	} & T
+
 
 	interface IActionBarItem {
 		id: string;

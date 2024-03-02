@@ -17,6 +17,8 @@ export async function load({ fetch, params, url, cookies, locals }) {
   const data = await fetch(`http://localhost:3001/api/boards/${params.short}?${qs.toString()}`)
     .then(resp => resp.json())
 
+
+
   if (data?.account) {
     locals.account = data.account;
   }

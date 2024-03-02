@@ -16,8 +16,7 @@
 	let threadFlags = {
 		nsfw: false,
 		nsfl: false,
-		images: 'optional',
-		text: 'optional'
+		media_required: false
 	};
 
 	let flagModalVisible = false;
@@ -80,20 +79,8 @@
 				<input type="checkbox" name="nsfl" id="nsfl" bind:checked={threadFlags['nsfl']} />
 			</li>
 			<li>
-				<label for="images">Images</label>
-				<select bind:value={threadFlags['images']} name="images" id="images">
-					<option class:selected={threadFlags['images'] === 'optional'} value="optional">Optional</option>
-					<option class:selected={threadFlags['images'] === 'required'} value="required">Required</option>
-					<option class:selected={threadFlags['images'] === 'forbid'} value="forbid">Forbid</option>
-				</select>
-			</li>
-			<li>
-				<label for="text">Text</label>
-				<select bind:value={threadFlags['text']} name="text" id="text">
-					<option class:selected={threadFlags['text'] === 'optional'} value="optional">Optional</option>
-					<option class:selected={threadFlags['text'] === 'required'} value="required">Required</option>
-					<option class:selected={threadFlags['text'] === 'forbid'} value="forbid">Forbid</option>
-				</select>
+				<label for="reqmedia">Replies Require Media</label>
+				<input type="checkbox" name="media_required" id="reqmedia" bind:checked={threadFlags['media_required']} />
 			</li>
 		</ul>
 		<button type="button" class="btn-primary h-8 px-4 block mx-auto mt-4" on:click={handleHideFlagsModal}>Done</button>
